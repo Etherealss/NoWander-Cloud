@@ -1,0 +1,13 @@
+package com.nowander.account;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class NowanderAccountApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
