@@ -1,5 +1,6 @@
 package com.nowander.common.config;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
