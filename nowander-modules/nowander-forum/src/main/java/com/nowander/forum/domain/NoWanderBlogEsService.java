@@ -2,7 +2,6 @@ package com.nowander.forum.domain;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.forum.infrastruceture.config.EsSearchProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;

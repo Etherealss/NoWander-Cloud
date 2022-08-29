@@ -2,7 +2,6 @@ package com.nowander.forum.controller;
 
 import com.nowander.common.enums.OrderType;
 import com.nowander.common.pojo.SimplePage;
-import com.nowander.common.user.SysUser;
 import com.nowander.common.web.ResponseAdvice;
 import com.nowander.forum.domain.article.ArticleDetailCommand;
 import com.nowander.forum.domain.article.ArticleDetailDTO;
@@ -33,15 +32,15 @@ public class ArticleController {
     }
 
     @PostMapping("/publish")
-    public Integer publishArticle(@RequestBody @Validated ArticleDetailCommand command, SysUser user) {
-        return articleService.save(command, user);
+    public Integer publishArticle(@RequestBody @Validated ArticleDetailCommand command, Integer userId) {
+        return articleService.save(command, userId);
     }
 
     @PutMapping("/{articleId}")
     public void updateArticle(@PathVariable Integer articleId,
                               @RequestBody @Validated ArticleDetailCommand article,
-                              SysUser user) {
-        articleService.update(articleId, article, user);
+                              Integer userId) {
+        articleService.update(articleId, article, userId);
     }
 
     @DeleteMapping("/{articleId}")

@@ -1,6 +1,6 @@
 package com.nowander.forum.domain.article;
 
-import com.nowander.forum.infrastruceture.config.EsSearchProperties;
+import com.nowander.forum.domain.EsSearchProperties;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogEsService;
 import com.nowander.forum.domain.article.content.ArticleContentEntity;

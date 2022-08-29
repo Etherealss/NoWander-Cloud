@@ -1,6 +1,6 @@
 package com.nowander.forum.domain.posts;
 
-import com.nowander.forum.infrastruceture.config.EsSearchProperties;
+import com.nowander.forum.domain.EsSearchProperties;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogEsService;
 import lombok.extern.slf4j.Slf4j;

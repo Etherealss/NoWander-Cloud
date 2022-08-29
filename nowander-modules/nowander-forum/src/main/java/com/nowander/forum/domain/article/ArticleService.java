@@ -6,7 +6,6 @@ import com.nowander.common.enums.OrderType;
 import com.nowander.common.exception.service.NotAuthorException;
 import com.nowander.common.exception.service.NotFoundException;
 import com.nowander.common.pojo.SimplePage;
-import com.nowander.common.user.SysUser;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogMapper;
 import com.nowander.forum.domain.NoWanderBlogService;
@@ -58,24 +57,24 @@ public class ArticleService extends NoWanderBlogService<ArticleEntity> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Integer save(ArticleDetailCommand command, SysUser user) {
+    public Integer save(ArticleDetailCommand command, Integer userId) {
         ArticleEntity articleEntity = new ArticleEntity();
         BeanUtils.copyProperties(command, articleEntity);
-        articleEntity.setAuthorId(user.getId());
+        articleEntity.setAuthorId(userId);
         articleMapper.insert(articleEntity);
 
         ArticleContentEntity articleContentEntity = articleContentService.save(articleEntity.getId(), command);
 
-        applicationEventPublisher.publishEvent(new SaveArticleEsBlogEvent(user.getId(), articleEntity, articleContentEntity));
+        applicationEventPublisher.publishEvent(new SaveArticleEsBlogEvent(userId, articleEntity, articleContentEntity));
 
         return articleEntity.getId();
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void update(Integer articleId, ArticleDetailCommand command, SysUser user) {
+    public void update(Integer articleId, ArticleDetailCommand command, Integer userId) {
         ArticleEntity articleEntity = command.convert();
         ArticleEntity article = articleMapper.selectById(articleId);
-        if (!article.getAuthorId().equals(user.getId())) {
+        if (!article.getAuthorId().equals(userId)) {
             throw new NotAuthorException();
         }
         articleMapper.updateById(articleEntity);

@@ -1,4 +1,4 @@
-package com.nowander.forum.infrastruceture.config;
+package com.nowander.forum.domain;
 
 import com.nowander.common.config.CompositePropertySourceFactory;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -27,5 +28,4 @@ public class EsSearchProperties {
     public String[] articlePostTags;
     @Value("#{${elasticsearch.search.fields.article}}")
     public Map<String, Float> articleFileds;
-
 }

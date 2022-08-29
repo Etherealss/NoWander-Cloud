@@ -14,7 +14,6 @@ import com.nowander.common.pojo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -95,16 +94,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Msg<Void> handle(HttpRequestMethodNotSupportedException e) {
         return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "请求方式不支持：" + e.getMessage());
-    }
-
-    /**
-     * 无权访问
-     */
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(AccessDeniedException.class)
-    public Msg<Void> handle(AccessDeniedException e) {
-        log.info("[无权访问]" + e.getMessage());
-        return new Msg<>(ApiInfo.FORBIDDEN_REQUEST);
     }
 
     /**
