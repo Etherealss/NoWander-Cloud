@@ -21,6 +21,10 @@
             <groupId>com.nowander</groupId>
             <artifactId>nowander-common-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.nowander</groupId>
+            <artifactId>nowander-common-security</artifactId>
+        </dependency>
         <!--elasticsearch-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
