@@ -1,6 +1,7 @@
-package com.nowander.common.enums;
+package com.nowander.forum.infrastruceture.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nowander.common.enums.BaseEnum;
 import com.nowander.common.exception.rest.EnumIllegalException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

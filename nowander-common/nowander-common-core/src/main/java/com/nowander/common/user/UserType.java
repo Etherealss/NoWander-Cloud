@@ -1,5 +1,6 @@
-package com.nowander.common.enums;
+package com.nowander.common.user;
 
+import com.nowander.common.enums.BaseEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

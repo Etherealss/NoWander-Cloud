@@ -7,7 +7,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+<!--        <relativePath/>-->
     </parent>
     <groupId>com.nowander</groupId>
     <artifactId>nowander</artifactId>
@@ -23,10 +23,25 @@
         <jasypt.version>3.0.4</jasypt.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <druid.version>1.1.23</druid.version>
-
+        <hutool.version>5.7.21</hutool.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.nowander</groupId>
+                <artifactId>nowander-common-core</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowander</groupId>
+                <artifactId>nowander-forum</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nowander</groupId>
+                <artifactId>nowander-account</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
             <!-- 配置文件加密 -->
             <dependency>
                 <groupId>com.github.ulisesbocchio</groupId>
@@ -59,7 +74,7 @@
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>5.7.21</version>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
