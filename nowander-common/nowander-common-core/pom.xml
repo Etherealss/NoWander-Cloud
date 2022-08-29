@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.nowander</groupId>
-        <artifactId>nowander-modules</artifactId>
+        <artifactId>nowander-common</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>nowander-common-core</artifactId>
@@ -68,6 +68,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
+
         <!--异步日志依赖-->
         <dependency>
             <groupId>com.lmax</groupId>
@@ -99,7 +100,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
         </dependency>
         <!--配置注解执行器-->
         <!--解决：Spring Boot Configuration Annotation Processor not configured-->
@@ -111,7 +111,6 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.7.21</version>
         </dependency>
 
         <!--AOP-->
