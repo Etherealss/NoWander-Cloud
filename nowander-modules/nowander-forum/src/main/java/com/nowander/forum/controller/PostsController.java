@@ -2,7 +2,7 @@ package com.nowander.forum.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.common.enums.OrderType;
+import com.nowander.common.core.enums.OrderType;
 import com.nowander.forum.domain.NoWanderBlog;
 import com.nowander.forum.domain.posts.PostsEntity;
 import com.nowander.forum.domain.posts.PostsService;

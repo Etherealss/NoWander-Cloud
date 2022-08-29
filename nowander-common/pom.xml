@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>nowander-common-core</module>
+        <module>nowander-common-security</module>
     </modules>
 
     <properties>

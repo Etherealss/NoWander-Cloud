@@ -3,7 +3,7 @@ package com.nowander.forum.domain;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.common.enums.OrderType;
+import com.nowander.common.core.enums.OrderType;
 import lombok.extern.slf4j.Slf4j;
 
 /**

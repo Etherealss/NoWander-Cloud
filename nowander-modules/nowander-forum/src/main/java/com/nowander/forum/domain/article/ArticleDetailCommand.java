@@ -1,6 +1,6 @@
 package com.nowander.forum.domain.article;
 
-import com.nowander.common.pojo.Converter;
+import com.nowander.common.core.pojo.Converter;
 import com.nowander.forum.infrastruceture.enums.Module;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

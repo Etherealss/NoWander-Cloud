@@ -1,6 +1,6 @@
 package com.nowander.forum.domain;
 
-import com.nowander.common.pojo.entity.IdentifiedEntity;
+import com.nowander.common.core.pojo.entity.IdentifiedEntity;
 import com.nowander.forum.infrastruceture.enums.Module;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

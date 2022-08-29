@@ -1,6 +1,6 @@
 package com.nowander.forum.domain.article;
 
-import com.nowander.common.interceptor.pathvariable.PathVariableValidator;
+import com.nowander.common.core.interceptor.pathvariable.PathVariableValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -10,7 +10,9 @@
     <artifactId>nowander-account</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>nowander-account</name>
-    <description>nowander-account</description>
+    <description>
+        nowander 账号系统
+    </description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

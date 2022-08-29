@@ -1,8 +1,8 @@
 package com.nowander.forum.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.common.exception.rest.ErrorParamException;
-import com.nowander.common.web.ResponseAdvice;
+import com.nowander.common.core.exception.rest.ErrorParamException;
+import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogEsService;
 import lombok.AllArgsConstructor;

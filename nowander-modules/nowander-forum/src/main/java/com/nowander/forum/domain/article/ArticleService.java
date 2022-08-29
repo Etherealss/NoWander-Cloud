@@ -2,10 +2,10 @@ package com.nowander.forum.domain.article;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.common.enums.OrderType;
-import com.nowander.common.exception.service.NotAuthorException;
-import com.nowander.common.exception.service.NotFoundException;
-import com.nowander.common.pojo.SimplePage;
+import com.nowander.common.core.enums.OrderType;
+import com.nowander.common.core.exception.service.NotAuthorException;
+import com.nowander.common.core.exception.service.NotFoundException;
+import com.nowander.common.core.pojo.SimplePage;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogMapper;
 import com.nowander.forum.domain.NoWanderBlogService;
