@@ -1,6 +1,5 @@
 package com.nowander.account.domain.user;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.nowander.common.core.pojo.Converter;
 import com.nowander.common.core.pojo.entity.IdentifiedEntity;
@@ -8,11 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 类名叫做SysUser是为了避免与其他类库的User类重复
@@ -24,7 +20,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @TableName("user")
-public class SysUser extends IdentifiedEntity implements UserDetails, Converter<UserBriefDTO> {
+public class SysUser extends IdentifiedEntity implements Converter<UserBriefDTO> {
 
     private static final long serialVersionUID = 1L;
 
@@ -78,45 +74,4 @@ public class SysUser extends IdentifiedEntity implements UserDetails, Converter<
      */
     private Integer collectedCount;
 
-    /**
-     * 权限
-     */
-    @TableField(exist = false)
-    private List<GrantedAuthority> authorities;
-
-    /**
-     * 账号是否未过期
-     * @return
-     */
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    /**
-     * 账号是否未锁定
-     * @return
-     */
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    /**
-     * 密码是否未过期
-     * @return
-     */
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    /**
-     * 是否激活
-     * @return
-     */
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

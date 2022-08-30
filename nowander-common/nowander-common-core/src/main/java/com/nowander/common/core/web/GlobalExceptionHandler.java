@@ -1,7 +1,6 @@
 package com.nowander.common.core.web;
 
 import com.nowander.common.core.enums.ApiInfo;
-import com.nowander.common.core.pojo.Msg;
 import com.nowander.common.core.exception.BaseException;
 import com.nowander.common.core.exception.internal.BugException;
 import com.nowander.common.core.exception.rest.EnumIllegalException;
@@ -10,7 +9,7 @@ import com.nowander.common.core.exception.rest.MissingParamException;
 import com.nowander.common.core.exception.service.CaptchaException;
 import com.nowander.common.core.exception.service.ExistException;
 import com.nowander.common.core.exception.service.NotFoundException;
-import com.nowander.common.core.exception.service.TokenException;
+import com.nowander.common.core.pojo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -47,7 +46,6 @@ public class GlobalExceptionHandler {
             ExistException.class,
             NotFoundException.class,
             CaptchaException.class,
-            TokenException.class,
             EnumIllegalException.class
     })
     public Msg<Void> handle(BaseException e) {

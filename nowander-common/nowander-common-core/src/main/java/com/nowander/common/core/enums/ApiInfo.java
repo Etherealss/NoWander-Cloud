@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ApiInfo implements ApiInfoGetter {
 
-    OK(HttpStatus.OK, 200000, "OK"),
+    OK(HttpStatus.OK, 200, "OK"),
 
     BAD_REQUEST(400000, "请求报文语法错误[参数校验失败]"),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, 401000, "[未认证身份]"),
@@ -21,7 +21,7 @@ public enum ApiInfo implements ApiInfoGetter {
     NOT_FOUND(HttpStatus.NOT_FOUND, 404000, "[目标不存在]"),
 
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500000, "[服务运行异常]"),
-    SERVER_BUSY(HttpStatus.INTERNAL_SERVER_ERROR, 500000, "[服务繁忙]"),
+    SERVER_BUSY(HttpStatus.SERVICE_UNAVAILABLE, 500000, "[服务繁忙]"),
     SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, 503000, "[服务不可用]"),
 
     MISSING_PARAM(400001, "[参数缺失]"),
@@ -44,8 +44,10 @@ public enum ApiInfo implements ApiInfoGetter {
     CAPTCHA_ERROR(400304, "[验证码异常]"),
 
     TOKEN_MISSING(400401, "[token缺失]"),
-    TOKEN_INVALID(400402, "[token无效]"),
-    TOKEN_EXP(400403, "[token已过期]"),
+    TOKEN_INVALID(400402, "[token无效或已过期]"),
+
+    NOT_PERMISSION(HttpStatus.FORBIDDEN, 1001, "[没有权限访问]"),
+    NOT_ROLE(HttpStatus.FORBIDDEN, 1002, "[没有权限访问]"),
 
     LIKE_DUPLICATE(4000501, "重复点赞或取消");
 

@@ -1,10 +1,8 @@
 package com.nowander.account.domain.user;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 展示用户简略信息的DTO
@@ -60,9 +58,4 @@ public class UserBriefDTO {
      * 收藏数
      */
     private Integer collectedCount;
-
-    /**
-     * 权限
-     */
-    private List<GrantedAuthority> authorities;
 }

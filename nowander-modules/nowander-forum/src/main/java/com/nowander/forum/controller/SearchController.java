@@ -3,15 +3,11 @@ package com.nowander.forum.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.common.core.exception.rest.ErrorParamException;
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogEsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -32,12 +28,12 @@ public class SearchController {
     private final int TIPS_SIZE = 10;
     private final int HIGHLIGHT_SIZE = 10;
 
-    @AnonymousGetMapping("/tips/{prefixWord}")
+    @GetMapping("/tips/{prefixWord}")
     public List<String> searchTip(@PathVariable String prefixWord) {
         return noWanderBlogEsService.searchTips(prefixWord, TIPS_SIZE);
     }
 
-    @AnonymousGetMapping("/highlight/pages/{curPage}")
+    @GetMapping("/highlight/pages/{curPage}")
     public IPage<NoWanderBlogEsEntity> searchHighlight(@PathVariable Integer curPage, @RequestParam String word) {
         String decode;
         try {

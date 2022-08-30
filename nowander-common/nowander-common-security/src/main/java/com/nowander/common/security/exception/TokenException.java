@@ -1,4 +1,4 @@
-package com.nowander.common.core.exception.service;
+package com.nowander.common.security.exception;
 
 
 import com.nowander.common.core.exception.ApiInfoGetter;

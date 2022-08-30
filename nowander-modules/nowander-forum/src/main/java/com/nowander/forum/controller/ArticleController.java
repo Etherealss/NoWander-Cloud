@@ -3,7 +3,6 @@ package com.nowander.forum.controller;
 import com.nowander.common.core.enums.OrderType;
 import com.nowander.common.core.pojo.SimplePage;
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.forum.domain.article.ArticleDetailCommand;
 import com.nowander.forum.domain.article.ArticleDetailDTO;
 import com.nowander.forum.domain.article.ArticleService;
@@ -27,7 +26,7 @@ public class ArticleController {
 
     public static final int ARTICLE_PAGE_SIZE = 10;
 
-    @AnonymousGetMapping("/{articleId}/details")
+    @GetMapping("/{articleId}/details")
     public ArticleDetailDTO getArticleDetail(@PathVariable Integer articleId) {
         return articleService.getDetailById(articleId);
     }
@@ -55,7 +54,7 @@ public class ArticleController {
      * @param orderBy 排序方式
      * @return
      */
-    @AnonymousGetMapping
+    @GetMapping
     public SimplePage<ArticleDetailDTO> getPageCompetition(
             @RequestParam(value = "curPage", defaultValue = "1") int curPage,
             @RequestParam(value = "orderBy", defaultValue = "time") OrderType orderBy) {

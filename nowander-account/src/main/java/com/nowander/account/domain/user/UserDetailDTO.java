@@ -1,12 +1,9 @@
 package com.nowander.account.domain.user;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 展示用户详细信息的DTO
@@ -72,10 +69,4 @@ public class UserDetailDTO {
      * 收藏数
      */
     private Integer collectedCount;
-
-    /**
-     * 权限
-     */
-    @TableField(exist = false)
-    private List<GrantedAuthority> authorities;
 }
