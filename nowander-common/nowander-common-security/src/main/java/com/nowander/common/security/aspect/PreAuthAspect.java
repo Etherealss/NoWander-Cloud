@@ -1,5 +1,6 @@
 package com.nowander.common.security.aspect;
 
+import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.annotation.RequiresPermissions;
 import com.nowander.common.security.annotation.RequiresRoles;
@@ -28,14 +29,18 @@ public class PreAuthAspect {
     /**
      * 定义AOP签名 (切入所有使用鉴权注解的方法)
      */
-    public static final String POINTCUT_SIGN = " @annotation(com.ruoyi.common.security.annotation.RequiresLogin) || "
-            + "@annotation(com.ruoyi.common.security.annotation.RequiresPermissions) || "
-            + "@annotation(com.ruoyi.common.security.annotation.RequiresRoles)";
+    public static final String POINTCUR_REQUEST_MAPPING = ""
+            + "@annotation(org.springframework.web.bind.annotation.GetMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.PostMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.DeleteMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.PutMapping) || "
+            + "@annotation(org.springframework.web.bind.annotation.RequestMapping)";
 
+    public static final String POINTCUR_CONTROLLER = "execution(* com.nowander..controller..*.*(..))";
     /**
      * AOP签名
      */
-    @Pointcut(POINTCUT_SIGN)
+    @Pointcut(POINTCUR_CONTROLLER)
     public void pointcut() {
     }
 
@@ -61,20 +66,24 @@ public class PreAuthAspect {
         RequiresRoles requiresRoles = method.getAnnotation(RequiresRoles.class);
         RequiresPermissions requiresPermissions = method.getAnnotation(RequiresPermissions.class);
 
-        if (anonymousAccess == null) {
+        if (anonymousAccess != null) {
             log.trace("匿名访问接口，无需检验");
             return;
         }
-        authService.requireToken();
+        try {
+            authService.requireToken();
 
-        // 校验 @RequiresRoles 注解
-        if (requiresRoles != null) {
-            authService.checkRole(requiresRoles);
-        }
+            // 校验 @RequiresRoles 注解
+            if (requiresRoles != null) {
+                authService.checkRole(requiresRoles);
+            }
 
-        // 校验 @RequiresPermissions 注解
-        if (requiresPermissions != null) {
-            authService.checkPermi(requiresPermissions);
+            // 校验 @RequiresPermissions 注解
+            if (requiresPermissions != null) {
+                authService.checkPermi(requiresPermissions);
+            }
+        } catch (AuthenticationException e) {
+            log.info("请求认证不通过：{}", e.getMessage());
         }
     }
 }

@@ -2,13 +2,13 @@ package com.nowander.common.security.exception;
 
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.ApiInfoGetter;
-import com.nowander.common.core.exception.BaseException;
+import com.nowander.common.core.exception.service.AuthenticationException;
 
 /**
  * @author wtk
  * @date 2022-08-30
  */
-public class NotPermissionException extends BaseException {
+public class NotPermissionException extends AuthenticationException {
     public NotPermissionException(ApiInfoGetter apiInfo) {
         super(apiInfo);
     }

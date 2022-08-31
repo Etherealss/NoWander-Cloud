@@ -1,0 +1,11 @@
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.nowander.common.security.aspect.PreAuthAspect,\
+#  com.nowander.common.security.interceptor.HeaderInterceptor,\
+#  com.nowander.common.security.service.AuthService,\
+#  com.nowander.common.security.service.RedisTokenServiceImpl,\
+#  com.nowander.common.core.lock.LockMethodInterceptor,\
+#  com.nowander.common.core.web.StringEnumConverter,\
+#  com.nowander.common.core.web.JsonArgumentResolver,\
+#  com.nowander.common.core.web.IntegerEnumConverter,\
+#  com.nowander.common.core.web.CorsConfig,\
+#  com.nowander.common.core.web.GlobalResponseHandler

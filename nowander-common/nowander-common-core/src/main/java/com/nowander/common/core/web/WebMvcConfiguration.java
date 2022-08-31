@@ -1,5 +1,6 @@
 package com.nowander.common.core.web;
 
+import com.nowander.common.core.interceptor.ConfigHandlerInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +9,6 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class WebMvcConfiguration implements WebMvcConfigurer {
     private final List<HandlerMethodArgumentResolver> customerArgumentResolvers;
     private final List<ConverterFactory<?, ?>> converterFactories;
-    private final List<HandlerInterceptor> interceptors;
+    private final List<ConfigHandlerInterceptor> interceptors;
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -52,8 +52,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        interceptors.forEach(registry::addInterceptor);
-        WebMvcConfigurer.super.addInterceptors(registry);
+        for (ConfigHandlerInterceptor interceptor : interceptors) {
+            registry.addInterceptor(interceptor)
+                    .addPathPatterns(interceptor.getPathPatterns())
+                    .excludePathPatterns(interceptor.getExcludePathPatterns())
+                    .order(interceptor.getOrder());
+        }
     }
 
     @Override

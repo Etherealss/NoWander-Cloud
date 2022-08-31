@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.Objects;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -27,19 +27,21 @@ public class RedisTokenServiceImpl implements ITokenService {
 
     @Override
     public void createToken(UserCredential userCredential) {
-        Objects.requireNonNull(userCredential.getUserId(), "需要先设置 userId");
-        Objects.requireNonNull(userCredential.getUsername(), "需要先设置 username");
-        Objects.requireNonNull(userCredential.getPermissions(), "需要先设置用户权限");
-        Objects.requireNonNull(userCredential.getRoles(), "需要先设置用户角色");
+        // token
         UUID token = UUIDUtil.getUuid();
-        UUID refreshToken = UUIDUtil.getUuid();
         userCredential.setToken(token.toString());
-        userCredential.setRefreshToken(refreshToken.toString());
+        long tokenExpireAt = TokenConfig.EXPIRE_MS_TOKEN + System.currentTimeMillis();
+        userCredential.setExpireAt(tokenExpireAt);
+        String tokenKey = tokenKey(userCredential.getToken());
         redisTemplate.opsForValue().set(
-                tokenKey(userCredential.getToken()),
-                userCredential,
-                Duration.ofMillis(TokenConfig.EXPIRE_MS_TOKEN)
+                tokenKey,
+                userCredential
         );
+        redisTemplate.expireAt(tokenKey, new Date(tokenExpireAt));
+
+        // refreshToken
+        UUID refreshToken = UUIDUtil.getUuid();
+        userCredential.setRefreshToken(refreshToken.toString());
         redisTemplate.opsForValue().set(
                 refreshTokenKey(userCredential.getRefreshToken()),
                 userCredential,

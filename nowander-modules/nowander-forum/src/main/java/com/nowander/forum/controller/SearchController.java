@@ -1,7 +1,7 @@
 package com.nowander.forum.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.common.core.exception.rest.ErrorParamException;
+import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogEsService;
@@ -39,7 +39,7 @@ public class SearchController {
         try {
             decode = URLDecoder.decode(word, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
-            throw new ErrorParamException("文本无法解码为UTF-8格式：" + e.getMessage());
+            throw new ParamErrorException("文本无法解码为UTF-8格式：" + e.getMessage());
         }
         return noWanderBlogEsService.searchByHighLigh(decode, curPage, HIGHLIGHT_SIZE);
     }

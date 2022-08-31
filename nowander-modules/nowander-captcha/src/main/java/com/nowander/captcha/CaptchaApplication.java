@@ -1,4 +1,4 @@
-package com.nowander.account;
+package com.nowander.captcha;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
@@ -7,16 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(basePackages = {
-        "com.nowander.account",
+        "com.nowander.captcha",
         "com.nowander.common.core",
-        "com.nowander.common.security"
 })
-@MapperScan(value = "com.nowander.account.domain", annotationClass = Mapper.class)
+@MapperScan(value = "com.nowander.captcha.domain", annotationClass = Mapper.class)
 @SpringBootApplication
-public class AccountApplication {
+public class CaptchaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AccountApplication.class, args);
+        SpringApplication.run(CaptchaApplication.class, args);
     }
 
 }

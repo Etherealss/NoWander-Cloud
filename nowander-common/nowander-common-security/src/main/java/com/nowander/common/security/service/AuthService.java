@@ -12,6 +12,8 @@ import com.nowander.common.security.enums.Logical;
 import com.nowander.common.security.exception.NotPermissionException;
 import com.nowander.common.security.exception.NotRoleException;
 import com.nowander.common.security.exception.TokenException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +24,8 @@ import java.util.Set;
  * @author wtk
  * @date 2022-08-30
  */
+@Component
+@Slf4j
 public class AuthService {
 
     public UserCredential requireToken() {

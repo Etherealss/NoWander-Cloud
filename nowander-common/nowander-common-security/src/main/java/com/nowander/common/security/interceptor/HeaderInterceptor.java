@@ -1,5 +1,6 @@
 package com.nowander.common.security.interceptor;
 
+import com.nowander.common.core.interceptor.ConfigHandlerInterceptor;
 import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.config.TokenConfig;
@@ -10,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class HeaderInterceptor implements AsyncHandlerInterceptor {
+public class HeaderInterceptor implements ConfigHandlerInterceptor {
 
     private final ITokenService tokenService;
 
@@ -47,5 +47,10 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
         SecurityContextHolder.remove();
+    }
+
+    @Override
+    public int getOrder() {
+        return -10;
     }
 }

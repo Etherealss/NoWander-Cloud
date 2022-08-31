@@ -6,7 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -21,7 +20,7 @@ import java.util.Arrays;
  */
 @Slf4j
 @Aspect
-@Component
+//@Component
 public class WebLogAspect {
     /**
      * 声明切点，我这里启动Controller层下的所有类下的方法就可以打印，
@@ -36,6 +35,9 @@ public class WebLogAspect {
     //在方法横向的插入到切点方法执行前
     @Before(value = "webLog()")
     public void beforeControll(JoinPoint joinPoint) {
+        if (!log.isInfoEnabled()) {
+            return;
+        }
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
@@ -55,6 +57,9 @@ public class WebLogAspect {
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void afterControl(Object ret) {
+        if (!log.isInfoEnabled()) {
+            return;
+        }
         // 处理完请求，返回内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
@@ -69,11 +74,14 @@ public class WebLogAspect {
                 start,
                 date,
                 request.getRemoteAddr());
-        log.debug(pattern);
+        log.info(pattern);
     }
 
     @AfterThrowing(pointcut = "webLog()")
     public void afterThrowing() {
+        if (!log.isInfoEnabled()) {
+            return;
+        }
         // 处理完请求，返回内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
@@ -88,6 +96,6 @@ public class WebLogAspect {
                 start,
                 date,
                 request.getRemoteAddr());
-        log.debug(pattern);
+        log.info(pattern);
     }
 }

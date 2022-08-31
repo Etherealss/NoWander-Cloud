@@ -1,11 +1,11 @@
 package com.nowander.common.core.interceptor.pathvariable;
 
-import com.nowander.common.core.exception.rest.ErrorParamException;
+import com.nowander.common.core.exception.rest.ParamErrorException;
+import com.nowander.common.core.interceptor.ConfigHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Component
 @Slf4j
-public class PathVariableVersifyInterceptor implements HandlerInterceptor {
+public class PathVariableVersifyInterceptor implements ConfigHandlerInterceptor {
 
     private final Map<String, PathVariableValidator> validators;
 
@@ -71,10 +71,10 @@ public class PathVariableVersifyInterceptor implements HandlerInterceptor {
             try {
                 res = validator.validate(args4Validate);
             } catch (IllegalArgumentException e) {
-                throw new ErrorParamException("参数" + entry.getKey() + "类型不正确: " + e.getMessage());
+                throw new ParamErrorException("参数" + entry.getKey() + "类型不正确: " + e.getMessage());
             }
             if (!res) {
-                throw new ErrorParamException("找不到 '" + entry.getKey() + "' 为 '" + entry.getValue() + "' 的数据");
+                throw new ParamErrorException("找不到 '" + entry.getKey() + "' 为 '" + entry.getValue() + "' 的数据");
             }
         }
         return true;

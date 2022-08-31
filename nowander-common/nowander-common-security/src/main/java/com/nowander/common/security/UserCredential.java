@@ -13,19 +13,40 @@ import java.util.Set;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCredential {
+
     Integer userId;
+
     String username;
+
     String token;
+    
     String refreshToken;
+
+    /**
+     * 用户权限
+     */
     Set<String> permissions;
+
+    /**
+     * 用户角色
+     */
     Set<String> roles;
+
     /**
      * 登录时间
      */
-    private Long loginTime;
+    Long loginTime;
+
 
     /**
      * token 过期时间
      */
-    private Long expireAt;
+    Long expireAt;
+
+    public UserCredential(Integer userId, String username, Set<String> permissions, Set<String> roles) {
+        this.userId = userId;
+        this.username = username;
+        this.permissions = permissions;
+        this.roles = roles;
+    }
 }

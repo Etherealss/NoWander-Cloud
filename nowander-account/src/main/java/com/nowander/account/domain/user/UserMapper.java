@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -16,19 +17,11 @@ import java.util.List;
 @Repository
 public interface UserMapper extends BaseMapper<SysUser> {
     /**
-     * 登录
-     * @param username
-     * @param password
-     * @return
-     */
-    SysUser selectLoginUserByUsername(@Param("username") int username, @Param("password") String password);
-
-    /**
      *
      * @param username
      * @return
      */
-    SysUser selectUserByUsername(@Param("username") String username);
+    Optional<SysUser> selectByUsername(@Param("username") String username);
 
     /**
      * 查询用户权限

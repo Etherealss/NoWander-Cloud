@@ -1,11 +1,11 @@
-package com.nowander.common.core.web;
+package com.nowander.common.core.exception;
 
 import com.nowander.common.core.enums.ApiInfo;
-import com.nowander.common.core.exception.BaseException;
 import com.nowander.common.core.exception.internal.BugException;
 import com.nowander.common.core.exception.rest.EnumIllegalException;
-import com.nowander.common.core.exception.rest.ErrorParamException;
+import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.core.exception.rest.MissingParamException;
+import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.core.exception.service.CaptchaException;
 import com.nowander.common.core.exception.service.ExistException;
 import com.nowander.common.core.exception.service.NotFoundException;
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             UnsupportedOperationException.class,
-            ErrorParamException.class,
+            ParamErrorException.class,
             MissingParamException.class,
             ExistException.class,
             NotFoundException.class,
@@ -50,6 +50,16 @@ public class GlobalExceptionHandler {
     })
     public Msg<Void> handle(BaseException e) {
         log.info("业务异常：" + e.getMessage());
+        return new Msg<>(e);
+    }
+
+    /**
+     * 权限认证异常
+     */
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AuthenticationException.class)
+    public Msg<Object> handle(AuthenticationException e) {
+        log.info("权限认证异常: {}", e.getMessage());
         return new Msg<>(e);
     }
 
@@ -151,7 +161,7 @@ public class GlobalExceptionHandler {
         if (e instanceof IllegalStateException) {
             if (e.getMessage().contains("argument type mismatch\nController")) {
                 log.warn("参数类型错误:", e);
-                return new Msg<>(new ErrorParamException("参数类型错误：" + e.getMessage()));
+                return new Msg<>(new ParamErrorException("参数类型错误：" + e.getMessage()));
             }
         }
         log.warn("[全局异常处理器]其他异常:", e);

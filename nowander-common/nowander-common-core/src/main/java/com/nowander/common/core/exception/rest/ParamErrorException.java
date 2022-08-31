@@ -9,12 +9,12 @@ import com.nowander.common.core.exception.BaseException;
  * @description
  * @date 2021-08-13
  */
-public class ErrorParamException extends BaseException {
-    public ErrorParamException() {
+public class ParamErrorException extends BaseException {
+    public ParamErrorException() {
         super(ApiInfo.ERROR_PARAM);
     }
 
-    public ErrorParamException(String message) {
+    public ParamErrorException(String message) {
         super(ApiInfo.ERROR_PARAM, message);
     }
 }

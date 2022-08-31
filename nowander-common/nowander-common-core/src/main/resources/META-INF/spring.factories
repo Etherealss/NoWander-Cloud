@@ -1,0 +1,9 @@
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.nowander.common.core.config.RedisConfig,\
+#  com.nowander.common.core.config.CompositePropertySourceFactory,\
+#  com.nowander.common.core.exception.GlobalExceptionHandler,\
+#  com.nowander.common.core.web.GlobalResponseHandler,\
+#  com.nowander.common.core.web.WebMvcConfiguration,\
+#  com.nowander.common.core.web.WebLogAspect,\
+#  com.nowander.common.core.lock.RedisLockHelper,\
+#  com.nowander.common.core.lock.LockKeySpELGenerator

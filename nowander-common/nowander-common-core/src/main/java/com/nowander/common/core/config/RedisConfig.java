@@ -22,7 +22,6 @@ import java.time.Duration;
  * @date 2021-10-28
  */
 @Configuration
-@SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedisConfig {
 
     /**
@@ -31,21 +30,8 @@ public class RedisConfig {
      * @return
      */
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        redisTemplate(factory, template, Object.class);
-        return template;
-    }
-
-    @Bean
-    public RedisTemplate<String, Integer> redis(RedisConnectionFactory factory) {
-        RedisTemplate<String, Integer> template = new RedisTemplate<>();
-        redisTemplate(factory, template, Integer.class);
-        return template;
-    }
-
-    private <T> void redisTemplate(RedisConnectionFactory factory,
-                                   RedisTemplate<String, T> template, Class<T> clazz) {
+    public RedisTemplate<String, ?> redisTemplate(RedisConnectionFactory factory) {
+        RedisTemplate<String, ?> template = new RedisTemplate<>();
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
         template.setConnectionFactory(factory);
         // key序列化
@@ -57,6 +43,7 @@ public class RedisConfig {
                 = new GenericJackson2JsonRedisSerializer();
         template.setValueSerializer(jsonRedisSerializer);
         template.setHashValueSerializer(jsonRedisSerializer);
+        return template;
     }
 
     /**
