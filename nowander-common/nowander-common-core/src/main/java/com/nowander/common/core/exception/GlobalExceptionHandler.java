@@ -3,12 +3,9 @@ package com.nowander.common.core.exception;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.internal.BugException;
 import com.nowander.common.core.exception.rest.EnumIllegalException;
-import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.core.exception.rest.MissingParamException;
-import com.nowander.common.core.exception.service.AuthenticationException;
-import com.nowander.common.core.exception.service.CaptchaException;
-import com.nowander.common.core.exception.service.ExistException;
-import com.nowander.common.core.exception.service.NotFoundException;
+import com.nowander.common.core.exception.rest.ParamErrorException;
+import com.nowander.common.core.exception.service.*;
 import com.nowander.common.core.pojo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -146,8 +143,20 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(BugException.class)
-    public Msg<Object> handle(BugException e) {
+    public Msg<?> handle(BugException e) {
         return new Msg<>(e);
+    }
+
+    /**
+     * 其他未处理异常
+     * @param e
+     * @return
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ServiceFiegnException.class)
+    public Msg<?> handle(ServiceFiegnException e) {
+        log.info("[全局异常处理器] OpenFeign 远程调用出现异常:", e);
+        return e.getMsg();
     }
 
     /**

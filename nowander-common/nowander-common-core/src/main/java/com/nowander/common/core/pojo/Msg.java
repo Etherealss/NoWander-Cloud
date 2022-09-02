@@ -70,6 +70,7 @@ public class Msg<T> implements Serializable {
      * @param e
      */
     public Msg(BaseException e) {
+        this.success = false;
         this.code = e.getCode();
         this.message = e.getMessage();
     }
@@ -80,6 +81,7 @@ public class Msg<T> implements Serializable {
      * @param throwable
      */
     public Msg(Throwable throwable) {
+        this.success = false;
         this.code = ApiInfo.SERVER_ERROR.getCode();
         String message = ApiInfo.SERVER_ERROR.getMessage();
         if (throwable.getMessage().length() > 0) {

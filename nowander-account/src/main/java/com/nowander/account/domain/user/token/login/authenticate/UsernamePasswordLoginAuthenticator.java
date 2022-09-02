@@ -9,7 +9,6 @@ import com.nowander.account.infrasturcture.feign.captcha.ValidateCaptchaCommand;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.core.exception.service.NotFoundException;
-import com.nowander.common.core.pojo.Msg;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -36,8 +35,7 @@ public class UsernamePasswordLoginAuthenticator implements LoginAuthenticator {
         Assert.hasText(captchaId, "登录验证码不能为空");
         Assert.hasText(captcha, "登录验证码不能为空");
 
-        Msg<Void> validateCaptcha = captchaFeign.validateCaptcha(captchaId, new ValidateCaptchaCommand(captcha));
-
+        captchaFeign.validateCaptcha(captchaId, new ValidateCaptchaCommand(captcha));
         SysUser user = userMapper.selectByUsername(username)
                 .orElseThrow(() -> new NotFoundException("用户 " + username + " 不存在"));
         if (!user.getPassword().equals(command.getPassword())) {
