@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Msg<Object> handle(MissingServletRequestParameterException e) {
         log.warn("前后端交接的接口参数缺失:" + e.getMessage());
-        return new Msg<>(ApiInfo.ERROR_PARAM, "前后端交接的接口参数缺失");
+        return new Msg<>(false, ApiInfo.ERROR_PARAM, "前后端交接的接口参数缺失");
     }
 
     /**
@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Msg<Object> handle(HttpMessageNotReadableException e) {
         log.warn("参数不可读异常：" + e.getMessage());
-        return new Msg<>(ApiInfo.ERROR_PARAM, "参数不可读，请检查参数列表是否完整：" + e.getMessage());
+        return new Msg<>(false, ApiInfo.ERROR_PARAM, "参数不可读，请检查参数列表是否完整：" + e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -94,14 +94,14 @@ public class GlobalExceptionHandler {
         if (throwable instanceof BaseException) {
             return handle((BaseException) throwable);
         } else {
-            return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "方法参数不匹配：" + e.getMessage());
+            return new Msg<>(false, ApiInfo.OPERATE_UNSUPPORTED, "方法参数不匹配：" + e.getMessage());
         }
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Msg<Void> handle(HttpRequestMethodNotSupportedException e) {
-        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "请求方式不支持：" + e.getMessage());
+        return new Msg<>(false, ApiInfo.OPERATE_UNSUPPORTED, "请求方式不支持：" + e.getMessage());
     }
 
     /**
@@ -121,7 +121,7 @@ public class GlobalExceptionHandler {
 
         }
         String s = msg.delete(msg.length() - 2, msg.length()).toString();
-        return new Msg<>(ApiInfo.ERROR_PARAM, s);
+        return new Msg<>(false, ApiInfo.ERROR_PARAM, s);
     }
 
     /**
@@ -136,7 +136,7 @@ public class GlobalExceptionHandler {
             msg.append(", ");
         }
         String s = msg.delete(msg.length() - 2, msg.length()).toString();
-        return new Msg<>(ApiInfo.ERROR_PARAM, s);
+        return new Msg<>(false, ApiInfo.ERROR_PARAM, s);
     }
 
     /**

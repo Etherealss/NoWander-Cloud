@@ -4,6 +4,7 @@ package com.nowander.captcha.controller;
 import cn.hutool.captcha.AbstractCaptcha;
 import com.nowander.captcha.domain.captcha.CaptchaService;
 import com.nowander.captcha.domain.captcha.CreateCaptcheCommand;
+import com.nowander.captcha.domain.captcha.ValidateCaptchaCommand;
 import com.nowander.common.core.pojo.Msg;
 import com.nowander.common.core.utils.UUIDUtil;
 import lombok.AllArgsConstructor;
@@ -54,8 +55,8 @@ public class CaptchaController {
         return Msg.ok(data);
     }
 
-    @GetMapping("/{captchaId}/{userInputId}")
-    public void validateCaptcha(@PathVariable String captchaId, @PathVariable String userInputId) {
-        captchaService.validateCaptcha(userInputId, captchaId);
+    @PutMapping("/{captchaId}")
+    public void validateCaptcha(@PathVariable String captchaId, @RequestBody ValidateCaptchaCommand command) {
+        captchaService.validateCaptcha(captchaId, command);
     }
 }

@@ -7,7 +7,6 @@
     <!-- 集中配置属性进行管理。使用:${name} -->
     <properties>
         <property name="fileLevel">info</property>
-        <property name="rootLevel">debug</property>
         <property name="LOG_HOME">/Users/etherealss/IdeaProjects/nowander/logs</property>
         <!--控制台输出格式-->
         <!--%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L - %m%n-->
@@ -93,7 +92,7 @@
         </logger>
 
         <!--使用 rootLogger 配置 日志级别-->
-        <Root level="${rootLevel}">
+        <Root>
             <AppenderRef ref="simpleConsole"/>
             <AppenderRef ref="warningConsole"/>
         </Root>

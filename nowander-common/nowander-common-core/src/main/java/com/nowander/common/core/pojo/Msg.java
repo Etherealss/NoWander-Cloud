@@ -17,6 +17,9 @@ import java.io.Serializable;
 @Setter
 @ToString
 public class Msg<T> implements Serializable {
+
+    private boolean success;
+
     /** 结果码，用于判断响应情况 */
     private int code;
 
@@ -27,36 +30,37 @@ public class Msg<T> implements Serializable {
     private T data;
 
     public static <T> Msg<T> ok() {
-        return new Msg<>(ApiInfo.OK);
+        return new Msg<>(true, ApiInfo.OK);
     }
 
     public static <T> Msg<T> ok(T data) {
-        Msg<T> msg = new Msg<>(ApiInfo.OK);
+        Msg<T> msg = new Msg<>(true, ApiInfo.OK);
         msg.setData(data);
         return msg;
     }
     public static <T> Msg<T> ok(String message) {
-        return new Msg<>(ApiInfo.OK, message);
+        return new Msg<>(true, ApiInfo.OK, message);
     }
 
     public static <T> Msg<T> exception(Throwable e) {
-        return new Msg<>(ApiInfo.SERVER_ERROR, e.getMessage());
+        return new Msg<>(false, ApiInfo.SERVER_ERROR, e.getMessage());
     }
 
     /**
      * 默认访问成功 OK
      */
     public Msg() {
-        this(ApiInfo.OK);
+        this(true, ApiInfo.OK);
     }
 
-    public Msg(ApiInfo apiInfo) {
+
+    public Msg(boolean success, ApiInfo apiInfo) {
         this.code = apiInfo.getCode();
         this.message = apiInfo.getMessage();
     }
 
 
-    public Msg(ApiInfo apiInfo, String description) {
+    public Msg(boolean success, ApiInfo apiInfo, String description) {
         this.code = apiInfo.getCode();
         this.message = apiInfo.getMessage() + " " + description;
     }

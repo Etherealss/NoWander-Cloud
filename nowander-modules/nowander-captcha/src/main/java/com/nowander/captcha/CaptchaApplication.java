@@ -6,10 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {
-        "com.nowander.captcha",
-        "com.nowander.common.core",
-})
+@ComponentScan("com.nowander")
 @MapperScan(value = "com.nowander.captcha.domain", annotationClass = Mapper.class)
 @SpringBootApplication
 public class CaptchaApplication {

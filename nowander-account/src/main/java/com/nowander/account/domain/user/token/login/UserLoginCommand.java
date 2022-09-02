@@ -26,5 +26,7 @@ public class UserLoginCommand {
 
     String captcha;
 
+    String captchaId;
+
     String email;
 }

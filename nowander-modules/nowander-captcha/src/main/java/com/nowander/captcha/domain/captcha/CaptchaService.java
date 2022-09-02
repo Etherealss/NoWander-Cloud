@@ -3,16 +3,14 @@ package com.nowander.captcha.domain.captcha;
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.core.util.StrUtil;
+import com.nowander.captcha.infrastructure.config.CaptchaConfiguration;
 import com.nowander.common.core.enums.ApiInfo;
-import com.nowander.common.core.exception.internal.BugException;
 import com.nowander.common.core.exception.service.CaptchaException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,30 +19,23 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-@Validated
+@RequiredArgsConstructor
 public class CaptchaService {
 
     private final RedisTemplate<String, String> redis;
-    private final String captchacCacheKey;
-    private final Integer captchaTimeoutSecond;
-
-    public CaptchaService(RedisTemplate<String, String> redis,
-                          @Value("${app.captcha.captcha-cache-key}") @NotEmpty String captchacCacheKey,
-                          @Value("${app.captcha.timeout-second}") @NotEmpty Integer captchaTimeoutSecond) {
-        this.redis = redis;
-        this.captchacCacheKey = captchacCacheKey;
-        this.captchaTimeoutSecond = captchaTimeoutSecond;
-        if (captchaTimeoutSecond <= 0) {
-            throw new BugException("验证码失效时间必须大于0");
-        }
-    }
+    private final CaptchaConfiguration config;
 
     /**
      * 获取并缓存
      * @return
      */
     public AbstractCaptcha getAndCacheCaptcha(String captchaId) {
-        AbstractCaptcha captcha = CaptchaUtil.createLineCaptcha(200, 100);
+        AbstractCaptcha captcha = CaptchaUtil.createLineCaptcha(
+                config.getWidth(),
+                config.getHeight(),
+                config.getCharCount(),
+                config.getLineCount()
+        );
         setCaptchaCache(captcha, captchaId);
         return captcha;
     }
@@ -56,13 +47,16 @@ public class CaptchaService {
      */
     private void setCaptchaCache(AbstractCaptcha captcha, String captchaId) {
         String code = captcha.getCode();
+        String captchacCacheKey = config.getCacheKey();
+        Integer captchaTimeoutSecond = config.getTimeoutSecond();
         log.debug("缓存验证码，id：{}，code：{}", captchacCacheKey + captchaId, code);
         redis.opsForValue().set(captchacCacheKey + captchaId,
                 code, captchaTimeoutSecond, TimeUnit.SECONDS);
     }
 
-    public void validateCaptcha(String userInputCaptcha, String captchaId) {
-        String code = redis.opsForValue().getAndDelete(captchacCacheKey + captchaId);
+    public void validateCaptcha(String captchaId, ValidateCaptchaCommand command) {
+        String userInputCaptcha = command.getUserInputCaptcha();
+        String code = redis.opsForValue().getAndDelete(config.getCacheKey() + captchaId);
 
         //验证码是否为空
         if (StrUtil.isBlank(userInputCaptcha)) {

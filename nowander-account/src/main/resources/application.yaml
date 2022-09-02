@@ -1,13 +1,12 @@
 # 服务配置
 server:
-  port: 8083
+  port: 8080
 spring:
   # 项目配置
   application:
     name: nowander-account
   profiles:
     active: dev
-
   mvc:
     static-path-pattern: /**
 
@@ -66,6 +65,10 @@ spring:
       static-locations: classpath:/templates/,classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public
   elasticsearch:
     uris: http://119.23.214.198:9200
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
 
 # mybatisplus配置
 mybatis-plus:
@@ -79,7 +82,7 @@ mybatis-plus:
 logging:
   config: classpath:log4j2.xml
   level:
-    root: debug
+    root: info
 
 app:
   lock:
