@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,26 +26,27 @@ public class RedisTokenServiceImpl implements ITokenService {
 
     @Override
     public void createToken(UserCredential userCredential) {
-        // token
-        UUID token = UUIDUtil.getUuid();
-        userCredential.setToken(token.toString());
-        long tokenExpireAt = TokenConfig.EXPIRE_MS_TOKEN + System.currentTimeMillis();
-        userCredential.setTokenExpireAt(tokenExpireAt);
-        String tokenKey = tokenKey(userCredential.getToken());
-        redisTemplate.opsForValue().set(
-                tokenKey,
-                userCredential
-        );
-        redisTemplate.expireAt(tokenKey, new Date(tokenExpireAt));
+        setToken(userCredential);
+        setRefreshToken(userCredential);
+    }
 
-        // refreshToken
+    private void setRefreshToken(UserCredential userCredential) {
         UUID refreshToken = UUIDUtil.getUuid();
         userCredential.setRefreshToken(refreshToken.toString());
-        redisTemplate.opsForValue().set(
-                refreshTokenKey(userCredential.getRefreshToken()),
-                userCredential,
-                Duration.ofMillis(TokenConfig.EXPIRE_MS_REFRESH_TOKEN)
-        );
+        Date expireAt = new Date(TokenConfig.EXPIRE_MS_REFRESH_TOKEN + System.currentTimeMillis());
+        String redisKey = refreshTokenKey(userCredential.getRefreshToken());
+        redisTemplate.opsForValue().set(redisKey, userCredential);
+        redisTemplate.expireAt(redisKey, expireAt);
+    }
+
+    private void setToken(UserCredential userCredential) {
+        UUID token = UUIDUtil.getUuid();
+        userCredential.setToken(token.toString());
+        Date expireAt = new Date(TokenConfig.EXPIRE_MS_TOKEN + System.currentTimeMillis());
+        userCredential.setTokenExpireAt(expireAt);
+        String redisKey = tokenKey(userCredential.getToken());
+        redisTemplate.opsForValue().set(redisKey, userCredential);
+        redisTemplate.expireAt(redisKey, expireAt);
     }
 
     @Override

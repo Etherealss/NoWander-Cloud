@@ -5,7 +5,6 @@ import com.nowander.account.domain.user.SysUser;
 import com.nowander.account.domain.user.UserMapper;
 import com.nowander.account.domain.user.token.login.LoginAuthenticatorContext;
 import com.nowander.account.domain.user.token.login.UserLoginCommand;
-import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.service.ITokenService;
 import lombok.AllArgsConstructor;
@@ -33,9 +32,6 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
     public UserCredential login(UserLoginCommand userLoginCommand) {
         String username = userLoginCommand.getUsername();
         SysUser user = loginAuthenticatorContext.doLogin(userLoginCommand);
-        if (!user.getPassword().equals(userLoginCommand.getPassword())) {
-            throw new ParamErrorException("登录密码错误");
-        }
         // TODO 用户权限
         Set<String> permissions = new HashSet<>();
         Set<String> roles = new HashSet<>();
@@ -45,6 +41,7 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
                 permissions,
                 roles
         );
+        tokenService.createToken(userCredential);
         return userCredential;
     }
 }

@@ -5,7 +5,6 @@ import com.nowander.common.core.interceptor.ConfigHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
  * @author wang tengkun
  * @date 2022/2/25
  */
-@Component
 @Slf4j
 public class PathVariableVersifyInterceptor implements ConfigHandlerInterceptor {
 

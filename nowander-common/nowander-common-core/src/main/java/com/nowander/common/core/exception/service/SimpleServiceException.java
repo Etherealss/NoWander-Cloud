@@ -5,6 +5,7 @@ import com.nowander.common.core.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 /**
+ * 普通的业务异常
  * @author wtk
  * @date 2022-09-03
  */

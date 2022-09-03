@@ -10,6 +10,7 @@ import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.core.exception.service.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -23,6 +24,7 @@ public class UsernamePasswordLoginAuthenticator implements LoginAuthenticator {
 
     private final UserMapper userMapper;
     private final CaptchaFeign captchaFeign;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public SysUser authenticate(UserLoginCommand command) {
@@ -38,10 +40,14 @@ public class UsernamePasswordLoginAuthenticator implements LoginAuthenticator {
         captchaFeign.validateCaptcha(captchaId, new ValidateCaptchaCommand(captcha));
         SysUser user = userMapper.selectByUsername(username)
                 .orElseThrow(() -> new NotFoundException("用户 " + username + " 不存在"));
-        if (!user.getPassword().equals(command.getPassword())) {
+        validatePassword(command.getPassword(), user.getPassword());
+        return user;
+    }
+
+    private void validatePassword(String userInput, String password) {
+        if (!bCryptPasswordEncoder.matches(userInput, password)) {
             throw new AuthenticationException(ApiInfo.PASSWORD_ERROR, "登录密码错误");
         }
-        return user;
     }
 
     @Override

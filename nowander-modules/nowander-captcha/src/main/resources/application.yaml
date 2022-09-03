@@ -83,6 +83,8 @@ logging:
     root: debug
 
 app:
+  bean:
+    pathVariableVersify: false
   lock:
     redis:
       key-prefix: nowander:captcha:lock
