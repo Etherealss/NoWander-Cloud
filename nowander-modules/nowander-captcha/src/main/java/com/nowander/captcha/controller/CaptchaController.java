@@ -56,7 +56,8 @@ public class CaptchaController {
     }
 
     @PutMapping("/{captchaId}")
-    public void validateCaptcha(@PathVariable String captchaId, @RequestBody ValidateCaptchaCommand command) {
+    public Msg<Void> validateCaptcha(@PathVariable String captchaId, @RequestBody ValidateCaptchaCommand command) {
         captchaService.validateCaptcha(captchaId, command);
+        return Msg.ok();
     }
 }

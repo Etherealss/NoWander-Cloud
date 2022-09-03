@@ -37,6 +37,7 @@ public enum ApiInfo implements ApiInfoGetter {
     PASSWORD_ERROR(400202, "[密码错误]"),
     LOGIN_USER_NOT_FOUND(400203, "[登录用户不存在]"),
     USER_LOGGED(400204, "[用户已登录]"),
+    LOGIN_TYPE_NOT_SUPPORT(400205, "[不支持的登录方式]"),
 
     CAPTCHA_MISSING(400301, "[未输入验证码]"),
     CAPTCHA_NOT_MATCH(400302, "[验证码不匹配]"),

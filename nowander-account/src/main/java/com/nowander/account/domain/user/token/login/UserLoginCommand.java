@@ -14,19 +14,21 @@ import javax.validation.constraints.NotNull;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserLoginCommand {
-    @NotEmpty
-    String username;
-
     @NotNull
     LoginType loginType;
+
+    @NotEmpty
+    String captcha;
+
+    @NotEmpty
+    String captchaId;
+
+    String username;
 
     String phone;
 
     String password;
 
-    String captcha;
-
-    String captchaId;
 
     String email;
 }

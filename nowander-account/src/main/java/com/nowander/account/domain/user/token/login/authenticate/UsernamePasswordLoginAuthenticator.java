@@ -27,11 +27,11 @@ public class UsernamePasswordLoginAuthenticator implements LoginAuthenticator {
     @Override
     public SysUser authenticate(UserLoginCommand command) {
         String username = command.getUsername();
-        Assert.hasText(username, "登录用户名不能为空");
         String password = command.getPassword();
-        Assert.hasText(password, "登录密码不能为空");
         String captchaId = command.getCaptchaId();
         String captcha = command.getCaptcha();
+        Assert.hasText(username, "登录用户名不能为空");
+        Assert.hasText(password, "登录密码不能为空");
         Assert.hasText(captchaId, "登录验证码不能为空");
         Assert.hasText(captcha, "登录验证码不能为空");
 

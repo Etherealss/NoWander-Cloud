@@ -2,10 +2,11 @@ package com.nowander.common.core.exception;
 
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.internal.BugException;
-import com.nowander.common.core.exception.rest.EnumIllegalException;
-import com.nowander.common.core.exception.rest.MissingParamException;
 import com.nowander.common.core.exception.rest.ParamErrorException;
-import com.nowander.common.core.exception.service.*;
+import com.nowander.common.core.exception.rest.RestException;
+import com.nowander.common.core.exception.service.AuthenticationException;
+import com.nowander.common.core.exception.service.ServiceFiegnException;
+import com.nowander.common.core.exception.service.SimpleServiceException;
 import com.nowander.common.core.pojo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,12 +39,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             UnsupportedOperationException.class,
-            ParamErrorException.class,
-            MissingParamException.class,
-            ExistException.class,
-            NotFoundException.class,
-            CaptchaException.class,
-            EnumIllegalException.class
+            SimpleServiceException.class,
+            RestException.class
     })
     public Msg<Void> handle(BaseException e) {
         log.info("业务异常：" + e.getMessage());

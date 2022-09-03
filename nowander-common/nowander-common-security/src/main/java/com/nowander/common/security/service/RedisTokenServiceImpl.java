@@ -31,7 +31,7 @@ public class RedisTokenServiceImpl implements ITokenService {
         UUID token = UUIDUtil.getUuid();
         userCredential.setToken(token.toString());
         long tokenExpireAt = TokenConfig.EXPIRE_MS_TOKEN + System.currentTimeMillis();
-        userCredential.setExpireAt(tokenExpireAt);
+        userCredential.setTokenExpireAt(tokenExpireAt);
         String tokenKey = tokenKey(userCredential.getToken());
         redisTemplate.opsForValue().set(
                 tokenKey,

@@ -3,9 +3,9 @@ package com.nowander.account.domain.user.token;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.account.domain.user.SysUser;
 import com.nowander.account.domain.user.UserMapper;
+import com.nowander.account.domain.user.token.login.LoginAuthenticatorContext;
 import com.nowander.account.domain.user.token.login.UserLoginCommand;
 import com.nowander.common.core.exception.rest.ParamErrorException;
-import com.nowander.common.core.exception.service.NotFoundException;
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.service.ITokenService;
 import lombok.AllArgsConstructor;
@@ -28,11 +28,11 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
     private final UserMapper userMapper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ITokenService tokenService;
+    private final LoginAuthenticatorContext loginAuthenticatorContext;
 
     public UserCredential login(UserLoginCommand userLoginCommand) {
         String username = userLoginCommand.getUsername();
-        SysUser user = userMapper.selectByUsername(username)
-                .orElseThrow(() -> new NotFoundException("用户 " + username + " 不存在"));
+        SysUser user = loginAuthenticatorContext.doLogin(userLoginCommand);
         if (!user.getPassword().equals(userLoginCommand.getPassword())) {
             throw new ParamErrorException("登录密码错误");
         }

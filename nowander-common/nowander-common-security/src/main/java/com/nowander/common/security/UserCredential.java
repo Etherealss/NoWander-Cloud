@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -19,8 +20,23 @@ public class UserCredential {
     String username;
 
     String token;
-    
+
     String refreshToken;
+
+    /**
+     * token 过期时间
+     */
+    Date tokenExpireAt;
+
+    /**
+     * refreshToken 过期时间
+     */
+    Date refreshTokenExpireAt;
+
+    /**
+     * 登录时间
+     */
+    Date loginTime;
 
     /**
      * 用户权限
@@ -31,17 +47,6 @@ public class UserCredential {
      * 用户角色
      */
     Set<String> roles;
-
-    /**
-     * 登录时间
-     */
-    Long loginTime;
-
-
-    /**
-     * token 过期时间
-     */
-    Long expireAt;
 
     public UserCredential(Integer userId, String username, Set<String> permissions, Set<String> roles) {
         this.userId = userId;
