@@ -29,6 +29,5 @@ public class UserLoginCommand {
 
     String password;
 
-
     String email;
 }

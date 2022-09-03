@@ -2,9 +2,8 @@ package com.nowander.common.core.pojo;
 
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.BaseException;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -13,9 +12,8 @@ import java.io.Serializable;
  * @description 统一的接口信息包，用于前后端交互
  * @date 2021-08-12
  */
-@Getter
-@Setter
-@ToString
+@Data
+@AllArgsConstructor
 public class Msg<T> implements Serializable {
 
     private boolean success;
@@ -42,10 +40,6 @@ public class Msg<T> implements Serializable {
         return new Msg<>(true, ApiInfo.OK, message);
     }
 
-    public static <T> Msg<T> exception(Throwable e) {
-        return new Msg<>(false, ApiInfo.SERVER_ERROR, e.getMessage());
-    }
-
     /**
      * 默认访问成功 OK
      */
@@ -55,14 +49,13 @@ public class Msg<T> implements Serializable {
 
 
     public Msg(boolean success, ApiInfo apiInfo) {
-        this.code = apiInfo.getCode();
-        this.message = apiInfo.getMessage();
+        this(success, apiInfo.getCode(), apiInfo.getMessage(), null);
     }
 
 
     public Msg(boolean success, ApiInfo apiInfo, String description) {
-        this.code = apiInfo.getCode();
-        this.message = apiInfo.getMessage() + " " + description;
+        this(success, apiInfo.getCode(),
+                apiInfo.getMessage() + " " + description, null);
     }
     /**
      * 用自定义的异常生成ApiMsg
@@ -70,9 +63,7 @@ public class Msg<T> implements Serializable {
      * @param e
      */
     public Msg(BaseException e) {
-        this.success = false;
-        this.code = e.getCode();
-        this.message = e.getMessage();
+        this(false,  e.getCode(), e.getMessage(), null);
     }
 
     /**
