@@ -3,7 +3,7 @@ package com.nowander.account.domain.user.token.login;
 import com.nowander.account.domain.user.SysUser;
 import com.nowander.account.domain.user.token.login.authenticate.LoginAuthenticator;
 import com.nowander.common.core.enums.ApiInfo;
-import com.nowander.common.core.exception.BaseException;
+import com.nowander.common.core.exception.service.SimpleServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +30,7 @@ public class LoginAuthenticatorContext {
                 return authenticator;
             }
         }
-        throw new BaseException(ApiInfo.LOGIN_TYPE_NOT_SUPPORT);
+        throw new SimpleServiceException(ApiInfo.LOGIN_TYPE_NOT_SUPPORT);
     }
 
 }
