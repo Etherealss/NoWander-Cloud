@@ -1,4 +1,4 @@
-package com.nowander.common.core.pojo.entity;
+package com.nowander.common.database.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

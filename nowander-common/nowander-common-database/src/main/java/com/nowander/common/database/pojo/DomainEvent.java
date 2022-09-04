@@ -1,4 +1,4 @@
-package com.nowander.common.core.pojo;
+package com.nowander.common.database.pojo;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

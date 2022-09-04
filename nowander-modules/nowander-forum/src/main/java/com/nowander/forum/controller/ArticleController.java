@@ -1,8 +1,8 @@
 package com.nowander.forum.controller;
 
 import com.nowander.common.core.enums.OrderType;
-import com.nowander.common.core.pojo.SimplePage;
 import com.nowander.common.core.web.ResponseAdvice;
+import com.nowander.common.database.pojo.SimplePage;
 import com.nowander.forum.domain.article.ArticleDetailCommand;
 import com.nowander.forum.domain.article.ArticleDetailDTO;
 import com.nowander.forum.domain.article.ArticleService;

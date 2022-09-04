@@ -1,4 +1,4 @@
-package com.nowander.common.core.utils;
+package com.nowander.common.database.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 

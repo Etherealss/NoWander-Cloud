@@ -2,7 +2,7 @@ package com.nowander.account.domain.user;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.nowander.common.core.pojo.Converter;
-import com.nowander.common.core.pojo.entity.IdentifiedEntity;
+import com.nowander.common.database.pojo.entity.IdentifiedEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -13,6 +13,7 @@
     <modules>
         <module>nowander-common-core</module>
         <module>nowander-common-security</module>
+        <module>nowander-common-database</module>
     </modules>
 
     <properties>

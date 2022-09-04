@@ -1,6 +1,6 @@
 package com.nowander.forum.domain.posts;
 
-import com.nowander.common.core.pojo.DomainEvent;
+import com.nowander.common.database.pojo.DomainEvent;
 import lombok.Getter;
 
 /**

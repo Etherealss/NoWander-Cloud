@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,7 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
                 permissions,
                 roles
         );
+        userCredential.setLoginTime(new Date());
         tokenService.createToken(userCredential);
         return userCredential;
     }

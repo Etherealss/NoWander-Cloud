@@ -1,4 +1,4 @@
-package com.nowander.common.core.repository;
+package com.nowander.common.database.repository;
 
 import com.nowander.common.core.enums.BaseEnum;
 import lombok.extern.slf4j.Slf4j;

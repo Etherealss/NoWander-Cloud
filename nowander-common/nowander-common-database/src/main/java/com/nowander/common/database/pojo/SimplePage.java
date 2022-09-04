@@ -1,4 +1,4 @@
-package com.nowander.common.core.pojo;
+package com.nowander.common.database.pojo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AccessLevel;

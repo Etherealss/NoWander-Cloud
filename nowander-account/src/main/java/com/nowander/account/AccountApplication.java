@@ -6,11 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {
-        "com.nowander.account",
-        "com.nowander.common.core",
-        "com.nowander.common.security"
-})
+@ComponentScan("com.nowander")
 @MapperScan(value = "com.nowander.account.domain", annotationClass = Mapper.class)
 @SpringBootApplication
 public class AccountApplication {

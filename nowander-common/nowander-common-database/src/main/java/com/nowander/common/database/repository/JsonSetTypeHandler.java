@@ -1,4 +1,4 @@
-package com.nowander.common.core.repository;
+package com.nowander.common.database.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
