@@ -28,6 +28,8 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <druid.version>1.1.23</druid.version>
         <hutool.version>5.7.21</hutool.version>
+        <aliyun-oss.version>3.14.0</aliyun-oss.version>
+        <fileupload.version>1.4</fileupload.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -179,6 +181,18 @@
                         <artifactId>spring-boot-starter-logging</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <!-- 阿里云oss依赖 -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-oss.version}</version>
+            </dependency>
+            <!-- 文件上传 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${fileupload.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
