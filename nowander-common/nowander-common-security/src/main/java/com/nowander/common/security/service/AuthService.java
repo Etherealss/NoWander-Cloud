@@ -1,17 +1,13 @@
 package com.nowander.common.security.service;
 
-import com.nowander.common.core.enums.ApiInfo;
-import com.nowander.common.core.utils.ServletUtil;
 import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.annotation.RequiresPermissions;
 import com.nowander.common.security.annotation.RequiresRoles;
 import com.nowander.common.security.config.AuthConstants;
-import com.nowander.common.security.config.TokenConfig;
 import com.nowander.common.security.enums.Logical;
 import com.nowander.common.security.exception.NotPermissionException;
 import com.nowander.common.security.exception.NotRoleException;
-import com.nowander.common.security.exception.TokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
@@ -29,16 +25,7 @@ import java.util.Set;
 public class AuthService {
 
     public UserCredential requireToken() {
-        UserCredential userCredential = SecurityContextHolder.get();
-        if (userCredential == null) {
-            String token = ServletUtil.getRequest().getHeader(TokenConfig.HEADER_TOKEN);
-            if (!StringUtils.hasText(token)) {
-                throw new TokenException(ApiInfo.TOKEN_MISSING);
-            } else {
-                throw new TokenException(ApiInfo.TOKEN_INVALID);
-            }
-        }
-        return userCredential;
+        return SecurityContextHolder.require();
     }
 
     /**

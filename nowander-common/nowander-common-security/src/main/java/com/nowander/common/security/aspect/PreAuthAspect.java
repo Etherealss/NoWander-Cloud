@@ -84,6 +84,7 @@ public class PreAuthAspect {
             }
         } catch (AuthenticationException e) {
             log.info("请求认证不通过：{}", e.getMessage());
+            throw e;
         }
     }
 }

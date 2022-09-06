@@ -38,7 +38,4 @@ public class UserService extends ServiceImpl<UserMapper, SysUser> {
         SysUser user = userMapper.selectById(userId);
         return user.convert(UserDetailDTO.class);
     }
-
-
-    // TODO 头像、文件服务
 }

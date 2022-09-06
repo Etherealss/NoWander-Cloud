@@ -97,6 +97,10 @@ logging:
     root: info
 
 app:
+  file:
+    oss:
+      avatar-dir: avatars
+    path-separator: /
   lock:
     redis:
       key-prefix: nowander:account:lock

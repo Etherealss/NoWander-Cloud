@@ -1,5 +1,6 @@
 package com.nowander.oss.domain.file;
 
+import com.nowander.common.core.exception.rest.MissingParamException;
 import com.nowander.common.core.utils.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * @author wtk
@@ -40,7 +40,9 @@ public class FileService {
         if (!StringUtils.hasText(fileName)) {
             fileName = avatarFile.getOriginalFilename();
         }
-        Objects.requireNonNull(fileName, "文件名不能为空");
+        if (!StringUtils.hasText(fileName)) {
+            throw new MissingParamException("文件名不能为空");
+        }
         String fileExt = FileUtil.getFileExt(fileName);
         String fileContentType = FileUtil.getContentType(fileExt);
         String fileKey = filePath + filePathSeparator + fileName;
