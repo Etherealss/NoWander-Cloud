@@ -5,10 +5,10 @@ import com.nowander.account.domain.user.UserService;
 import com.nowander.common.core.web.ResponseAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author wtk
@@ -25,5 +25,10 @@ public class UserInfoController {
     @GetMapping("/{userId}")
     public UserBriefDTO getUserBrief(@PathVariable Integer userId) {
         return userService.getBriefById(userId);
+    }
+
+    @GetMapping
+    public List<UserBriefDTO> getBatchUserBrief(@RequestParam("ids") Collection<Integer> userIds) {
+        return userService.getBatchBriefsByIds(userIds);
     }
 }
