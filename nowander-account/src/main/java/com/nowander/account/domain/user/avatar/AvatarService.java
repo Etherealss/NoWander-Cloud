@@ -4,6 +4,7 @@ import com.nowander.account.infrasturcture.feign.file.FileUploadDTO;
 import com.nowander.account.infrasturcture.feign.file.OssFileFeign;
 import com.nowander.common.core.exception.internal.ConfigurationException;
 import com.nowander.common.core.exception.rest.MissingParamException;
+import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.core.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,11 +72,17 @@ public class AvatarService {
      * @return 头像保存路径，同时也是访问文件的url
      */
     public FileUploadDTO uploadAvatar(MultipartFile avatarFile, Integer userId) {
+        if (avatarFile.isEmpty()) {
+            throw new MissingParamException("文件流为空");
+        }
         String originalFilename = avatarFile.getOriginalFilename();
         if (!StringUtils.hasText(originalFilename)) {
             throw new MissingParamException("无法获取原始文件的文件扩展名");
         }
         String fileExt = FileUtil.getFileExt(originalFilename);
+        if (!FileUtil.isImageExt(fileExt)) {
+            throw new ParamErrorException("非图片文件");
+        }
         String fileName = userId + fileExt;
         return ossFileFeign.upload(avatarFile, getSavePath(), fileName);
     }

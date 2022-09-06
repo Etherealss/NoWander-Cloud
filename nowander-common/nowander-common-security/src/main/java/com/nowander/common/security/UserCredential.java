@@ -1,8 +1,8 @@
 package com.nowander.common.security;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
@@ -13,6 +13,7 @@ import java.util.Set;
  * @date 2022-08-30
  */
 @Data
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCredential {
 
