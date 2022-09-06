@@ -26,28 +26,23 @@ public class RedisTokenServiceImpl implements ITokenService {
 
     @Override
     public void createToken(UserCredential userCredential) {
-        setToken(userCredential);
-        setRefreshToken(userCredential);
-    }
-
-    private void setRefreshToken(UserCredential userCredential) {
-        UUID refreshToken = UUIDUtil.getUuid();
-        userCredential.setRefreshToken(refreshToken.toString());
-        Date expireAt = new Date(TokenConfig.EXPIRE_MS_REFRESH_TOKEN + System.currentTimeMillis());
-        userCredential.setRefreshTokenExpireAt(expireAt);
-        String redisKey = refreshTokenKey(userCredential.getRefreshToken());
-        redisTemplate.opsForValue().set(redisKey, userCredential);
-        redisTemplate.expireAt(redisKey, expireAt);
-    }
-
-    private void setToken(UserCredential userCredential) {
         UUID token = UUIDUtil.getUuid();
         userCredential.setToken(token.toString());
-        Date expireAt = new Date(TokenConfig.EXPIRE_MS_TOKEN + System.currentTimeMillis());
-        userCredential.setTokenExpireAt(expireAt);
+        Date tokenExpireAt = new Date(TokenConfig.EXPIRE_MS_TOKEN + System.currentTimeMillis());
+        userCredential.setTokenExpireAt(tokenExpireAt);
+
+        UUID refreshToken = UUIDUtil.getUuid();
+        userCredential.setRefreshToken(refreshToken.toString());
+        Date refreshExpireAt = new Date(TokenConfig.EXPIRE_MS_REFRESH_TOKEN + System.currentTimeMillis());
+        userCredential.setRefreshTokenExpireAt(refreshExpireAt);
+
         String redisKey = tokenKey(userCredential.getToken());
         redisTemplate.opsForValue().set(redisKey, userCredential);
-        redisTemplate.expireAt(redisKey, expireAt);
+        redisTemplate.expireAt(redisKey, tokenExpireAt);
+
+        redisKey = refreshTokenKey(userCredential.getRefreshToken());
+        redisTemplate.opsForValue().set(redisKey, userCredential);
+        redisTemplate.expireAt(redisKey, refreshExpireAt);
     }
 
     @Override
