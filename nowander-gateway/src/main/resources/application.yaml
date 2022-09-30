@@ -1,0 +1,20 @@
+server:
+  port: 88
+spring:
+  profiles:
+    active: dev
+  # 项目配置
+  application:
+    name: nowander-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: test_route1
+          uri: https://www.baidu.com
+          predicates:
+            - Query=url,baidu
+
+        - id: test_route2
+          uri: https://www.qq.com
+          predicates:
+            - Query=url,qq
