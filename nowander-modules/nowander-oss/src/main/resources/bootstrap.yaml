@@ -17,9 +17,6 @@ spring:
         namespace: ${spring.profiles.active}
         # 共享配置
         shared-configs:
-          - application-default-database-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-          - application-default-database-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-          - application-default-redis-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-default-spring-web-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-default-log-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-default-cloud-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
