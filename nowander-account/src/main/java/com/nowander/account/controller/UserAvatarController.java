@@ -7,6 +7,8 @@ import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +21,18 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/users/avatars")
 @RequiredArgsConstructor
 @ResponseAdvice
+@RefreshScope
 public class UserAvatarController {
     private final AvatarService avatarService;
+
+    @Value("${account.username}")
+    public String username;
+
+    @AnonymousAccess
+    @GetMapping("/test")
+    public String test() {
+        return username;
+    }
 
     @AnonymousAccess
     @GetMapping
