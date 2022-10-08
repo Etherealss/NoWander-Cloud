@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
  * @date 2022/2/25
  */
 @Slf4j
-public class PathVariableVersifyInterceptor implements ConfigHandlerInterceptor {
+public class PathVariableVerifyInterceptor implements ConfigHandlerInterceptor {
 
     private final Map<String, PathVariableValidator> validators;
 
     @Autowired
-    public PathVariableVersifyInterceptor(List<PathVariableValidator> validatorList) {
+    public PathVariableVerifyInterceptor(List<PathVariableValidator> validatorList) {
         Map<String, PathVariableValidator> validators = validatorList.stream()
                 .collect(Collectors.toMap((PathVariableValidator::validateTarget), (v -> v)));
         this.validators = Collections.unmodifiableMap(validators);

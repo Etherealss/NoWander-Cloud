@@ -11,13 +11,13 @@ import java.util.List;
  * @date 2022-09-03
  */
 @Configuration
-@ConditionalOnProperty(prefix = "app.bean", name = "pathVariableVersify", havingValue = "true")
-public class PathVariableVersifyConfiguration {
+@ConditionalOnProperty(prefix = "app.bean", name = "pathVariableVerify", havingValue = "true")
+public class PathVariableVerifyConfiguration {
 
     @Bean
-    public PathVariableVersifyInterceptor pathVariableVersifyInterceptor(
+    public PathVariableVerifyInterceptor pathVariableVersifyInterceptor(
             List<PathVariableValidator> validatorList) {
-        return new PathVariableVersifyInterceptor(validatorList);
+        return new PathVariableVerifyInterceptor(validatorList);
     }
 
 }

@@ -5,8 +5,8 @@ import com.nowander.account.domain.user.SysUser;
 import com.nowander.account.domain.user.UserMapper;
 import com.nowander.account.domain.user.token.login.LoginAuthenticatorContext;
 import com.nowander.account.domain.user.token.login.UserLoginCommand;
+import com.nowander.account.infrasturcture.token.ITokenHandler;
 import com.nowander.common.security.UserCredential;
-import com.nowander.common.security.service.ITokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,7 +27,7 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
 
     private final UserMapper userMapper;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final ITokenService tokenService;
+    private final ITokenHandler tokenHandler;
     private final LoginAuthenticatorContext loginAuthenticatorContext;
 
     public UserCredential login(UserLoginCommand userLoginCommand) {
@@ -43,7 +43,11 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
                 roles
         );
         userCredential.setLoginTime(new Date());
-        tokenService.createToken(userCredential);
+        tokenHandler.createToken(userCredential);
         return userCredential;
+    }
+
+    public UserCredential verify(String token) {
+        return tokenHandler.verifyToken(token);
     }
 }

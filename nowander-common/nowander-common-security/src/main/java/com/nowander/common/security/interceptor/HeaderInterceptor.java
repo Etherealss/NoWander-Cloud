@@ -5,7 +5,7 @@ import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.config.TokenConfig;
 import com.nowander.common.security.exception.TokenException;
-import com.nowander.common.security.service.ITokenService;
+import com.nowander.common.security.service.ITokenVerifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class HeaderInterceptor implements ConfigHandlerInterceptor {
 
-    private final ITokenService tokenService;
+    private final ITokenVerifier tokenVerifier;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -36,7 +36,7 @@ public class HeaderInterceptor implements ConfigHandlerInterceptor {
         String token = request.getHeader(TokenConfig.HEADER_TOKEN);
         if (StringUtils.hasText(token)) {
             try {
-                UserCredential userCredential = tokenService.versifyToken(token);
+                UserCredential userCredential = tokenVerifier.verifyToken(token);
                 SecurityContextHolder.set(userCredential);
             } catch (TokenException ignored) {}
         }
