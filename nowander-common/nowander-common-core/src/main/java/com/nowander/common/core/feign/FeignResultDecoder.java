@@ -1,5 +1,6 @@
 package com.nowander.common.core.feign;
 
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nowander.common.core.exception.service.ServiceFiegnException;
 import com.nowander.common.core.pojo.Msg;
@@ -24,13 +25,23 @@ public class FeignResultDecoder implements Decoder {
         if (response.body() == null) {
             throw new DecodeException(response.status(), "没有返回有效的数据", response.request());
         }
-        String bodyStr = Util.toString(response.body().asReader(Util.UTF_8));
         //对结果进行转换
-        Msg<?> result = JSONUtil.toBean(bodyStr, Msg.class);
+        String bodyStr = Util.toString(response.body().asReader(Util.UTF_8));
+        Msg<?> result;
+        try {
+            result = JSONUtil.toBean(bodyStr, Msg.class);
+        } catch (Exception e) {
+            throw new DecodeException(response.status(), "没有返回预期的数据，响应体无法转为 Msg.class。相应数据：" + bodyStr, response.request());
+        }
         //如果返回错误，且为内部错误，则直接抛出异常
         if (!result.isSuccess()) {
             throw new ServiceFiegnException(result, response.status(), response.request());
         }
-        return result.getData();
+        // result.getData() 是 JSONObject 类型，直接返回会出现强转异常
+        try {
+            return JSONUtil.toBean((JSONObject) result.getData(), Class.forName(type.getTypeName()));
+        } catch (ClassNotFoundException e) {
+            throw new DecodeException(response.status(), "无法获取接口返回值类型的Class对象：" + type.getTypeName(), response.request());
+        }
     }
 }

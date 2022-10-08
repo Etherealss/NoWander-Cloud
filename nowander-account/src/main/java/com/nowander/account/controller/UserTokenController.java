@@ -28,6 +28,7 @@ public class UserTokenController {
         return userTokenService.login(userLoginCommand);
     }
 
+    @AnonymousAccess
     @GetMapping("/tokens/{token}")
     public UserCredential verify(@PathVariable String token) {
         return userTokenService.verify(token);

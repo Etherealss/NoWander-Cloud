@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author wtk
  * @date 2022-09-02
  */
-@FeignClient(value = "nowander-captcha", path = "/captchas", configuration = FeignConfiguration.class)
+@FeignClient(value = "nowander-captcha", path = "/captcha/captchas", configuration = FeignConfiguration.class)
 public interface CaptchaFeign {
 
     @PutMapping("/{captchaId}")

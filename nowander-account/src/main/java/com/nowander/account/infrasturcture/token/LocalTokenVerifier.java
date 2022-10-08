@@ -1,8 +1,8 @@
 package com.nowander.account.infrasturcture.token;
 
 import com.nowander.common.security.UserCredential;
-import com.nowander.common.security.service.ITokenVerifier;
-import com.nowander.common.security.service.RemoteTokenVerifier;
+import com.nowander.common.security.service.token.ITokenVerifier;
+import com.nowander.common.security.service.token.RemoteTokenVerifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

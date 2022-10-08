@@ -4,7 +4,7 @@ import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.annotation.RequiresPermissions;
 import com.nowander.common.security.annotation.RequiresRoles;
-import com.nowander.common.security.service.AuthService;
+import com.nowander.common.security.service.auth.AuthService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;

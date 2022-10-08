@@ -1,6 +1,5 @@
 package com.nowander.captcha.infrastructure.config;
 
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -8,6 +7,5 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022-08-31
  */
 @Configuration
-@EnableDiscoveryClient
 public class ApplicationConfig {
 }

@@ -1,4 +1,4 @@
-package com.nowander.common.security.service;
+package com.nowander.common.security.service.token;
 
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.feign.UserTokenFeign;
@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public class RemoteTokenVerifier implements ITokenVerifier {
+
     private final UserTokenFeign userTokenFeign;
 
     @Override

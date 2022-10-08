@@ -5,7 +5,7 @@ import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.config.TokenConfig;
 import com.nowander.common.security.exception.TokenException;
-import com.nowander.common.security.service.ITokenVerifier;
+import com.nowander.common.security.service.token.ITokenVerifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

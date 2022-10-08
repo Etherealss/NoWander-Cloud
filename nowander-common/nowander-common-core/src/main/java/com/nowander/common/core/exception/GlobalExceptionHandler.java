@@ -152,7 +152,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ServiceFiegnException.class)
     public Msg<?> handle(ServiceFiegnException e) {
-        log.info("[全局异常处理器] OpenFeign 远程调用出现异常:", e);
+        log.info("[全局异常处理器] OpenFeign 远程调用出现异常: {}", e.getMsg());
         return e.getMsg();
     }
 

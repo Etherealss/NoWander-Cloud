@@ -1,4 +1,4 @@
-package com.nowander.common.database.pojo;
+package com.nowander.common.core.pojo;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
@@ -15,12 +15,8 @@ public abstract class DomainEvent extends ApplicationEvent {
     private final Integer userId;
     private final LocalDateTime occurredOn;
 
-    public DomainEvent(Integer userId) {
-        this(userId, userId);
-    }
-
-    public DomainEvent(Object o, Integer userId) {
-        super(o);
+    public DomainEvent(Object source, Integer userId) {
+        super(source);
         this.userId = userId;
         occurredOn = LocalDateTime.now();
         id = UUID.randomUUID().toString().replace("-", "");

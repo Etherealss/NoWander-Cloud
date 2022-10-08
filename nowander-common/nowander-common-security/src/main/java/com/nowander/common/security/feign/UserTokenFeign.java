@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author wtk
  * @date 2022-10-08
  */
-@FeignClient(value = "nowander-oss", path = "/users/tokens", configuration = FeignConfiguration.class)
+@FeignClient(
+        value = "nowander-account",
+        contextId = "nowander-account-users-tokens",
+        path = "/account/users/tokens",
+        configuration = FeignConfiguration.class
+)
 public interface UserTokenFeign {
 
     @GetMapping("/{token}")

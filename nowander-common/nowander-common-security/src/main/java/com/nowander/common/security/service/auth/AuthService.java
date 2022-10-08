@@ -1,4 +1,4 @@
-package com.nowander.common.security.service;
+package com.nowander.common.security.service.auth;
 
 import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.UserCredential;

@@ -1,6 +1,6 @@
 package com.nowander.common.security.aspect;
 
-import com.nowander.common.security.service.AuthService;
+import com.nowander.common.security.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

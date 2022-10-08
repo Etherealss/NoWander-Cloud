@@ -1,6 +1,6 @@
 package com.nowander.forum.domain.posts;
 
-import com.nowander.common.database.pojo.DomainEvent;
+import com.nowander.common.core.pojo.DomainEvent;
 import lombok.Getter;
 
 /**
@@ -12,7 +12,7 @@ public class SavePostsEsBlogEvent extends DomainEvent {
     private final PostsEntity postsEntity;
 
     public SavePostsEsBlogEvent(Integer userId, PostsEntity postsEntity) {
-        super(userId);
+        super(postsEntity, userId);
         this.postsEntity = postsEntity;
     }
 }
