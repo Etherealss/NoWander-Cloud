@@ -2,6 +2,9 @@ package com.nowander.discussion.domain.discussion;
 
 import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import com.nowander.discussion.infrastructure.enums.DiscussionType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -10,6 +13,9 @@ import javax.validation.constraints.NotNull;
  * @author wtk
  * @date 2022-10-09
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DiscussionCommand {
 
     /**

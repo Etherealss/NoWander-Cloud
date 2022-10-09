@@ -121,6 +121,7 @@ public class GlobalExceptionHandler {
     /**
      * 验证异常处理
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public Msg<Void> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
         StringBuilder msg = new StringBuilder();

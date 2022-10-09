@@ -79,7 +79,7 @@ public class DiscussionService extends ServiceImpl<DiscussionMapper, DiscussionE
         DiscussionEntity entity = DiscussionEntity.build4Update(command, userId);
         int res = discussionMapper.update(entity, new QueryWrapper<DiscussionEntity>()
                 .eq("id", discussionId)
-                .eq("authorId", userId)
+                .eq("author_id", userId)
         );
         if (res == 0) {
             ensureEntityExist(discussionId, userId);

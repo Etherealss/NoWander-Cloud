@@ -5,6 +5,7 @@ import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.discussion.domain.discussion.DiscussionCommand;
+import com.nowander.discussion.domain.discussion.DiscussionEntity;
 import com.nowander.discussion.domain.discussion.DiscussionService;
 import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import lombok.AllArgsConstructor;
@@ -32,15 +33,21 @@ public class DiscussionController {
         return discussionService.create(commentEntity, SecurityContextHolder.require().getUserId());
     }
 
+    @AnonymousAccess
+    @GetMapping("/{id}")
+    public DiscussionEntity get(@PathVariable Integer id) {
+        return discussionService.getById(id);
+    }
+
     @PutMapping("/{id}")
     public void update(@RequestBody @Validated DiscussionCommand commentEntity, @PathVariable Integer id) {
         discussionService.update(commentEntity, id, SecurityContextHolder.require().getUserId());
     }
 
 
-    @DeleteMapping("/{discussionId}")
-    public void delete(@PathVariable("discussionId") Integer discussionId) {
-        discussionService.deleteDiscussion(discussionId, SecurityContextHolder.require().getUserId());
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        discussionService.deleteDiscussion(id, SecurityContextHolder.require().getUserId());
     }
 
     /**
