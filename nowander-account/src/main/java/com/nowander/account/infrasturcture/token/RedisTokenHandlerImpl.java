@@ -1,9 +1,10 @@
 package com.nowander.account.infrasturcture.token;
 
+import com.nowander.account.infrasturcture.config.UserRefreshTokenCacheConfig;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.UUIDUtil;
 import com.nowander.common.security.UserCredential;
-import com.nowander.account.infrasturcture.config.RedisTokenCacheConfig;
+import com.nowander.account.infrasturcture.config.UserTokenCacheConfig;
 import com.nowander.common.security.exception.TokenException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,17 +24,19 @@ import java.util.UUID;
 public class RedisTokenHandlerImpl implements ITokenHandler {
 
     private final RedisTemplate<String, UserCredential> redisTemplate;
+    private final UserTokenCacheConfig tokenCacheConfig;
+    private final UserRefreshTokenCacheConfig refreshTokenCacheConfig;
 
     @Override
     public void createToken(UserCredential userCredential) {
         UUID token = UUIDUtil.getUuid();
         userCredential.setToken(token.toString());
-        Date tokenExpireAt = new Date(RedisTokenCacheConfig.EXPIRE_MS_TOKEN + System.currentTimeMillis());
+        Date tokenExpireAt = new Date(tokenCacheConfig.getExpireMs() + System.currentTimeMillis());
         userCredential.setTokenExpireAt(tokenExpireAt);
 
         UUID refreshToken = UUIDUtil.getUuid();
         userCredential.setRefreshToken(refreshToken.toString());
-        Date refreshExpireAt = new Date(RedisTokenCacheConfig.EXPIRE_MS_REFRESH_TOKEN + System.currentTimeMillis());
+        Date refreshExpireAt = new Date(refreshTokenCacheConfig.getExpireMs() + System.currentTimeMillis());
         userCredential.setRefreshTokenExpireAt(refreshExpireAt);
 
         String redisKey = tokenKey(userCredential.getToken());
@@ -75,10 +78,10 @@ public class RedisTokenHandlerImpl implements ITokenHandler {
     }
 
     private String tokenKey(String token) {
-        return RedisTokenCacheConfig.REDIS_PREFIX_TOKEN + token;
+        return tokenCacheConfig.getCacheKey() + ":" + token;
     }
 
     private String refreshTokenKey(String refreshToken) {
-        return RedisTokenCacheConfig.REDIS_PREFIX_REFRESH_TOKEN + refreshToken;
+        return refreshTokenCacheConfig.getCacheKey() + ":" + refreshToken;
     }
 }

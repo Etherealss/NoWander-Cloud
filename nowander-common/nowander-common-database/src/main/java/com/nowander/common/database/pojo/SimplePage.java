@@ -19,7 +19,7 @@ public class SimplePage<T> {
     /**
      * 查询数据列表
      */
-    List<T> records = Collections.EMPTY_LIST;
+    List<T> records = Collections.emptyList();
 
     /**
      * 总数

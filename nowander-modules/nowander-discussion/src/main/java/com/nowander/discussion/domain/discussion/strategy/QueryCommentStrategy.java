@@ -41,7 +41,7 @@ public abstract class QueryCommentStrategy extends QueryDiscussionStrategy {
         // 获取评论
         IPage<DiscussionEntity> comments = getComments(parentId, parentIdType);
 
-        // 将 IPage<Comment> 转为 IPage<CommentDto
+        // 将 IPage<Comment> 转为 IPage<CommentDto>
         IPage<DiscussionDTO> page = new Page<>();
         PageUtil.copyPage(page, comments);
 

@@ -16,7 +16,6 @@
     </properties>
 
     <dependencies>
-
         <!-- SpringCloud 服务注册发现 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -111,6 +110,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
 
         <!--配置注解执行器-->

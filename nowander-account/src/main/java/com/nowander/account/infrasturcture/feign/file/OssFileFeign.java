@@ -1,6 +1,5 @@
 package com.nowander.account.infrasturcture.feign.file;
 
-import com.nowander.common.core.feign.FeignConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author wtk
  * @date 2022-09-06
  */
-@FeignClient(value = "nowander-oss", path = "/files", configuration = FeignConfiguration.class)
+@FeignClient(value = "nowander-oss", path = "/files")
 public interface OssFileFeign {
     /**
      * 上传文件

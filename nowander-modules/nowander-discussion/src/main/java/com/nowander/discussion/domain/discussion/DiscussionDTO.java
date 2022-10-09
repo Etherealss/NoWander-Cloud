@@ -19,9 +19,4 @@ public class DiscussionDTO {
      * 评论的回复列表
      */
     private IPage<DiscussionEntity> replys;
-
-    /**
-     * 该评论下的总回复数量
-     */
-    private Integer replysTotalCount;
 }

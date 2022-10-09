@@ -3,6 +3,7 @@ package com.nowander.account.controller;
 import com.nowander.account.domain.user.UserBriefDTO;
 import com.nowander.account.domain.user.UserService;
 import com.nowander.common.core.web.ResponseAdvice;
+import com.nowander.common.security.annotation.AnonymousAccess;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class UserInfoController {
         return userService.getBriefById(userId);
     }
 
+    @AnonymousAccess
     @GetMapping
     public List<UserBriefDTO> getBatchUserBrief(@RequestParam("ids") Collection<Integer> userIds) {
         return userService.getBatchBriefsByIds(userIds);

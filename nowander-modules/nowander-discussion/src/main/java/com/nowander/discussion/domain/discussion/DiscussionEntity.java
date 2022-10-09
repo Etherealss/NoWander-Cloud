@@ -3,7 +3,6 @@ package com.nowander.discussion.domain.discussion;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.nowander.common.database.pojo.entity.IdentifiedEntity;
-import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import com.nowander.discussion.infrastructure.enums.DiscussionType;
 import lombok.Data;
@@ -52,11 +51,7 @@ public class DiscussionEntity extends IdentifiedEntity {
     private DiscussionType discussionType;
 
     /**
-     * 正常为1，已删除为0
+     *
      */
     private Integer state;
-
-    public Boolean getIsAuthor() {
-        return SecurityContextHolder.require().getUserId().equals(authorId);
-    }
 }

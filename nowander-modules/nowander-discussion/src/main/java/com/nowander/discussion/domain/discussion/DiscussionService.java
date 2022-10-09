@@ -64,23 +64,22 @@ public class DiscussionService extends ServiceImpl<DiscussionMapper, DiscussionE
             case TIME:
             default:
                 strategy = new QueryReplyByTime(replySize, curPage);
-
         }
         Map<String, Object> map = DiscussionContext.build4Reply(strategy)
                 .query(commentId);
         return map;
     }
 
-    public void deleteComment(Integer commentId, Integer authorId) {
-        int i = discussionMapper.deleteByIdAndAuthor(commentId, authorId);
+    public void deleteDiscussion(Integer id, Integer authorId) {
+        int i = discussionMapper.deleteByIdAndAuthor(id, authorId);
         if (i == 0) {
             // 没有删除
             Integer count = discussionMapper.selectCount(
-                    new QueryWrapper<DiscussionEntity>().eq("id", commentId));
+                    new QueryWrapper<DiscussionEntity>().eq("id", id));
             if (count == 0) {
-                throw new NotFoundException(DiscussionEntity.class, commentId.toString());
+                throw new NotFoundException(DiscussionEntity.class, id.toString());
             } else {
-                throw new NotAuthorException("id为" + authorId + "的用户不是id为" + commentId + "的作者，无法删除");
+                throw new NotAuthorException("id为" + authorId + "的用户不是id为" + id + "的评论的作者，无法删除");
             }
         }
     }

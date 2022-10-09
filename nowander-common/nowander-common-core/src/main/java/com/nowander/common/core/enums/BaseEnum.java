@@ -9,18 +9,20 @@ import com.nowander.common.core.exception.rest.EnumIllegalException;
  * @date 2022-04-21
  */
 public interface BaseEnum {
+
+    /**
+     * 存储到数据库的枚举值
+     * 注解的作用是在返回前端时传数字
+     * @return
+     */
+    @JsonValue
+    int getCode();
+
     /**
      * 用于显示的枚举名
      * @return
      */
-    @JsonValue
     String getName();
-
-    /**
-     * 存储到数据库的枚举值
-     * @return
-     */
-    int getCode();
 
     /**
      * 按枚举的code获取枚举实例

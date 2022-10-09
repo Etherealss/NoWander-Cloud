@@ -26,9 +26,10 @@ public class UserCredentialCacheHandler {
     public UserCredential verifyAndGet(String token) {
         String key = tokenConfig.getCacheKey() + ":" + token;
         UserCredential userCredential = redisTemplate.opsForValue().get(key);
-        if (userCredential == null) {
-            userCredential = userTokenFeign.verifyToken(token);
+        if (userCredential != null) {
+            return userCredential;
         }
+        userCredential = userTokenFeign.verifyToken(token);
         cache(key, userCredential, userCredential.getTokenExpireAt());
         return userCredential;
     }

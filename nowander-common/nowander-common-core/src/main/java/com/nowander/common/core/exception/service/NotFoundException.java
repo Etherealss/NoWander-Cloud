@@ -12,7 +12,8 @@ public class NotFoundException extends SimpleServiceException {
     public NotFoundException(String msg) {
         super(ApiInfo.NOT_FOUND, msg);
     }
+
     public NotFoundException(Class<?> clazz, String identification) {
-        super(ApiInfo.NOT_FOUND, "属性'" + identification + "'对应的" + clazz.getSimpleName() + "不存在");
+        super(ApiInfo.NOT_FOUND, "标识符为'" + identification + "'对应的" + clazz.getSimpleName() + "不存在");
     }
 }

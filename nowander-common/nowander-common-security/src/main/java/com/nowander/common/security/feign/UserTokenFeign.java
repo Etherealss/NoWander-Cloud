@@ -1,6 +1,5 @@
 package com.nowander.common.security.feign;
 
-import com.nowander.common.core.feign.FeignConfiguration;
 import com.nowander.common.security.UserCredential;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(
         value = "nowander-account",
         contextId = "nowander-account-users-tokens",
-        path = "/account/users/tokens",
-        configuration = FeignConfiguration.class
+        path = "/account/users/tokens"
 )
 public interface UserTokenFeign {
 
