@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
- *
  * @author wtk
  * @since 2022-01-05
  */
@@ -70,23 +69,43 @@ public class DiscussionService extends ServiceImpl<DiscussionMapper, DiscussionE
         return map;
     }
 
-    public Integer saveDiscussion(DiscussionEntity entity, Integer userId) {
-        entity.setAuthorId(userId);
+    public Integer create(DiscussionCommand command, Integer userId) {
+        DiscussionEntity entity = DiscussionEntity.build4Create(command, userId);
         discussionMapper.insert(entity);
         return entity.getId();
     }
 
+    public void update(DiscussionCommand command, Integer discussionId, Integer userId) {
+        DiscussionEntity entity = DiscussionEntity.build4Update(command, userId);
+        int res = discussionMapper.update(entity, new QueryWrapper<DiscussionEntity>()
+                .eq("id", discussionId)
+                .eq("authorId", userId)
+        );
+        if (res == 0) {
+            ensureEntityExist(discussionId, userId);
+        }
+    }
+
     public void deleteDiscussion(Integer id, Integer authorId) {
-        int i = discussionMapper.deleteByIdAndAuthor(id, authorId);
-        if (i == 0) {
+        int res = discussionMapper.deleteByIdAndAuthor(id, authorId);
+        if (res == 0) {
             // 没有删除
-            Integer count = discussionMapper.selectCount(
-                    new QueryWrapper<DiscussionEntity>().eq("id", id));
-            if (count == 0) {
-                throw new NotFoundException(DiscussionEntity.class, id.toString());
-            } else {
-                throw new NotAuthorException("id为" + authorId + "的用户不是id为" + id + "的评论的作者，无法删除");
-            }
+            ensureEntityExist(id, authorId);
+        }
+    }
+
+    /**
+     * 判断是否为作者本人的操作
+     * @param id
+     * @param authorId
+     */
+    private void ensureEntityExist(Integer id, Integer authorId) {
+        Integer count = discussionMapper.selectCount(
+                new QueryWrapper<DiscussionEntity>().eq("id", id));
+        if (count == 0) {
+            throw new NotFoundException(DiscussionEntity.class, id.toString());
+        } else {
+            throw new NotAuthorException("id为" + authorId + "的用户不是id为" + id + "的评论的作者，无法删除");
         }
     }
 }

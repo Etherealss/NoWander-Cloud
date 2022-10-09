@@ -4,11 +4,12 @@ import com.nowander.common.core.enums.OrderType;
 import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.common.security.SecurityContextHolder;
 import com.nowander.common.security.annotation.AnonymousAccess;
-import com.nowander.discussion.domain.discussion.DiscussionEntity;
+import com.nowander.discussion.domain.discussion.DiscussionCommand;
 import com.nowander.discussion.domain.discussion.DiscussionService;
 import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -27,9 +28,15 @@ public class DiscussionController {
     private DiscussionService discussionService;
 
     @PostMapping
-    public Integer publish(@RequestBody DiscussionEntity commentEntity) {
-        return discussionService.saveDiscussion(commentEntity, SecurityContextHolder.require().getUserId());
+    public Integer publish(@RequestBody @Validated DiscussionCommand commentEntity) {
+        return discussionService.create(commentEntity, SecurityContextHolder.require().getUserId());
     }
+
+    @PutMapping("/{id}")
+    public void update(@RequestBody @Validated DiscussionCommand commentEntity, @PathVariable Integer id) {
+        discussionService.update(commentEntity, id, SecurityContextHolder.require().getUserId());
+    }
+
 
     @DeleteMapping("/{discussionId}")
     public void delete(@PathVariable("discussionId") Integer discussionId) {

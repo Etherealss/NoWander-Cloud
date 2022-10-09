@@ -5,8 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.nowander.common.database.pojo.entity.IdentifiedEntity;
 import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import com.nowander.discussion.infrastructure.enums.DiscussionType;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 评论
@@ -15,6 +18,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @TableName("discussion")
 public class DiscussionEntity extends IdentifiedEntity {
 
@@ -51,7 +55,21 @@ public class DiscussionEntity extends IdentifiedEntity {
     private DiscussionType discussionType;
 
     /**
-     *
+     * 正常为1，已删除为0
      */
     private Integer state;
+
+    public static DiscussionEntity build4Create(DiscussionCommand command, Integer userId) {
+        DiscussionEntity entity = new DiscussionEntity();
+        BeanUtils.copyProperties(command, entity);
+        entity.setAuthorId(userId);
+        entity.setState(1);
+        return entity;
+    }
+
+    public static DiscussionEntity build4Update(DiscussionCommand command, Integer userId) {
+        DiscussionEntity entity = new DiscussionEntity();
+        BeanUtils.copyProperties(command, entity);
+        return entity;
+    }
 }
