@@ -16,6 +16,7 @@
         <module>nowander-captcha</module>
         <module>nowander-oss</module>
         <module>nowander-discussion</module>
+        <module>nowander-favor</module>
     </modules>
 
     <properties>

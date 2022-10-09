@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nowander.favor.domain.favor.record.FavorRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.nowander.favor.domain.favor.record.FavorRecordEntity">
+        <id column="user_id" property="userId" />
+        <result column="target_id" property="targetId" />
+        <result column="target_type" property="targetType" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    <delete id="delete">
+        DELETE FROM like_record
+        WHERE user_id = #{favorRecord.userId}
+          AND target_id = #{favorRecord.targetId}
+          AND `target_type` = #{favorRecord.targetType};
+    </delete>
+    <select id="countFavorRecord" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM like_record
+        WHERE user_id = #{favorRecord.userId}
+          AND target_id = #{favorRecord.targetId}
+          AND `target_type` = #{favorRecord.targetType};
+    </select>
+
+</mapper>

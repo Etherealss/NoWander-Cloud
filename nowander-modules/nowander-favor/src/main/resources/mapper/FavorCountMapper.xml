@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nowander.favor.domain.favor.count.FavorCountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.nowander.favor.domain.favor.count.FavorCountEntity">
+        <id column="target_id" property="targetId" />
+        <result column="target_type" property="targetType" />
+        <result column="count" property="count" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+    <update id="getFavorCountForUpdate">
+        SELECT `count`
+        FROM `like_count`
+        WHERE target_id = #{favorCount.targetId}
+          AND target_type = #{favorCount.targetType}
+        FOR UPDATE;
+    </update>
+    <update id="updateFavorCount">
+        UPDATE `like_count`
+        SET `count` = #{favorCount.count}
+        WHERE target_id = #{favorCount.targetId}
+          AND target_type = #{favorCount.targetType};
+    </update>
+    <select id="getFavorCount" resultType="java.lang.Integer">
+        SELECT `count`
+        FROM `like_count`
+        WHERE target_id = #{favorCount.targetId}
+          AND target_type = #{favorCount.targetType};
+    </select>
+
+</mapper>
