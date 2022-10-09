@@ -9,7 +9,6 @@ import com.nowander.account.infrasturcture.token.ITokenHandler;
 import com.nowander.common.security.UserCredential;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,7 +25,6 @@ import java.util.Set;
 public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
 
     private final UserMapper userMapper;
-    private final RedisTemplate<String, Object> redisTemplate;
     private final ITokenHandler tokenHandler;
     private final LoginAuthenticatorContext loginAuthenticatorContext;
 

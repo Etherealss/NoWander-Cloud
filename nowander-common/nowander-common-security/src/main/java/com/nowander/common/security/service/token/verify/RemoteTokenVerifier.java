@@ -1,7 +1,7 @@
-package com.nowander.common.security.service.token;
+package com.nowander.common.security.service.token.verify;
 
 import com.nowander.common.security.UserCredential;
-import com.nowander.common.security.feign.UserTokenFeign;
+import com.nowander.common.security.service.token.verify.cache.UserCredentialCacheHandler;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RemoteTokenVerifier implements ITokenVerifier {
 
-    private final UserTokenFeign userTokenFeign;
+    private final UserCredentialCacheHandler userCredentialCacheHandler;
 
     @Override
     public UserCredential verifyToken(String token) {
-        return userTokenFeign.verifyToken(token);
+        return userCredentialCacheHandler.verifyAndGet(token);
     }
 }

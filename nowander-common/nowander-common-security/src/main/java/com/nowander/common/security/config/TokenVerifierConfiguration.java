@@ -1,8 +1,8 @@
 package com.nowander.common.security.config;
 
-import com.nowander.common.security.feign.UserTokenFeign;
-import com.nowander.common.security.service.token.ITokenVerifier;
-import com.nowander.common.security.service.token.RemoteTokenVerifier;
+import com.nowander.common.security.service.token.verify.ITokenVerifier;
+import com.nowander.common.security.service.token.verify.RemoteTokenVerifier;
+import com.nowander.common.security.service.token.verify.cache.UserCredentialCacheHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,7 +27,7 @@ public class TokenVerifierConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public ITokenVerifier remoteTokenVerifier(@Lazy UserTokenFeign userTokenFeign) {
+    public ITokenVerifier remoteTokenVerifier(@Lazy UserCredentialCacheHandler userTokenFeign) {
         log.info("非 account 服务，使用 RemoteTokenVerifier 验证 Token");
         return new RemoteTokenVerifier(userTokenFeign);
     }

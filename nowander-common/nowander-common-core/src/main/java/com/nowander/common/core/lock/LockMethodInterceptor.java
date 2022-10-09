@@ -35,7 +35,7 @@ public class LockMethodInterceptor {
     @Autowired
     public LockMethodInterceptor(RedisLockHelper redisLockHelper,
                                  CacheKeyGenerator cacheKeyGenerator,
-                                 @Value("${app.lock.redis.key-prefix}") String lockPrefix) {
+                                 @Value("${app.redis.lock.key-prefix}") String lockPrefix) {
         this.redisLockHelper = redisLockHelper;
         this.cacheKeyGenerator = cacheKeyGenerator;
         this.lockPrefix = lockPrefix;

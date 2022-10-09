@@ -1,4 +1,4 @@
-package com.nowander.common.security.service.token;
+package com.nowander.common.security.service.token.verify;
 
 import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.config.TokenVerifierConfiguration;

@@ -1,5 +1,6 @@
 package com.nowander.common.security;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.ServletUtil;
 import com.nowander.common.security.config.TokenConfig;
@@ -17,6 +18,7 @@ import java.util.Objects;
  */
 public class SecurityContextHolder {
     private static final ThreadLocal<UserCredential> THREAD_LOCAL = new InheritableThreadLocal<>();
+    private static final TokenConfig TOKEN_CONFIG = SpringUtil.getBean(TokenConfig.class);
 
     public static void set(UserCredential userCredential) {
         Objects.requireNonNull(userCredential.getUserId());
@@ -37,7 +39,7 @@ public class SecurityContextHolder {
     public static UserCredential require() {
         UserCredential userCredential = THREAD_LOCAL.get();
         if (userCredential == null) {
-            String token = ServletUtil.getRequest().getHeader(TokenConfig.HEADER_TOKEN);
+            String token = ServletUtil.getRequest().getHeader(TOKEN_CONFIG.getHeaderName());
             if (!StringUtils.hasText(token)) {
                 throw new TokenException(ApiInfo.TOKEN_MISSING);
             } else {
