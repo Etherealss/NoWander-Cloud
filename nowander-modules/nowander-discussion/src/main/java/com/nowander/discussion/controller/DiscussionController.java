@@ -27,8 +27,8 @@ public class DiscussionController {
     private DiscussionService discussionService;
 
     @PostMapping
-    public void publish(@RequestBody DiscussionEntity commentEntity) {
-        discussionService.save(commentEntity);
+    public Integer publish(@RequestBody DiscussionEntity commentEntity) {
+        return discussionService.saveDiscussion(commentEntity, SecurityContextHolder.require().getUserId());
     }
 
     @DeleteMapping("/{discussionId}")

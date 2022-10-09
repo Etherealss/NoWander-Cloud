@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 用于简化 IPage 接口返回给前端的数据
  * @author wtk
  * @date 2022-08-14
  */

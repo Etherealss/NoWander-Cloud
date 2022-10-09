@@ -70,6 +70,12 @@ public class DiscussionService extends ServiceImpl<DiscussionMapper, DiscussionE
         return map;
     }
 
+    public Integer saveDiscussion(DiscussionEntity entity, Integer userId) {
+        entity.setAuthorId(userId);
+        discussionMapper.insert(entity);
+        return entity.getId();
+    }
+
     public void deleteDiscussion(Integer id, Integer authorId) {
         int i = discussionMapper.deleteByIdAndAuthor(id, authorId);
         if (i == 0) {

@@ -1,6 +1,6 @@
 package com.nowander.discussion.domain.discussion;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.nowander.common.database.pojo.SimplePage;
 import lombok.Data;
 
 /**
@@ -18,5 +18,5 @@ public class DiscussionDTO {
     /**
      * 评论的回复列表
      */
-    private IPage<DiscussionEntity> replys;
+    private SimplePage<DiscussionEntity> replys;
 }

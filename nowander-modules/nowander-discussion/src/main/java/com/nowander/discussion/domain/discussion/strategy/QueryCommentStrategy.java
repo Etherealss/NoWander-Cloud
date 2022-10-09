@@ -3,6 +3,7 @@ package com.nowander.discussion.domain.discussion.strategy;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.nowander.common.database.pojo.SimplePage;
 import com.nowander.common.database.utils.PageUtil;
 import com.nowander.discussion.domain.discussion.DiscussionDTO;
 import com.nowander.discussion.domain.discussion.DiscussionEntity;
@@ -55,7 +56,7 @@ public abstract class QueryCommentStrategy extends QueryDiscussionStrategy {
             // 获取评论下的回复记录
             if (replySize > 0) {
                 IPage<DiscussionEntity> replys = getReplys(discussionEntity.getId());
-                dto.setReplys(replys);
+                dto.setReplys(new SimplePage<>(replys));
             }
             dtos.add(dto);
         }
