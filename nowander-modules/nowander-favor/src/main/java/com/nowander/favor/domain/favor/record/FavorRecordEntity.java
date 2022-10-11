@@ -30,5 +30,4 @@ public class FavorRecordEntity extends BaseEntity {
      * 点赞用户id
      */
     private Integer userId;
-
 }
