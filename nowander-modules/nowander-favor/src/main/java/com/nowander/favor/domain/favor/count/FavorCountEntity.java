@@ -19,10 +19,8 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FavorCountEntity extends BaseEntity {
-    private Integer targetId;
-
     private FavorTargetType targetType;
-
+    private Integer targetId;
     private Integer count;
 
     /**
@@ -35,5 +33,10 @@ public class FavorCountEntity extends BaseEntity {
         } else {
             count += a;
         }
+    }
+
+    public FavorCountEntity(FavorTargetType targetType, Integer targetId) {
+        this.targetType = targetType;
+        this.targetId = targetId;
     }
 }

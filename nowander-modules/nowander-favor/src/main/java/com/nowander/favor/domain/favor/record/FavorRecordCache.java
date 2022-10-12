@@ -1,6 +1,7 @@
 package com.nowander.favor.domain.favor.record;
 
 import com.nowander.favor.infrastructure.config.FavorConfig;
+import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import com.nowander.favor.infrastructure.utils.FavorKeyBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
@@ -25,17 +26,17 @@ public class FavorRecordCache {
     private final RedisTemplate<String, String> redis;
     private final FavorConfig favorConfig;
 
-    public void addBuffer(FavorRecordVO favorRecord, boolean isFavor) {
+    public void addBuffer(FavorTargetType targetType, Integer targetId, boolean isFavor) {
         redis.opsForHash().put(
                 favorConfig.getRecordBufferKey(),
-                FavorKeyBuilder.buildBufferKey(favorRecord),
+                FavorKeyBuilder.buildBufferKey(targetType, targetId),
                 isFavor ? "1" : "0"
         );
     }
 
-    public void addCache(FavorRecordEntity favorRecord, Boolean isFavor) {
+    public void addCache(FavorTargetType targetType, Integer targetId, Boolean isFavor) {
         redis.opsForValue().set(
-                FavorKeyBuilder.buildCacheKey(favorRecord, favorConfig.getRecordCacheKey()),
+                FavorKeyBuilder.buildCacheKey(favorConfig.getRecordCacheKey(), targetType, targetId),
                 isFavor ? "1" : "0",
                 Duration.ofMillis(favorConfig.getRecordCacheExpireMs())
         );
@@ -43,38 +44,34 @@ public class FavorRecordCache {
 
     /**
      * 是否已有点赞记录（与数据库的数据一致）
-     * @param favorRecord
-     * @return
      */
-    public Boolean getCacheFavor(FavorRecordVO favorRecord) {
-        String res = redis.opsForValue().get(
-                FavorKeyBuilder.buildCacheKey(favorRecord, favorConfig.getRecordCacheKey())
-        );
+    public Boolean getCacheFavor(FavorTargetType targetType, Integer targetId) {
+        String res = redis.opsForValue().get(FavorKeyBuilder.buildCacheKey(
+                favorConfig.getRecordCacheKey(), targetType, targetId
+        ));
         return "1".equals(res);
     }
 
     /**
      * 是否有点赞记录（该记录尚未持久化到数据库）
-     * @param favorRecord
-     * @return
      */
-    public Boolean getBufferFavor(FavorRecordVO favorRecord) {
+    public Boolean getBufferFavor(FavorTargetType targetType, Integer targetId) {
         return "1".equals(redis.opsForHash().get(
                 favorConfig.getRecordBufferKey(),
-                FavorKeyBuilder.buildBufferKey(favorRecord)
+                FavorKeyBuilder.buildBufferKey(targetType, targetId)
         ));
     }
 
-    public void delCacheFavor(FavorRecordVO favorRecord) {
+    public void delCacheFavor(FavorTargetType targetType, Integer targetId) {
         redis.opsForValue().getAndDelete(
-                FavorKeyBuilder.buildCacheKey(favorRecord, favorConfig.getRecordCacheKey())
+                FavorKeyBuilder.buildCacheKey(favorConfig.getRecordCacheKey(), targetType, targetId)
         );
     }
 
-    public void delBufferLike(FavorRecordVO favorRecord) {
+    public void delBufferLike(FavorTargetType targetType, Integer targetId) {
         redis.opsForHash().delete(
                 favorConfig.getRecordBufferKey(),
-                FavorKeyBuilder.buildBufferKey(favorRecord)
+                FavorKeyBuilder.buildBufferKey(targetType, targetId)
         );
     }
 

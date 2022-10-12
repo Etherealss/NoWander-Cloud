@@ -2,6 +2,7 @@ package com.nowander.favor.domain.favor.record;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,8 +15,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FavorRecordMapper extends BaseMapper<FavorRecordEntity> {
 
-    int countFavorRecord(@Param("favorRecord") FavorRecordEntity favorRecord);
+    int countFavorRecord(
+            @Param("targetType") FavorTargetType targetType,
+            @Param("targetId") Integer targetId,
+            @Param("userId") Integer userId
+    );
 
-    void delete(@Param("favorRecord") FavorRecordEntity favorRecord);
+    void delete(
+            @Param("targetType") FavorTargetType targetType,
+            @Param("targetId") Integer targetId,
+            @Param("userId") Integer userId
+    );
 
 }

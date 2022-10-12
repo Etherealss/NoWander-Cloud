@@ -1,9 +1,9 @@
 server:
-  port: 8085
+  port: 8086
 spring:
   # 项目配置
   application:
-    name: nowander-discussion
+    name: nowander-favor
   profiles:
     active: dev
   cloud:

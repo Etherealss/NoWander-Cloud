@@ -1,7 +1,7 @@
 package com.nowander.favor.domain.favor.count;
 
-import com.nowander.favor.domain.favor.record.FavorRecordEntity;
 import com.nowander.favor.infrastructure.config.FavorConfig;
+import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import com.nowander.favor.infrastructure.utils.FavorKeyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
@@ -31,21 +31,21 @@ public class FavorCountCache {
     /**
      * 增加某个目标的点赞数
      */
-    public void increBufferFavor(FavorRecordEntity favorRecord, Boolean isLike) {
+    public void increBufferFavor(FavorTargetType targetType, Integer targetId, Boolean isFavor) {
         hash.increment(
                 favorConfig.getCountBufferKey(),
-                FavorKeyBuilder.buildBufferKey(favorRecord),
-                isLike ? 1L : -1L
+                FavorKeyBuilder.buildBufferKey(targetType, targetId),
+                isFavor ? 1L : -1L
         );
     }
 
     /**
      * 缓存某个目标的点赞数
      */
-    public void setCacheCount(FavorCountEntity favorCount) {
+    public void setCacheCount(FavorTargetType targetType, Integer targetId, int count) {
         redis.opsForValue().set(
-                FavorKeyBuilder.buildCacheKey(favorCount, favorConfig.getCountCacheKey()),
-                favorCount.getCount(),
+                FavorKeyBuilder.buildCacheKey(favorConfig.getCountCacheKey(), targetType, targetId),
+                count,
                 favorConfig.getCountCacheExpireMs()
         );
     }
@@ -53,19 +53,19 @@ public class FavorCountCache {
     /**
      * 获取某个目标的点赞数缓存
      */
-    public Integer getFavorCache(FavorCountEntity entity) {
+    public Integer getFavorCount(FavorTargetType targetType, Integer targetId) {
         return redis.opsForValue().get(
-                FavorKeyBuilder.buildCacheKey(entity, favorConfig.getCountCacheKey())
+                FavorKeyBuilder.buildCacheKey(favorConfig.getCountCacheKey(), targetType, targetId)
         );
     }
 
     /**
      * 获取某个目标的新增点赞数缓存
      */
-    public Integer getBufferFavorCount(FavorCountEntity favorCount) {
+    public Integer getBufferFavorCount(FavorTargetType targetType, Integer targetId) {
         return hash.get(
                 favorConfig.getCountBufferKey(),
-                FavorKeyBuilder.buildBufferKey(favorCount)
+                FavorKeyBuilder.buildBufferKey(targetType, targetId)
         );
     }
 
