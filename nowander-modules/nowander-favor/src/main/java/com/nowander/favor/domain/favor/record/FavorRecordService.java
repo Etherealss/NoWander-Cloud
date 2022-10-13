@@ -21,7 +21,7 @@ public class FavorRecordService {
     private final FavorRecordMapper favorRecordMapper;
     private final FavorRecordCache favorRecordCache;
 
-    @CacheLock(key = ":#{command.getTargetType().getCode() + ':' + command.getTargetId() + ':' + userId}")
+    @CacheLock(key = "':' + #targetType.code + ':' + #targetId + ':' + #userId")
     @Transactional(rollbackFor = Exception.class)
     public void addFavor(FavorTargetType targetType, Integer targetId, Integer userId) {
         boolean hasFavor = this.checkHasFavor(targetType, targetId, userId);

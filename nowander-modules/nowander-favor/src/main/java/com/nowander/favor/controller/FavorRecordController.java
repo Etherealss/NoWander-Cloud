@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @ResponseAdvice
-@RequestMapping("/likes/records")
+@RequestMapping("/favors/records")
 @AllArgsConstructor
 public class FavorRecordController {
 

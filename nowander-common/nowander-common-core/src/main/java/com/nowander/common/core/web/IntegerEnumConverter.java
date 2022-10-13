@@ -9,22 +9,22 @@ import org.springframework.core.convert.converter.ConverterFactory;
  * @author wtk
  * @date 2022-04-24
  */
-public class IntegerEnumConverter implements ConverterFactory<Integer, BaseEnum> {
+public class IntegerEnumConverter implements ConverterFactory<String, BaseEnum> {
     @Override
-    public <T extends BaseEnum> Converter<Integer, T> getConverter(Class<T> targetType) {
-        return new StringToEnumConverter<>(targetType);
+    public <T extends BaseEnum> Converter<String, T> getConverter(Class<T> targetType) {
+        return new IntegerToEnumConverter<>(targetType);
     }
 
-    public static class StringToEnumConverter<T extends BaseEnum> implements Converter<Integer, T> {
+    public static class IntegerToEnumConverter<T extends BaseEnum> implements Converter<String, T> {
         private final Class<T> targetType;
 
-        public StringToEnumConverter(Class<T> targetType) {
+        public IntegerToEnumConverter(Class<T> targetType) {
             this.targetType = targetType;
         }
 
         @Override
-        public T convert(Integer source) {
-            return BaseEnum.fromCode(targetType, source);
+        public T convert(String source) {
+            return BaseEnum.fromCode(targetType, Integer.parseInt(source));
         }
     }
 }

@@ -46,7 +46,7 @@ public class LockMethodInterceptor {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         CacheLock lock = method.getAnnotation(CacheLock.class);
-        if (StringUtils.hasText(lock.key())) {
+        if (!StringUtils.hasText(lock.key())) {
             log.error("@CacheLock 指定的key不能为空");
             throw new RuntimeException("cache lock key should not be empty");
         }

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-01-28
  */
 @RestController
-@RequestMapping("/likes/counts")
+@RequestMapping("/favors/counts")
 @ResponseAdvice
 @Slf4j
 @AllArgsConstructor

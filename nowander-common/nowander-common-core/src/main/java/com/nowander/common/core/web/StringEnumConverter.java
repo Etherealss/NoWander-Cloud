@@ -3,14 +3,12 @@ package com.nowander.common.core.web;
 import com.nowander.common.core.enums.BaseEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * 将Controller中的将参数转为对应的BaseEnum
  * @author wtk
  * @date 2022-04-24
  */
-@Component
 public class StringEnumConverter implements ConverterFactory<String, BaseEnum> {
     @Override
     public <T extends BaseEnum> Converter<String, T> getConverter(Class<T> targetType) {

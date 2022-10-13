@@ -66,9 +66,9 @@ public class SpELParserUtils {
             //获取表达式的值
             return expression.getValue(context, clz);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
-        return null;
     }
 
     /**
@@ -79,7 +79,9 @@ public class SpELParserUtils {
     private static Expression parseExpression(String spelExpression) {
         // 如果表达式是一个#{}表达式，需要为解析传入模板解析器上下文
         if (spelExpression.startsWith(EXPRESSION_PREFIX) && spelExpression.endsWith(EXPRESSION_SUFFIX)) {
-            return SPEL_EXPRESSION_PARSER.parseExpression(spelExpression, new TemplateParserContext());
+//            return SPEL_EXPRESSION_PARSER.parseExpression(spelExpression, new TemplateParserContext());
+            return SPEL_EXPRESSION_PARSER.parseExpression(spelExpression);
+
         }
 
         return SPEL_EXPRESSION_PARSER.parseExpression(spelExpression);
