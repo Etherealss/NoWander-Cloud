@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.UUID;
 
 /**
@@ -39,7 +40,7 @@ public class ServerPreAuthHandler implements IPreAuthHandler {
         UUID curServerId = serverTokenConfig.getServerId();
         boolean accessible = requestServer.getAccessibleServiceIds().contains(curServerId);
         if (!accessible) {
-            String reason = String.format(
+            String reason = MessageFormat.format(
                     "请求认证不通过：请求方没有访问当前服务的权限。请求方id：{}，当前服务id：{}",
                     requestServer.getServerId(),
                     curServerId
