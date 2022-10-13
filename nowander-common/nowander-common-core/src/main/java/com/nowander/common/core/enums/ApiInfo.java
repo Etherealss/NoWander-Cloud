@@ -48,8 +48,8 @@ public enum ApiInfo implements ApiInfoGetter {
     USER_TOKEN_INVALID(400402, "[用户token无效或已过期]"),
     SERVER_TOKEN_MISSING(400401, "[服务token缺失]"),
     SERVER_TOKEN_INVALID(400402, "[服务token无效或已过期]"),
-    NOT_PERMISSION(HttpStatus.FORBIDDEN, 1001, "[没有权限访问]"),
-    NOT_ROLE(HttpStatus.FORBIDDEN, 1002, "[没有权限访问]"),
+    NOT_PERMISSION(HttpStatus.FORBIDDEN, 1001, "[没有访问权限]"),
+    NOT_ROLE(HttpStatus.FORBIDDEN, 1002, "[非可访问角色]"),
 
     LIKE_DUPLICATE(4000501, "重复点赞或取消");
 

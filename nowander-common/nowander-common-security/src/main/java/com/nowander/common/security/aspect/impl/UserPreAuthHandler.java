@@ -2,6 +2,7 @@ package com.nowander.common.security.aspect.impl;
 
 import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.security.annotation.AnonymousAccess;
+import com.nowander.common.security.annotation.InternalAuth;
 import com.nowander.common.security.annotation.RequiresPermissions;
 import com.nowander.common.security.annotation.RequiresRoles;
 import com.nowander.common.security.aspect.IPreAuthHandler;
@@ -24,12 +25,12 @@ public class UserPreAuthHandler implements IPreAuthHandler {
 
     @Override
     public boolean checkNeedAuth(Method method) {
-        AnonymousAccess anonymousAccess = method.getAnnotation(AnonymousAccess.class);
-        if (anonymousAccess == null) {
-            return true;
+        if (method.getAnnotation(AnonymousAccess.class) == null
+                || method.getAnnotation(InternalAuth.class) != null) {
+            log.debug("匿名访问接口，无需检验");
+            return false;
         }
-        log.debug("匿名访问接口，无需检验");
-        return false;
+        return true;
     }
 
     @Override

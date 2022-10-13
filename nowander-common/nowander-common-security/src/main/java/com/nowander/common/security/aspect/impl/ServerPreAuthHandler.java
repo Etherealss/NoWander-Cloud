@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.UUID;
 
 /**
@@ -23,15 +22,15 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class ServerPreAuthHandler implements IPreAuthHandler {
-    private ServerTokenConfig serverTokenConfig;
+    private final ServerTokenConfig serverTokenConfig;
     @Override
     public boolean checkNeedAuth(Method method) {
         InternalAuth internalAuth = method.getAnnotation(InternalAuth.class);
         if (internalAuth == null) {
-            return true;
+            log.debug("非服务内部请求，无需检验");
+            return false;
         }
-        log.debug("非服务内部请求，无需检验");
-        return false;
+        return true;
     }
 
     @Override
@@ -40,10 +39,10 @@ public class ServerPreAuthHandler implements IPreAuthHandler {
         UUID curServerId = serverTokenConfig.getServerId();
         boolean accessible = requestServer.getAccessibleServiceIds().contains(curServerId);
         if (!accessible) {
-            String reason = MessageFormat.format(
-                    "请求认证不通过：请求方没有访问当前服务的权限。请求方id：{}，当前服务id：{}",
-                    requestServer.getServerId(),
-                    curServerId
+            String reason = String.format(
+                    "请求认证不通过：请求方没有访问当前服务的权限。请求方id：%s，当前服务id：%s",
+                    requestServer.getServerId().toString(),
+                    curServerId.toString()
             );
             log.debug(reason);
             throw new AuthenticationException(ApiInfo.NOT_PERMISSION, reason);

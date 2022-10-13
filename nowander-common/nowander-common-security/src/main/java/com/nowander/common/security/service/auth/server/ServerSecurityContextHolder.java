@@ -23,8 +23,8 @@ public class ServerSecurityContextHolder {
     public static void set(ServerCredential credential) {
         Objects.requireNonNull(credential.getServerId());
         Objects.requireNonNull(credential.getServerName());
-        Objects.requireNonNull(credential.getToken());
-        Objects.requireNonNull(credential.getRefreshToken());
+//        Objects.requireNonNull(credential.getToken());
+//        Objects.requireNonNull(credential.getRefreshToken());
         Objects.requireNonNull(credential.getAccessibleServiceIds());
         CREDENTIALS.set(credential);
     }
@@ -51,6 +51,4 @@ public class ServerSecurityContextHolder {
     public static void remove() {
         CREDENTIALS.remove();
     }
-
-
 }
