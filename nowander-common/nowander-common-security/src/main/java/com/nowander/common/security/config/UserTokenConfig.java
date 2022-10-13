@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022-10-08
  */
 @Configuration
-@ConfigurationProperties("app.token")
+@ConfigurationProperties("app.token.user")
 @RefreshScope
 @Getter
 @Setter
-public class TokenConfig {
+public class UserTokenConfig {
     private String headerName;
     private String cacheKey;
 }

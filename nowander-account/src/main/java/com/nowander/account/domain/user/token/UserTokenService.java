@@ -6,7 +6,7 @@ import com.nowander.account.domain.user.UserMapper;
 import com.nowander.account.domain.user.token.login.LoginAuthenticatorContext;
 import com.nowander.account.domain.user.token.login.UserLoginCommand;
 import com.nowander.account.infrasturcture.token.ITokenHandler;
-import com.nowander.common.security.UserCredential;
+import com.nowander.common.security.service.auth.user.UserCredential;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,6 +46,6 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
     }
 
     public UserCredential verify(String token) {
-        return tokenHandler.verifyToken(token);
+        return tokenHandler.verifyToken(token, UserCredential.class);
     }
 }

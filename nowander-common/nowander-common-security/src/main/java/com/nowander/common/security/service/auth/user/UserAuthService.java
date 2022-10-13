@@ -1,7 +1,5 @@
-package com.nowander.common.security.service.auth;
+package com.nowander.common.security.service.auth.user;
 
-import com.nowander.common.security.SecurityContextHolder;
-import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.annotation.RequiresPermissions;
 import com.nowander.common.security.annotation.RequiresRoles;
 import com.nowander.common.security.config.AuthConstants;
@@ -22,10 +20,10 @@ import java.util.Set;
  */
 @Component
 @Slf4j
-public class AuthService {
+public class UserAuthService {
 
     public UserCredential requireToken() {
-        return SecurityContextHolder.require();
+        return UserSecurityContextHolder.require();
     }
 
     /**
@@ -116,7 +114,7 @@ public class AuthService {
      * @return 权限列表
      */
     public Set<String> getPermiList() {
-        UserCredential loginUser = SecurityContextHolder.get();
+        UserCredential loginUser = UserSecurityContextHolder.require();
         return loginUser.getPermissions();
     }
 
@@ -125,7 +123,7 @@ public class AuthService {
      * @return 角色列表
      */
     public Set<String> getRoleList() {
-        UserCredential loginUser = SecurityContextHolder.get();
+        UserCredential loginUser = UserSecurityContextHolder.require();
         return loginUser.getRoles();
     }
 

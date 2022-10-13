@@ -2,7 +2,7 @@ package com.nowander.favor.controller;
 
 
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.SecurityContextHolder;
+import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.favor.application.FavorApplicationService;
 import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class FavorRecordController {
     @PostMapping("/{targetType}/{targetId}")
     public void addFavor(@PathVariable("targetType") FavorTargetType targetType,
                        @PathVariable("targetId") Integer targetId) {
-        favorApplicationService.addFavor(targetType, targetId, SecurityContextHolder.require().getUserId());
+        favorApplicationService.addFavor(targetType, targetId, UserSecurityContextHolder.require().getUserId());
     }
 
     /**
@@ -41,7 +41,7 @@ public class FavorRecordController {
     @DeleteMapping("/{targetType}/{targetId}")
     public void delFavor(@PathVariable("targetType") FavorTargetType targetType,
                        @PathVariable("targetId") Integer targetId) {
-        favorApplicationService.addFavor(targetType, targetId, SecurityContextHolder.require().getUserId());
+        favorApplicationService.addFavor(targetType, targetId, UserSecurityContextHolder.require().getUserId());
     }
 
     /**
@@ -52,7 +52,7 @@ public class FavorRecordController {
     public Boolean checkHasLike(@PathVariable("targetType") FavorTargetType targetType,
                                 @PathVariable("targetId") Integer targetId) {
         return favorApplicationService.checkHasFavor(
-                targetType, targetId, SecurityContextHolder.require().getUserId()
+                targetType, targetId, UserSecurityContextHolder.require().getUserId()
         );
     }
 }

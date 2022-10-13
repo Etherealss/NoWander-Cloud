@@ -1,11 +1,14 @@
 package com.nowander.common.security.interceptor;
 
 import com.nowander.common.core.interceptor.ConfigHandlerInterceptor;
-import com.nowander.common.security.SecurityContextHolder;
-import com.nowander.common.security.UserCredential;
-import com.nowander.common.security.config.TokenConfig;
+import com.nowander.common.security.service.auth.server.ServerSecurityContextHolder;
+import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
+import com.nowander.common.security.service.auth.server.ServerCredential;
+import com.nowander.common.security.service.auth.user.UserCredential;
+import com.nowander.common.security.config.ServerTokenConfig;
+import com.nowander.common.security.config.UserTokenConfig;
 import com.nowander.common.security.exception.TokenException;
-import com.nowander.common.security.service.token.verify.ITokenVerifier;
+import com.nowander.common.security.service.auth.ITokenVerifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -26,28 +29,44 @@ import javax.servlet.http.HttpServletResponse;
 public class HeaderInterceptor implements ConfigHandlerInterceptor {
 
     private final ITokenVerifier tokenVerifier;
-    private final TokenConfig tokenConfig;
+    private final UserTokenConfig userTokenConfig;
+    private final ServerTokenConfig serverTokenConfig;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
+        setUserToken(request);
+        setServerToken(request);
+        return true;
+    }
 
-        String token = request.getHeader(tokenConfig.getHeaderName());
-        if (StringUtils.hasText(token)) {
+    private void setUserToken(HttpServletRequest request) {
+        String userToken = request.getHeader(userTokenConfig.getHeaderName());
+        if (StringUtils.hasText(userToken)) {
             try {
-                UserCredential userCredential = tokenVerifier.verifyToken(token);
-                SecurityContextHolder.set(userCredential);
+                UserCredential userCredential = tokenVerifier.verifyToken(userToken, UserCredential.class);
+                UserSecurityContextHolder.set(userCredential);
             } catch (TokenException ignored) {}
         }
-        return true;
+    }
+
+    private void setServerToken(HttpServletRequest request) {
+        String serverToken = request.getHeader(serverTokenConfig.getHeaderName());
+        if (StringUtils.hasText(serverToken)) {
+            try {
+                ServerCredential userCredential = tokenVerifier.verifyToken(serverToken, ServerCredential.class);
+                ServerSecurityContextHolder.set(userCredential);
+            } catch (TokenException ignored) {}
+        }
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-        SecurityContextHolder.remove();
+        UserSecurityContextHolder.remove();
+        ServerSecurityContextHolder.remove();
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.nowander.account.infrasturcture.token;
 
-import com.nowander.common.security.UserCredential;
-import com.nowander.common.security.service.token.verify.ITokenVerifier;
-import com.nowander.common.security.service.token.verify.RemoteTokenVerifier;
+import com.nowander.common.security.service.auth.Credential;
+import com.nowander.common.security.service.auth.ITokenVerifier;
+import com.nowander.common.security.service.auth.RemoteTokenVerifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class LocalTokenVerifier implements ITokenVerifier {
     private final ITokenHandler tokenHandler;
 
     @Override
-    public UserCredential verifyToken(String token) {
-        return tokenHandler.verifyToken(token);
+    public <T extends Credential> T verifyToken(String token, Class<T> credentialType) {
+        return tokenHandler.verifyToken(token, credentialType);
     }
 }

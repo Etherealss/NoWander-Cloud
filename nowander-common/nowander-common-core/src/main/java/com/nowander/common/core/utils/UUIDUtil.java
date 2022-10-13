@@ -7,11 +7,15 @@ import java.util.UUID;
  * @date 2021-11-01
  */
 public class UUIDUtil {
-    public static String getUuidString() {
+    /**
+     * 获取简洁的uuid 去掉了“-”
+     * @return
+     */
+    public static String getConcise() {
         return UUID.randomUUID().toString().replace("-", "");
     }
 
-    public static UUID getUuid() {
+    public static UUID get() {
         return UUID.randomUUID();
     }
 }

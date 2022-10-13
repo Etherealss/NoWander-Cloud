@@ -1,11 +1,11 @@
 package com.nowander.account.infrasturcture.token;
 
 import com.nowander.account.infrasturcture.config.UserRefreshTokenCacheConfig;
+import com.nowander.account.infrasturcture.config.UserTokenCacheConfig;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.UUIDUtil;
-import com.nowander.common.security.UserCredential;
-import com.nowander.account.infrasturcture.config.UserTokenCacheConfig;
 import com.nowander.common.security.exception.TokenException;
+import com.nowander.common.security.service.auth.Credential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,23 +18,24 @@ import java.util.UUID;
  * @author wtk
  * @date 2022-08-30
  */
+@SuppressWarnings("unchecked")
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class RedisTokenHandlerImpl implements ITokenHandler {
 
-    private final RedisTemplate<String, UserCredential> redisTemplate;
+    private final RedisTemplate<String, Credential> redisTemplate;
     private final UserTokenCacheConfig tokenCacheConfig;
     private final UserRefreshTokenCacheConfig refreshTokenCacheConfig;
 
     @Override
-    public void createToken(UserCredential userCredential) {
-        UUID token = UUIDUtil.getUuid();
+    public void createToken(Credential userCredential) {
+        UUID token = UUIDUtil.get();
         userCredential.setToken(token.toString());
         Date tokenExpireAt = new Date(tokenCacheConfig.getExpireMs() + System.currentTimeMillis());
         userCredential.setTokenExpireAt(tokenExpireAt);
 
-        UUID refreshToken = UUIDUtil.getUuid();
+        UUID refreshToken = UUIDUtil.get();
         userCredential.setRefreshToken(refreshToken.toString());
         Date refreshExpireAt = new Date(refreshTokenCacheConfig.getExpireMs() + System.currentTimeMillis());
         userCredential.setRefreshTokenExpireAt(refreshExpireAt);
@@ -49,32 +50,32 @@ public class RedisTokenHandlerImpl implements ITokenHandler {
     }
 
     @Override
-    public UserCredential verifyToken(String token) {
-        UserCredential credential = redisTemplate.opsForValue().get(tokenKey(token));
-        if (credential == null) {
-            throw new TokenException(ApiInfo.TOKEN_INVALID);
+    public <T extends Credential> T verifyToken(String token, Class<T> credentialType) {
+        Credential credential = redisTemplate.opsForValue().get(tokenKey(token));
+        if (credential == null || credential.getClass() != credentialType) {
+            throw new TokenException(ApiInfo.USER_TOKEN_INVALID);
         }
-        return credential;
+        return (T) credential;
     }
 
     @Override
-    public UserCredential verifyRefreshToken(String refreshToken) {
+    public <T extends Credential> T verifyRefreshToken(String refreshToken, Class<T> credentialType) {
         String key = refreshTokenKey(refreshToken);
-        UserCredential credential = redisTemplate.opsForValue().get(key);
-        if (credential == null) {
-            throw new TokenException(ApiInfo.TOKEN_INVALID);
+        Credential credential = redisTemplate.opsForValue().get(key);
+        if (credential == null || credential.getClass() != credentialType) {
+            throw new TokenException(ApiInfo.USER_TOKEN_INVALID);
         }
-        return credential;
+        return (T) credential;
     }
 
     @Override
-    public UserCredential refreshToken(String refreshToken) {
+    public <T extends Credential> T refreshToken(String refreshToken, Class<T> credentialType) {
         String key = refreshTokenKey(refreshToken);
-        UserCredential credential = verifyRefreshToken(refreshToken);
+        Credential credential = this.verifyRefreshToken(refreshToken, credentialType);
         redisTemplate.delete(tokenKey(credential.getToken()));
         redisTemplate.delete(refreshTokenKey(credential.getRefreshToken()));
         createToken(credential);
-        return credential;
+        return (T) credential;
     }
 
     private String tokenKey(String token) {

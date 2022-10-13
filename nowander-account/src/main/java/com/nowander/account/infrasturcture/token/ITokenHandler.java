@@ -1,6 +1,6 @@
 package com.nowander.account.infrasturcture.token;
 
-import com.nowander.common.security.UserCredential;
+import com.nowander.common.security.service.auth.Credential;
 
 /**
  * @author wtk
@@ -8,13 +8,13 @@ import com.nowander.common.security.UserCredential;
  */
 public interface ITokenHandler {
 
-    void createToken(UserCredential userCredential);
+    void createToken(Credential userCredential);
 
     // TODO updateUserCredential 在用户权限更新时修改token权限缓存
 
-    UserCredential verifyToken(String token);
+    <T extends Credential> T verifyToken(String token, Class<T> credentialType);
 
-    UserCredential verifyRefreshToken(String refreshToken);
+    <T extends Credential> T verifyRefreshToken(String refreshToken, Class<T> credentialType);
 
-    UserCredential refreshToken(String refreshToken);
+    <T extends Credential> T  refreshToken(String refreshToken, Class<T> credentialType);
 }

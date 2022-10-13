@@ -2,7 +2,7 @@ package com.nowander.discussion.controller;
 
 import com.nowander.common.core.enums.OrderType;
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.SecurityContextHolder;
+import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.discussion.domain.discussion.DiscussionCommand;
 import com.nowander.discussion.domain.discussion.DiscussionEntity;
@@ -30,7 +30,7 @@ public class DiscussionController {
 
     @PostMapping
     public Integer publish(@RequestBody @Validated DiscussionCommand commentEntity) {
-        return discussionService.create(commentEntity, SecurityContextHolder.require().getUserId());
+        return discussionService.create(commentEntity, UserSecurityContextHolder.require().getUserId());
     }
 
     @AnonymousAccess
@@ -41,13 +41,13 @@ public class DiscussionController {
 
     @PutMapping("/{id}")
     public void update(@RequestBody @Validated DiscussionCommand commentEntity, @PathVariable Integer id) {
-        discussionService.update(commentEntity, id, SecurityContextHolder.require().getUserId());
+        discussionService.update(commentEntity, id, UserSecurityContextHolder.require().getUserId());
     }
 
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id) {
-        discussionService.deleteDiscussion(id, SecurityContextHolder.require().getUserId());
+        discussionService.deleteDiscussion(id, UserSecurityContextHolder.require().getUserId());
     }
 
     /**

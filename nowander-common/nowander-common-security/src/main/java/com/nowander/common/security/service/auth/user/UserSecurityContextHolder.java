@@ -1,9 +1,9 @@
-package com.nowander.common.security;
+package com.nowander.common.security.service.auth.user;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.ServletUtil;
-import com.nowander.common.security.config.TokenConfig;
+import com.nowander.common.security.config.UserTokenConfig;
 import com.nowander.common.security.exception.TokenException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -16,9 +16,9 @@ import java.util.Objects;
  * @author wtk
  * @date 2022-08-30
  */
-public class SecurityContextHolder {
-    private static final ThreadLocal<UserCredential> THREAD_LOCAL = new InheritableThreadLocal<>();
-    private static final TokenConfig TOKEN_CONFIG = SpringUtil.getBean(TokenConfig.class);
+public class UserSecurityContextHolder {
+    private static final ThreadLocal<UserCredential> USER_CREDENTIALS = new InheritableThreadLocal<>();
+    private static final UserTokenConfig TOKEN_CONFIG = SpringUtil.getBean(UserTokenConfig.class);
 
     public static void set(UserCredential userCredential) {
         Objects.requireNonNull(userCredential.getUserId());
@@ -27,29 +27,31 @@ public class SecurityContextHolder {
         Objects.requireNonNull(userCredential.getRefreshToken());
         Objects.requireNonNull(userCredential.getPermissions());
         Objects.requireNonNull(userCredential.getRoles());
-        THREAD_LOCAL.set(userCredential);
+        USER_CREDENTIALS.set(userCredential);
     }
 
     @Nullable
     public static UserCredential get() {
-        return THREAD_LOCAL.get();
+        return USER_CREDENTIALS.get();
     }
 
     @NonNull
     public static UserCredential require() {
-        UserCredential userCredential = THREAD_LOCAL.get();
+        UserCredential userCredential = USER_CREDENTIALS.get();
         if (userCredential == null) {
             String token = ServletUtil.getRequest().getHeader(TOKEN_CONFIG.getHeaderName());
             if (!StringUtils.hasText(token)) {
-                throw new TokenException(ApiInfo.TOKEN_MISSING);
+                throw new TokenException(ApiInfo.USER_TOKEN_MISSING);
             } else {
-                throw new TokenException(ApiInfo.TOKEN_INVALID);
+                throw new TokenException(ApiInfo.USER_TOKEN_INVALID);
             }
         }
         return userCredential;
     }
 
     public static void remove() {
-        THREAD_LOCAL.remove();
+        USER_CREDENTIALS.remove();
     }
+
+
 }

@@ -1,5 +1,6 @@
-package com.nowander.common.security;
+package com.nowander.common.security.service.auth.user;
 
+import com.nowander.common.security.service.auth.Credential;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,25 +16,11 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCredential {
+public class UserCredential extends Credential {
 
     Integer userId;
 
     String username;
-
-    String token;
-
-    String refreshToken;
-
-    /**
-     * token 过期时间
-     */
-    Date tokenExpireAt;
-
-    /**
-     * refreshToken 过期时间
-     */
-    Date refreshTokenExpireAt;
 
     /**
      * 登录时间

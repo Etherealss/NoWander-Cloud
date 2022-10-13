@@ -44,9 +44,10 @@ public enum ApiInfo implements ApiInfoGetter {
     CAPTCHA_INVALID(400303, "[验证码无效或已过期]"),
     CAPTCHA_ERROR(400304, "[验证码异常]"),
 
-    TOKEN_MISSING(400401, "[token缺失]"),
-    TOKEN_INVALID(400402, "[token无效或已过期]"),
-
+    USER_TOKEN_MISSING(400401, "[用户token缺失]"),
+    USER_TOKEN_INVALID(400402, "[用户token无效或已过期]"),
+    SERVER_TOKEN_MISSING(400401, "[服务token缺失]"),
+    SERVER_TOKEN_INVALID(400402, "[服务token无效或已过期]"),
     NOT_PERMISSION(HttpStatus.FORBIDDEN, 1001, "[没有权限访问]"),
     NOT_ROLE(HttpStatus.FORBIDDEN, 1002, "[没有权限访问]"),
 

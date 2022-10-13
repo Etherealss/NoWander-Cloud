@@ -3,7 +3,7 @@ package com.nowander.account.controller;
 import com.nowander.account.domain.user.token.UserTokenService;
 import com.nowander.account.domain.user.token.login.UserLoginCommand;
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.UserCredential;
+import com.nowander.common.security.service.auth.user.UserCredential;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

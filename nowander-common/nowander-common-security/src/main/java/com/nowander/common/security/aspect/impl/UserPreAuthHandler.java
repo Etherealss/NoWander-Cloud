@@ -1,11 +1,14 @@
-package com.nowander.common.security.aspect;
+package com.nowander.common.security.aspect.impl;
 
 import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.annotation.RequiresPermissions;
 import com.nowander.common.security.annotation.RequiresRoles;
-import com.nowander.common.security.service.auth.AuthService;
+import com.nowander.common.security.aspect.IPreAuthHandler;
+import com.nowander.common.security.service.auth.user.UserAuthService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -14,12 +17,10 @@ import java.lang.reflect.Method;
  * @date 2022-10-07
  */
 @Slf4j
-public class DefaultPreAuthHandler implements IPreAuthHandler {
-    private final AuthService authService;
-
-    public DefaultPreAuthHandler(AuthService authService) {
-        this.authService = authService;
-    }
+@Component
+@RequiredArgsConstructor
+public class UserPreAuthHandler implements IPreAuthHandler {
+    private final UserAuthService userAuthService;
 
     @Override
     public boolean checkNeedAuth(Method method) {
@@ -36,16 +37,16 @@ public class DefaultPreAuthHandler implements IPreAuthHandler {
         RequiresRoles requiresRoles = method.getAnnotation(RequiresRoles.class);
         RequiresPermissions requiresPermissions = method.getAnnotation(RequiresPermissions.class);
         try {
-            authService.requireToken();
+            userAuthService.requireToken();
 
             // 校验 @RequiresRoles 注解
             if (requiresRoles != null) {
-                authService.checkRole(requiresRoles);
+                userAuthService.checkRole(requiresRoles);
             }
 
             // 校验 @RequiresPermissions 注解
             if (requiresPermissions != null) {
-                authService.checkPermi(requiresPermissions);
+                userAuthService.checkPermi(requiresPermissions);
             }
         } catch (AuthenticationException e) {
             log.debug("请求认证不通过：{}", e.getMessage());

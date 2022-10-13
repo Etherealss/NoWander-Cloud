@@ -47,7 +47,7 @@ public class CaptchaController {
      */
     @PostMapping("/base64")
     public Msg<Map<String, String>> captcha4Base64(HttpServletResponse response) {
-        String uuid = UUIDUtil.getUuid().toString();
+        String uuid = UUIDUtil.get().toString();
         String imageBase64 = captchaService.getAndCacheCaptcha(uuid).getImageBase64();
         Map<String, String> data = new HashMap<>(4);
         data.put("image", imageBase64);

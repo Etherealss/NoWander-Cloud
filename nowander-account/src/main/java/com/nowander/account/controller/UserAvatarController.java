@@ -3,7 +3,7 @@ package com.nowander.account.controller;
 import com.nowander.account.domain.user.avatar.AvatarService;
 import com.nowander.account.infrasturcture.feign.file.FileUploadDTO;
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.SecurityContextHolder;
+import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class UserAvatarController {
 
     @PostMapping
     public FileUploadDTO upload(@RequestParam("avatarFile") MultipartFile avatarFile) {
-        Integer userId = SecurityContextHolder.require().getUserId();
+        Integer userId = UserSecurityContextHolder.require().getUserId();
         return avatarService.uploadAvatar(avatarFile, userId);
     }
 }

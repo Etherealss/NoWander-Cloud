@@ -1,6 +1,6 @@
 package com.nowander.common.security.feign;
 
-import com.nowander.common.security.UserCredential;
+import com.nowander.common.security.service.auth.user.UserCredential;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

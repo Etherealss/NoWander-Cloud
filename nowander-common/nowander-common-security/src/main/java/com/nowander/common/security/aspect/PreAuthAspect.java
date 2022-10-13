@@ -10,6 +10,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author wtk
@@ -33,7 +34,7 @@ public class PreAuthAspect {
 
     public static final String POINTCUR_CONTROLLER = "execution(* com.nowander..controller..*.*(..))";
 
-    private final IPreAuthHandler preAuthHandler;
+    private final List<IPreAuthHandler> preAuthHandlers;
     /**
      * AOP签名
      */
@@ -51,8 +52,10 @@ public class PreAuthAspect {
         // 注解鉴权
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        if (preAuthHandler.checkNeedAuth(method)) {
-            preAuthHandler.doAuth(method);
+        for (IPreAuthHandler preAuthHandler : preAuthHandlers) {
+            if (preAuthHandler.checkNeedAuth(method)) {
+                preAuthHandler.doAuth(method);
+            }
         }
         // 执行原有逻辑
         return joinPoint.proceed();

@@ -1,6 +1,5 @@
-package com.nowander.common.security.service.token.verify;
+package com.nowander.common.security.service.auth;
 
-import com.nowander.common.security.UserCredential;
 import com.nowander.common.security.config.TokenVerifierConfiguration;
 
 /**
@@ -12,5 +11,5 @@ import com.nowander.common.security.config.TokenVerifierConfiguration;
  * @date 2022-10-08
  */
 public interface ITokenVerifier {
-    UserCredential verifyToken(String token);
+    <T extends Credential> T verifyToken(String token, Class<T> credentialType);
 }
