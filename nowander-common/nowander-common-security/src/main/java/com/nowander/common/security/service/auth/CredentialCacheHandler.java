@@ -15,6 +15,7 @@ import java.util.Date;
  * @author wtk
  * @date 2022-10-09
  */
+@SuppressWarnings("unchecked")
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -31,7 +32,7 @@ public class CredentialCacheHandler {
         if (credential != null && credential.getClass() == credentialType) {
             return (T) credential;
         }
-        if (credential.getClass() == UserCredential.class) {
+        if (credentialType == UserCredential.class) {
             credential = userTokenFeign.verifyToken(token);
         } else {
             credential = serverTokenFeign.verifyToken(token);

@@ -22,5 +22,7 @@ public interface ServerTokenFeign {
         ServerCredential credential = new ServerCredential();
         credential.setServerId(UUIDUtil.get());
         credential.setServerName("nowander-forum");
+
+        return credential;
     }
 }
