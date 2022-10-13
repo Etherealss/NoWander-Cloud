@@ -33,6 +33,11 @@ public class FavorRecordController {
         favorApplicationService.addFavor(targetType, targetId, SecurityContextHolder.require().getUserId());
     }
 
+    /**
+     * 取消
+     * @param targetType
+     * @param targetId
+     */
     @DeleteMapping("/{targetType}/{targetId}")
     public void delFavor(@PathVariable("targetType") FavorTargetType targetType,
                        @PathVariable("targetId") Integer targetId) {

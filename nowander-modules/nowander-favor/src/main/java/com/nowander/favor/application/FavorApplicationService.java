@@ -21,14 +21,12 @@ public class FavorApplicationService {
 
     @Transactional(rollbackFor = Exception.class)
     public void addFavor(FavorTargetType targetType, Integer targetId, Integer userId) {
-        // TODO 检查目标是否存在 并缓存
         recordService.addFavor(targetType, targetId, userId);
         countService.addFavor(targetType, targetId);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void delFavor(FavorTargetType targetType, Integer targetId, Integer userId) {
-        // TODO 检查目标是否存在 并缓存
         recordService.addFavor(targetType, targetId, userId);
         countService.addFavor(targetType, targetId);
     }
