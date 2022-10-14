@@ -1,7 +1,6 @@
 package com.nowander.auth.infrastructure.token;
 
-import com.nowander.auth.infrastructure.config.UserRefreshTokenCacheConfig;
-import com.nowander.auth.infrastructure.config.UserTokenCacheConfig;
+import com.nowander.auth.infrastructure.config.ICredentialCacheConfig;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.UUIDUtil;
 import com.nowander.common.security.exception.TokenException;
@@ -25,33 +24,31 @@ import java.util.UUID;
 public class RedisTokenHandlerImpl implements ITokenHandler {
 
     private final RedisTemplate<String, Credential> redisTemplate;
-    private final UserTokenCacheConfig tokenCacheConfig;
-    private final UserRefreshTokenCacheConfig refreshTokenCacheConfig;
 
     @Override
-    public void createToken(Credential credential) {
+    public void createToken(Credential credential, ICredentialCacheConfig config) {
         UUID token = UUIDUtil.get();
         credential.setToken(token.toString());
-        Date tokenExpireAt = new Date(tokenCacheConfig.getExpireMs() + System.currentTimeMillis());
+        Date tokenExpireAt = new Date(config.getTokenExpireMs() + System.currentTimeMillis());
         credential.setTokenExpireAt(tokenExpireAt);
 
         UUID refreshToken = UUIDUtil.get();
         credential.setRefreshToken(refreshToken.toString());
-        Date refreshExpireAt = new Date(refreshTokenCacheConfig.getExpireMs() + System.currentTimeMillis());
+        Date refreshExpireAt = new Date(config.getRefreshTokenExpireMs() + System.currentTimeMillis());
         credential.setRefreshTokenExpireAt(refreshExpireAt);
 
-        String redisKey = tokenKey(credential.getToken());
+        String redisKey = tokenKey(credential.getToken(), config);
         redisTemplate.opsForValue().set(redisKey, credential);
         redisTemplate.expireAt(redisKey, tokenExpireAt);
 
-        redisKey = refreshTokenKey(credential.getRefreshToken());
+        redisKey = refreshTokenKey(credential.getRefreshToken(), config);
         redisTemplate.opsForValue().set(redisKey, credential);
         redisTemplate.expireAt(redisKey, refreshExpireAt);
     }
 
     @Override
-    public <T extends Credential> T verifyToken(String token, Class<T> credentialType) {
-        Credential credential = redisTemplate.opsForValue().get(tokenKey(token));
+    public <T extends Credential> T verifyToken(String token, Class<T> credentialType, ICredentialCacheConfig config) {
+        Credential credential = redisTemplate.opsForValue().get(tokenKey(token, config));
         if (credential == null || credential.getClass() != credentialType) {
             throw new TokenException(ApiInfo.USER_TOKEN_INVALID);
         }
@@ -59,8 +56,8 @@ public class RedisTokenHandlerImpl implements ITokenHandler {
     }
 
     @Override
-    public <T extends Credential> T verifyRefreshToken(String refreshToken, Class<T> credentialType) {
-        String key = refreshTokenKey(refreshToken);
+    public <T extends Credential> T verifyRefreshToken(String refreshToken, Class<T> credentialType, ICredentialCacheConfig config) {
+        String key = refreshTokenKey(refreshToken, config);
         Credential credential = redisTemplate.opsForValue().get(key);
         if (credential == null || credential.getClass() != credentialType) {
             throw new TokenException(ApiInfo.USER_TOKEN_INVALID);
@@ -69,20 +66,20 @@ public class RedisTokenHandlerImpl implements ITokenHandler {
     }
 
     @Override
-    public <T extends Credential> T refreshToken(String refreshToken, Class<T> credentialType) {
-        String key = refreshTokenKey(refreshToken);
-        Credential credential = this.verifyRefreshToken(refreshToken, credentialType);
-        redisTemplate.delete(tokenKey(credential.getToken()));
-        redisTemplate.delete(refreshTokenKey(credential.getRefreshToken()));
-        createToken(credential);
+    public <T extends Credential> T refreshToken(String refreshToken, Class<T> credentialType, ICredentialCacheConfig config) {
+        String key = refreshTokenKey(refreshToken, config);
+        Credential credential = this.verifyRefreshToken(refreshToken, credentialType, config);
+        redisTemplate.delete(tokenKey(credential.getToken(), config));
+        redisTemplate.delete(refreshTokenKey(credential.getRefreshToken(), config));
+        createToken(credential, config);
         return (T) credential;
     }
 
-    private String tokenKey(String token) {
-        return tokenCacheConfig.getCacheKey() + ":" + token;
+    private String tokenKey(String token, ICredentialCacheConfig config) {
+        return config.getTokenCacheKey() + ":" + token;
     }
 
-    private String refreshTokenKey(String refreshToken) {
-        return refreshTokenCacheConfig.getCacheKey() + ":" + refreshToken;
+    private String refreshTokenKey(String refreshToken, ICredentialCacheConfig config) {
+        return config.getRefreshTokenCacheKey() + ":" + refreshToken;
     }
 }

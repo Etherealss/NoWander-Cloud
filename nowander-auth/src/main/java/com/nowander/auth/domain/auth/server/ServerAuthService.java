@@ -1,16 +1,15 @@
 package com.nowander.auth.domain.auth.server;
 
-import com.nowander.auth.domain.auth.server.accessibility.ServerAccessibilityMapper;
+import com.nowander.auth.domain.auth.server.accessibility.ServerAccessibilityService;
 import com.nowander.auth.domain.auth.server.info.ServerAuthInfoEntity;
-import com.nowander.auth.domain.auth.server.info.ServerInfoMapper;
-import com.nowander.common.core.enums.ApiInfo;
-import com.nowander.common.core.exception.service.AuthenticationException;
-import com.nowander.common.core.exception.service.NotFoundException;
+import com.nowander.auth.domain.auth.server.info.ServerAuthInfoService;
+import com.nowander.auth.infrastructure.config.ServerCredentialCacheConfig;
+import com.nowander.auth.infrastructure.token.ITokenHandler;
 import com.nowander.common.security.service.auth.server.ServerCredential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -22,42 +21,30 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Slf4j
 public class ServerAuthService {
-    private final ServerInfoMapper infoMapper;
-    private final ServerAccessibilityMapper accessibilityMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final ServerAuthInfoService authInfoService;
+    private final ServerAccessibilityService accessibilityService;
+    private final ITokenHandler tokenHandler;
+    private final ServerCredentialCacheConfig credentialCacheConfig;
 
-    public ServerCredential validateAndGetServerCredential(Integer serverId, String secret) {
-        ServerAuthInfoEntity serverInfoEntity = validateAndGet(serverId, secret);
-        return getServerCredential(serverId, serverInfoEntity);
-    }
-
-    public ServerCredential getServerCredential(Integer serverId) {
-        ServerAuthInfoEntity serverInfoEntity = infoMapper.selectById(serverId);
+    public ServerCredential verifyAndGetServerCredential(Integer serverId, String secret) {
+        ServerAuthInfoEntity serverInfoEntity = authInfoService.verifyAndGet(serverId, secret);
         return getServerCredential(serverId, serverInfoEntity);
     }
 
     private ServerCredential getServerCredential(Integer serverId, ServerAuthInfoEntity serverInfoEntity) {
         Set<Integer> accessibleServerIds =
-                accessibilityMapper.selectAccessibleServerIds(serverId);
+                accessibilityService.selectAccessibleServerIds(serverId);
         ServerCredential serverCredential = new ServerCredential();
         serverCredential.setServerId(serverInfoEntity.getId());
         serverCredential.setServerName(serverInfoEntity.getServerName());
         serverCredential.setAccessibleServiceIds(accessibleServerIds);
+        tokenHandler.createToken(serverCredential, credentialCacheConfig);
         return serverCredential;
     }
 
-    public void validate(Integer serverId, String secret) {
-        validateAndGet(serverId, secret);
-    }
 
-    private ServerAuthInfoEntity validateAndGet(Integer serverId, String secret) {
-        ServerAuthInfoEntity serverInfoEntity = infoMapper.selectById(serverId);
-        if (serverInfoEntity == null) {
-            throw new NotFoundException("服务：" + serverId + "不存在");
-        }
-        if (passwordEncoder.matches(secret, serverInfoEntity.getSecret())) {
-            throw new AuthenticationException(ApiInfo.PASSWORD_ERROR, "服务秘钥错误");
-        }
-        return serverInfoEntity;
+    @Transactional(rollbackFor = Exception.class)
+    public Integer createAuthInfo(RegisterServerCredentialCommand command) {
+        return authInfoService.createAuthInfo(command);
     }
 }

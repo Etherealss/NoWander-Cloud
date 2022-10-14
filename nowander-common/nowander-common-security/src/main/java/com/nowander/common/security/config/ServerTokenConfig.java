@@ -21,12 +21,24 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class ServerTokenConfig {
+    /**
+     * 获取 server-token 的 headerName
+     */
     @NotEmpty
     private String headerName;
+    /**
+     * 缓存当前系统的 Credential 的 key
+     */
     @NotEmpty
     private String cacheKey;
+    /**
+     * 当前系统的 serverId
+     */
     @NotNull
     private Integer serverId;
+    /**
+     * 当前系统的 serverName
+     */
     @NotEmpty
     private String serverName;
 }

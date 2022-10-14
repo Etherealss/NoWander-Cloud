@@ -23,13 +23,13 @@ public class UserAuthController {
     private final UserAuthService userAuthService;
 
     @AnonymousAccess
-    @PostMapping(value = {"/login", "/tokens"})
+    @PostMapping(value = {"/login", "/credentials"})
     public UserCredential login(@RequestBody @Validated UserLoginCommand userLoginCommand) {
         return userAuthService.create(userLoginCommand);
     }
 
     @AnonymousAccess
-    @GetMapping("/tokens/{token}")
+    @GetMapping("/credentials/{token}")
     public UserCredential verify(@PathVariable String token) {
         return userAuthService.verifyAndGet(token);
     }

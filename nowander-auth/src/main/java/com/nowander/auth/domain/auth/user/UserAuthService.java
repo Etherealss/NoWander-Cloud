@@ -1,5 +1,6 @@
 package com.nowander.auth.domain.auth.user;
 
+import com.nowander.auth.infrastructure.config.UserCredentialCacheConfig;
 import com.nowander.auth.infrastructure.token.ITokenHandler;
 import com.nowander.common.security.service.auth.user.UserCredential;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,10 @@ public class UserAuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserAuthInfoMapper userAuthInfoMapper;
     private final LoginAuthenticatorContext loginAuthenticatorContext;
+    private final UserCredentialCacheConfig credentialCacheConfig;
 
     /**
-     * 登录
+     * 登录 创建 token
      * @param userLoginCommand
      * @return
      */
@@ -43,11 +45,16 @@ public class UserAuthService {
                 roles
         );
         userCredential.setLoginTime(new Date());
-        tokenHandler.createToken(userCredential);
+        tokenHandler.createToken(userCredential, credentialCacheConfig);
         return userCredential;
     }
 
+    /**
+     * 验证 token
+     * @param token
+     * @return
+     */
     public UserCredential verifyAndGet(String token) {
-        return tokenHandler.verifyToken(token, UserCredential.class);
+        return tokenHandler.verifyToken(token, UserCredential.class, credentialCacheConfig);
     }
 }

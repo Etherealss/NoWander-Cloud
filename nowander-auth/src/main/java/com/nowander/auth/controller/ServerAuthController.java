@@ -1,8 +1,10 @@
 package com.nowander.auth.controller;
 
+import com.nowander.auth.domain.auth.server.RegisterServerCredentialCommand;
 import com.nowander.auth.domain.auth.server.ServerAuthService;
 import com.nowander.auth.domain.auth.server.info.ServerAuthCommand;
 import com.nowander.common.core.web.ResponseAdvice;
+import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.annotation.InternalAuth;
 import com.nowander.common.security.service.auth.server.ServerCredential;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +25,18 @@ public class ServerAuthController {
     private final ServerAuthService serverAuthService;
 
     @InternalAuth
-    @GetMapping("/credentials/{id}")
-    public ServerCredential getServerCredential(@PathVariable Integer id) {
-        return serverAuthService.getServerCredential(id);
+    @PostMapping("/credentials")
+    public Integer register(@Validated @RequestBody RegisterServerCredentialCommand command) {
+        return serverAuthService.createAuthInfo(command);
     }
 
-    @InternalAuth
+    /**
+     * 获取token
+     */
+    @AnonymousAccess
     @PostMapping("/credentials/{id}")
-    public void validate(@PathVariable Integer id, @Validated @RequestBody ServerAuthCommand command) {
-        serverAuthService.validate(id, command.getSecret());
+    public ServerCredential getCredential(@PathVariable Integer id,
+                                          @Validated @RequestBody ServerAuthCommand command) {
+        return serverAuthService.verifyAndGetServerCredential(id, command.getSecret());
     }
 }
