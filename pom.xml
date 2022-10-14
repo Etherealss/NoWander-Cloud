@@ -19,6 +19,7 @@
         <module>nowander-common</module>
         <module>nowander-modules</module>
         <module>nowander-gateway</module>
+        <module>nowander-auth</module>
     </modules>
     <properties>
         <boot.version>2.6.2</boot.version>
