@@ -26,7 +26,7 @@ public class UserPreAuthHandler implements IPreAuthHandler {
     @Override
     public boolean checkNeedAuth(Method method) {
         if (method.getAnnotation(AnonymousAccess.class) == null
-                || method.getAnnotation(InternalAuth.class) != null) {
+                || method.getAnnotation(InternalAuth.class) == null) {
             log.debug("匿名访问接口，无需检验");
             return false;
         }
