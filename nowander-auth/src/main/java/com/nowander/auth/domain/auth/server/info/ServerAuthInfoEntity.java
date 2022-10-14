@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @TableName("server_info")
-public class ServerInfoEntity extends IdentifiedEntity {
+public class ServerAuthInfoEntity extends IdentifiedEntity {
     private String serverName;
     private String secret;
 }

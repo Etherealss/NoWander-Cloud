@@ -1,7 +1,7 @@
-package com.nowander.account.infrasturcture.token;
+package com.nowander.auth.infrastructure.token;
 
-import com.nowander.account.infrasturcture.config.UserRefreshTokenCacheConfig;
-import com.nowander.account.infrasturcture.config.UserTokenCacheConfig;
+import com.nowander.auth.infrastructure.config.UserRefreshTokenCacheConfig;
+import com.nowander.auth.infrastructure.config.UserTokenCacheConfig;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.UUIDUtil;
 import com.nowander.common.security.exception.TokenException;
@@ -29,23 +29,23 @@ public class RedisTokenHandlerImpl implements ITokenHandler {
     private final UserRefreshTokenCacheConfig refreshTokenCacheConfig;
 
     @Override
-    public void createToken(Credential userCredential) {
+    public void createToken(Credential credential) {
         UUID token = UUIDUtil.get();
-        userCredential.setToken(token.toString());
+        credential.setToken(token.toString());
         Date tokenExpireAt = new Date(tokenCacheConfig.getExpireMs() + System.currentTimeMillis());
-        userCredential.setTokenExpireAt(tokenExpireAt);
+        credential.setTokenExpireAt(tokenExpireAt);
 
         UUID refreshToken = UUIDUtil.get();
-        userCredential.setRefreshToken(refreshToken.toString());
+        credential.setRefreshToken(refreshToken.toString());
         Date refreshExpireAt = new Date(refreshTokenCacheConfig.getExpireMs() + System.currentTimeMillis());
-        userCredential.setRefreshTokenExpireAt(refreshExpireAt);
+        credential.setRefreshTokenExpireAt(refreshExpireAt);
 
-        String redisKey = tokenKey(userCredential.getToken());
-        redisTemplate.opsForValue().set(redisKey, userCredential);
+        String redisKey = tokenKey(credential.getToken());
+        redisTemplate.opsForValue().set(redisKey, credential);
         redisTemplate.expireAt(redisKey, tokenExpireAt);
 
-        redisKey = refreshTokenKey(userCredential.getRefreshToken());
-        redisTemplate.opsForValue().set(redisKey, userCredential);
+        redisKey = refreshTokenKey(credential.getRefreshToken());
+        redisTemplate.opsForValue().set(redisKey, credential);
         redisTemplate.expireAt(redisKey, refreshExpireAt);
     }
 

@@ -1,14 +1,12 @@
-package com.nowander.account.domain.user.token;
+package com.nowander.auth.domain.auth.user;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nowander.account.domain.user.SysUser;
-import com.nowander.account.domain.user.UserMapper;
-import com.nowander.account.domain.user.token.login.LoginAuthenticatorContext;
-import com.nowander.account.domain.user.token.login.UserLoginCommand;
-import com.nowander.account.infrasturcture.token.ITokenHandler;
+import com.nowander.auth.domain.auth.user.login.LoginAuthenticatorContext;
+import com.nowander.auth.domain.auth.user.login.UserLoginCommand;
+import com.nowander.auth.infrastructure.token.ITokenHandler;
 import com.nowander.common.security.service.auth.user.UserCredential;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,16 +19,22 @@ import java.util.Set;
  */
 @Service
 @Slf4j
-@AllArgsConstructor
-public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
+@RequiredArgsConstructor
+public class UserAuthService {
 
-    private final UserMapper userMapper;
     private final ITokenHandler tokenHandler;
+    private final PasswordEncoder passwordEncoder;
+    private final UserAuthInfoMapper userAuthInfoMapper;
     private final LoginAuthenticatorContext loginAuthenticatorContext;
 
-    public UserCredential login(UserLoginCommand userLoginCommand) {
+    /**
+     * 登录
+     * @param userLoginCommand
+     * @return
+     */
+    public UserCredential create(UserLoginCommand userLoginCommand) {
         String username = userLoginCommand.getUsername();
-        SysUser user = loginAuthenticatorContext.doLogin(userLoginCommand);
+        UserAuthInfoEntity user = loginAuthenticatorContext.doLogin(userLoginCommand);
         // TODO 用户权限
         Set<String> permissions = new HashSet<>();
         Set<String> roles = new HashSet<>();
@@ -45,7 +49,7 @@ public class UserTokenService extends ServiceImpl<UserMapper, SysUser> {
         return userCredential;
     }
 
-    public UserCredential verify(String token) {
+    public UserCredential verifyAndGet(String token) {
         return tokenHandler.verifyToken(token, UserCredential.class);
     }
 }

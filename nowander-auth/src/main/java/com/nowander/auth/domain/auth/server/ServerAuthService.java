@@ -1,7 +1,7 @@
 package com.nowander.auth.domain.auth.server;
 
 import com.nowander.auth.domain.auth.server.accessibility.ServerAccessibilityMapper;
-import com.nowander.auth.domain.auth.server.info.ServerInfoEntity;
+import com.nowander.auth.domain.auth.server.info.ServerAuthInfoEntity;
 import com.nowander.auth.domain.auth.server.info.ServerInfoMapper;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.service.AuthenticationException;
@@ -27,16 +27,16 @@ public class ServerAuthService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public ServerCredential validateAndGetServerCredential(Integer serverId, String secret) {
-        ServerInfoEntity serverInfoEntity = validateAndGet(serverId, secret);
+        ServerAuthInfoEntity serverInfoEntity = validateAndGet(serverId, secret);
         return getServerCredential(serverId, serverInfoEntity);
     }
 
     public ServerCredential getServerCredential(Integer serverId) {
-        ServerInfoEntity serverInfoEntity = infoMapper.selectById(serverId);
+        ServerAuthInfoEntity serverInfoEntity = infoMapper.selectById(serverId);
         return getServerCredential(serverId, serverInfoEntity);
     }
 
-    private ServerCredential getServerCredential(Integer serverId, ServerInfoEntity serverInfoEntity) {
+    private ServerCredential getServerCredential(Integer serverId, ServerAuthInfoEntity serverInfoEntity) {
         Set<Integer> accessibleServerIds =
                 accessibilityMapper.selectAccessibleServerIds(serverId);
         ServerCredential serverCredential = new ServerCredential();
@@ -50,8 +50,8 @@ public class ServerAuthService {
         validateAndGet(serverId, secret);
     }
 
-    private ServerInfoEntity validateAndGet(Integer serverId, String secret) {
-        ServerInfoEntity serverInfoEntity = infoMapper.selectById(serverId);
+    private ServerAuthInfoEntity validateAndGet(Integer serverId, String secret) {
+        ServerAuthInfoEntity serverInfoEntity = infoMapper.selectById(serverId);
         if (serverInfoEntity == null) {
             throw new NotFoundException("服务：" + serverId + "不存在");
         }

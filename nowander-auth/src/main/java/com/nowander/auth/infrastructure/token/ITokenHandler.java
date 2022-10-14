@@ -1,4 +1,4 @@
-package com.nowander.account.infrasturcture.token;
+package com.nowander.auth.infrastructure.token;
 
 import com.nowander.common.security.service.auth.Credential;
 
@@ -8,7 +8,7 @@ import com.nowander.common.security.service.auth.Credential;
  */
 public interface ITokenHandler {
 
-    void createToken(Credential userCredential);
+    void createToken(Credential credential);
 
     // TODO updateUserCredential 在用户权限更新时修改token权限缓存
 

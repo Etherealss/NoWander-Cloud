@@ -1,4 +1,4 @@
-package com.nowander.account.infrasturcture.token;
+package com.nowander.auth.infrastructure.token;
 
 import com.nowander.common.security.service.auth.Credential;
 import com.nowander.common.security.service.auth.ITokenVerifier;

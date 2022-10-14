@@ -1,10 +1,10 @@
-package com.nowander.account.controller;
+package com.nowander.auth.controller;
 
-import com.nowander.account.domain.user.token.UserTokenService;
-import com.nowander.account.domain.user.token.login.UserLoginCommand;
+import com.nowander.auth.domain.auth.user.UserAuthService;
+import com.nowander.auth.domain.auth.user.login.UserLoginCommand;
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.service.auth.user.UserCredential;
 import com.nowander.common.security.annotation.AnonymousAccess;
+import com.nowander.common.security.service.auth.user.UserCredential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @ResponseAdvice
-public class UserTokenController {
-    private final UserTokenService userTokenService;
+public class UserAuthController {
+    private final UserAuthService userAuthService;
 
     @AnonymousAccess
-    @PostMapping("/login")
+    @PostMapping(value = {"/login", "/tokens"})
     public UserCredential login(@RequestBody @Validated UserLoginCommand userLoginCommand) {
-        return userTokenService.login(userLoginCommand);
+        return userAuthService.create(userLoginCommand);
     }
 
     @AnonymousAccess
     @GetMapping("/tokens/{token}")
     public UserCredential verify(@PathVariable String token) {
-        return userTokenService.verify(token);
+        return userAuthService.verifyAndGet(token);
     }
 }

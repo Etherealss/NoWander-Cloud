@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @date 2022-10-08
  */
 @FeignClient(
-        value = "nowander-account",
-        contextId = "nowander-account-users-tokens",
-        path = "/account/users/tokens"
+        value = "nowander-auth",
+        contextId = "nowander-auth-users-tokens",
+        path = "/auth/users/tokens"
 )
 public interface UserTokenFeign {
 

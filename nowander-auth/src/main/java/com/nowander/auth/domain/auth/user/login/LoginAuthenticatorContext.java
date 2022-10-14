@@ -1,7 +1,7 @@
-package com.nowander.account.domain.user.token.login;
+package com.nowander.auth.domain.auth.user.login;
 
-import com.nowander.account.domain.user.SysUser;
-import com.nowander.account.domain.user.token.login.authenticate.LoginAuthenticator;
+import com.nowander.auth.domain.auth.user.UserAuthInfoEntity;
+import com.nowander.auth.domain.auth.user.login.authenticator.LoginAuthenticator;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.service.SimpleServiceException;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class LoginAuthenticatorContext {
 
     private final List<LoginAuthenticator> authenticators;
 
-    public SysUser doLogin(UserLoginCommand command) {
+    public UserAuthInfoEntity doLogin(UserLoginCommand command) {
         LoginAuthenticator authenticator = dispatch(command);
         return authenticator.authenticate(command);
     }

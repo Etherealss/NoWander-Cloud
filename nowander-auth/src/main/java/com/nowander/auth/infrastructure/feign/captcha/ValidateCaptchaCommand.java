@@ -1,4 +1,4 @@
-package com.nowander.account.infrasturcture.feign.captcha;
+package com.nowander.auth.infrastructure.feign.captcha;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

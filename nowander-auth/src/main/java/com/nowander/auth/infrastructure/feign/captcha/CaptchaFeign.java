@@ -1,4 +1,4 @@
-package com.nowander.account.infrasturcture.feign.captcha;
+package com.nowander.auth.infrastructure.feign.captcha;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;

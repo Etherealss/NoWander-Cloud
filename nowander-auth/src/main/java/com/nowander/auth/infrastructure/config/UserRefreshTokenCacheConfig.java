@@ -1,4 +1,4 @@
-package com.nowander.account.infrasturcture.config;
+package com.nowander.auth.infrastructure.config;
 
 import lombok.Getter;
 import lombok.Setter;
