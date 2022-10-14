@@ -61,15 +61,6 @@ public class HeaderInterceptor implements ConfigHandlerInterceptor {
                 ServerCredential credential = tokenVerifier.verifyToken(serverToken, ServerCredential.class);
                 ServerSecurityContextHolder.set(credential);
             } catch (TokenException ignored) {}
-        } else {
-            // TODO
-            ServerCredential serverCredential = new ServerCredential();
-            serverCredential.setServerId(UUID.fromString("e190cd82-7c7d-42b7-9944-01fca5bdc43e"));
-            serverCredential.setServerName("nowander-forum");
-            HashSet<UUID> set = new HashSet<>();
-            set.add(UUID.fromString("ca5e077e-7d65-430d-ad45-f01559b59673"));
-            serverCredential.setAccessibleServiceIds(set);
-            ServerSecurityContextHolder.set(serverCredential);
         }
     }
 

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * @author wtk
@@ -18,12 +17,12 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServerCredential extends Credential {
 
-    UUID serverId;
+    Integer serverId;
 
     String serverName;
 
     /**
      * 可访问的服务
      */
-    Set<UUID> accessibleServiceIds;
+    Set<Integer> accessibleServiceIds;
 }

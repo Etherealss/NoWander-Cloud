@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 /**
  * @author wtk
@@ -27,7 +26,7 @@ public class ServerTokenConfig {
     @NotEmpty
     private String cacheKey;
     @NotNull
-    private UUID serverId;
+    private Integer serverId;
     @NotEmpty
     private String serverName;
 }

@@ -1,4 +1,4 @@
-package com.nowander.account.infrasturcture.config;
+package com.nowander.auth.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author wtk
- * @date 2022-09-03
+ * @date 2022-10-14
  */
 @Configuration
 public class BCryptConfiguration {

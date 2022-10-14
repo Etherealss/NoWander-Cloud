@@ -36,7 +36,7 @@ public class ServerPreAuthHandler implements IPreAuthHandler {
     @Override
     public void doAuth(Method method) {
         ServerCredential requestServer = ServerSecurityContextHolder.require();
-        UUID curServerId = serverTokenConfig.getServerId();
+        Integer curServerId = serverTokenConfig.getServerId();
         boolean accessible = requestServer.getAccessibleServiceIds().contains(curServerId);
         if (!accessible) {
             String reason = String.format(
