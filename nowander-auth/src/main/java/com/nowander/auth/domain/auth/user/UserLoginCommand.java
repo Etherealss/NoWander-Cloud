@@ -1,4 +1,4 @@
-package com.nowander.auth.domain.auth.user.login;
+package com.nowander.auth.domain.auth.user;
 
 import lombok.AccessLevel;
 import lombok.Data;

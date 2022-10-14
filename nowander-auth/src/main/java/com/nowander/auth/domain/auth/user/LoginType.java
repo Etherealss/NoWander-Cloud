@@ -1,4 +1,4 @@
-package com.nowander.auth.domain.auth.user.login;
+package com.nowander.auth.domain.auth.user;
 
 import com.nowander.common.core.enums.BaseEnum;
 import lombok.AllArgsConstructor;

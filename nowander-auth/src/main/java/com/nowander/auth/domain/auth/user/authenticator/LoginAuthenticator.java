@@ -1,7 +1,7 @@
-package com.nowander.auth.domain.auth.user.login.authenticator;
+package com.nowander.auth.domain.auth.user.authenticator;
 
 import com.nowander.auth.domain.auth.user.UserAuthInfoEntity;
-import com.nowander.auth.domain.auth.user.login.UserLoginCommand;
+import com.nowander.auth.domain.auth.user.UserLoginCommand;
 
 /**
  * 登录认证器

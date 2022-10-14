@@ -1,10 +1,10 @@
-package com.nowander.auth.domain.auth.user.login.authenticator;
+package com.nowander.auth.domain.auth.user.authenticator;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nowander.auth.domain.auth.user.UserAuthInfoEntity;
 import com.nowander.auth.domain.auth.user.UserAuthInfoMapper;
-import com.nowander.auth.domain.auth.user.login.LoginType;
-import com.nowander.auth.domain.auth.user.login.UserLoginCommand;
+import com.nowander.auth.domain.auth.user.LoginType;
+import com.nowander.auth.domain.auth.user.UserLoginCommand;
 import com.nowander.auth.infrastructure.feign.captcha.CaptchaFeign;
 import com.nowander.auth.infrastructure.feign.captcha.ValidateCaptchaCommand;
 import com.nowander.common.core.enums.ApiInfo;

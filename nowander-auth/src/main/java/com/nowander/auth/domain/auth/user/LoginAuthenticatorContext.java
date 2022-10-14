@@ -1,7 +1,6 @@
-package com.nowander.auth.domain.auth.user.login;
+package com.nowander.auth.domain.auth.user;
 
-import com.nowander.auth.domain.auth.user.UserAuthInfoEntity;
-import com.nowander.auth.domain.auth.user.login.authenticator.LoginAuthenticator;
+import com.nowander.auth.domain.auth.user.authenticator.LoginAuthenticator;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.service.SimpleServiceException;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.nowander.auth.controller;
 
 import com.nowander.auth.domain.auth.user.UserAuthService;
-import com.nowander.auth.domain.auth.user.login.UserLoginCommand;
+import com.nowander.auth.domain.auth.user.UserLoginCommand;
 import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.service.auth.user.UserCredential;
