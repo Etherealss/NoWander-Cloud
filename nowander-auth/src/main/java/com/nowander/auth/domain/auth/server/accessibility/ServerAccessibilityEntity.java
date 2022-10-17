@@ -16,6 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @TableName("server_accessibility")
 public class ServerAccessibilityEntity extends IdentifiedEntity {
+    /**
+     * 服务id
+     */
     private Integer serverId;
+    /**
+     * 允许访问 serverId 的服务id
+     * accessibleServerId ---√--> serverId
+     * accessibleServerId <--x--- serverId
+     */
     private Integer accessibleServerId;
 }

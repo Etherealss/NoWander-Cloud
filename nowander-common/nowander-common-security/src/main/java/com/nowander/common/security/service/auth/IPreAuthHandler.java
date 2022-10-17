@@ -1,4 +1,4 @@
-package com.nowander.common.security.aspect;
+package com.nowander.common.security.service.auth;
 
 import java.lang.reflect.Method;
 

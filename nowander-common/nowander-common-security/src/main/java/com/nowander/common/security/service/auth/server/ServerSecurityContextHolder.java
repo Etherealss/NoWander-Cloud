@@ -3,7 +3,7 @@ package com.nowander.common.security.service.auth.server;
 import cn.hutool.extra.spring.SpringUtil;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.ServletUtil;
-import com.nowander.common.security.config.ServerTokenConfig;
+import com.nowander.common.security.config.ServerCredentialConfig;
 import com.nowander.common.security.exception.TokenException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -12,13 +12,13 @@ import org.springframework.util.StringUtils;
 import java.util.Objects;
 
 /**
- * 服务间鉴权
+ * 服务间鉴权。保存当前请求的服务的 ServerCredential
  * @author wtk
  * @date 2022-08-30
  */
 public class ServerSecurityContextHolder {
     private static final ThreadLocal<ServerCredential> CREDENTIALS = new InheritableThreadLocal<>();
-    private static final ServerTokenConfig TOKEN_CONFIG = SpringUtil.getBean(ServerTokenConfig.class);
+    private static final ServerCredentialConfig TOKEN_CONFIG = SpringUtil.getBean(ServerCredentialConfig.class);
 
     public static void set(ServerCredential credential) {
         Objects.requireNonNull(credential.getServerId());

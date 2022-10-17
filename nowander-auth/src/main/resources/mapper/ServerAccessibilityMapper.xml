@@ -11,7 +11,7 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
     <select id="selectAccessibleServerIds" resultType="java.lang.Integer">
-        SELECT `server_accessibility`
+        SELECT `accessible_server_id`
         FROM `server_accessibility`
         WHERE `server_id` = #{serviceId}
     </select>

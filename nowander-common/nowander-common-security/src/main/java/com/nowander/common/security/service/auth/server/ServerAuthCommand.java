@@ -1,4 +1,4 @@
-package com.nowander.auth.domain.auth.server.info;
+package com.nowander.common.security.service.auth.server;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,13 +9,9 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-/**
- * @author wtk
- * @date 2022-10-14
- */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServerAuthCommand {
     @NotNull

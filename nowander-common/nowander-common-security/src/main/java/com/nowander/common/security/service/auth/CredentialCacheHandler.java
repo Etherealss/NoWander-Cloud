@@ -1,7 +1,7 @@
 package com.nowander.common.security.service.auth;
 
-import com.nowander.common.security.config.UserTokenConfig;
-import com.nowander.common.security.feign.ServerTokenFeign;
+import com.nowander.common.security.config.UserCredentialConfig;
+import com.nowander.common.security.feign.ServerCredentialFeign;
 import com.nowander.common.security.feign.UserTokenFeign;
 import com.nowander.common.security.service.auth.user.UserCredential;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ public class CredentialCacheHandler {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final UserTokenFeign userTokenFeign;
-    private final ServerTokenFeign serverTokenFeign;
-    private final UserTokenConfig userTokenConfig;
+    private final ServerCredentialFeign serverCredentialFeign;
+    private final UserCredentialConfig userCredentialConfig;
 
     public <T extends Credential> T verifyAndGet(String token, Class<T> credentialType) {
-        String key = userTokenConfig.getCacheKey() + ":" + token;
+        String key = userCredentialConfig.getCacheKey() + ":" + token;
         Credential credential = (Credential) redisTemplate.opsForValue().get(key);
         if (credential != null && credential.getClass() == credentialType) {
             return (T) credential;
@@ -35,7 +35,7 @@ public class CredentialCacheHandler {
         if (credentialType == UserCredential.class) {
             credential = userTokenFeign.verifyToken(token);
         } else {
-            credential = serverTokenFeign.verifyToken(token);
+            credential = serverCredentialFeign.verifyCredentials(token);
         }
         cache(key, credential, credential.getTokenExpireAt());
         return (T) credential;

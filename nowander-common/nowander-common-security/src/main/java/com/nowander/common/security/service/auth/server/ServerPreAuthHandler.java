@@ -1,18 +1,15 @@
-package com.nowander.common.security.aspect.impl;
+package com.nowander.common.security.service.auth.server;
 
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.service.AuthenticationException;
 import com.nowander.common.security.annotation.InternalAuth;
-import com.nowander.common.security.aspect.IPreAuthHandler;
-import com.nowander.common.security.config.ServerTokenConfig;
-import com.nowander.common.security.service.auth.server.ServerCredential;
-import com.nowander.common.security.service.auth.server.ServerSecurityContextHolder;
+import com.nowander.common.security.config.ServerCredentialConfig;
+import com.nowander.common.security.service.auth.IPreAuthHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.UUID;
 
 /**
  * @author wtk
@@ -22,12 +19,12 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class ServerPreAuthHandler implements IPreAuthHandler {
-    private final ServerTokenConfig serverTokenConfig;
+    private final ServerCredentialConfig serverCredentialConfig;
     @Override
     public boolean checkNeedAuth(Method method) {
         InternalAuth internalAuth = method.getAnnotation(InternalAuth.class);
         if (internalAuth == null) {
-            log.debug("非服务内部请求，无需检验");
+            log.info("非服务内部请求，无需检验");
             return false;
         }
         return true;
@@ -36,7 +33,7 @@ public class ServerPreAuthHandler implements IPreAuthHandler {
     @Override
     public void doAuth(Method method) {
         ServerCredential requestServer = ServerSecurityContextHolder.require();
-        Integer curServerId = serverTokenConfig.getServerId();
+        Integer curServerId = serverCredentialConfig.getServerId();
         boolean accessible = requestServer.getAccessibleServiceIds().contains(curServerId);
         if (!accessible) {
             String reason = String.format(

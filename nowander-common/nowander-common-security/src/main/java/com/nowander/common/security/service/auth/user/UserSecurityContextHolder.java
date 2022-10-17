@@ -3,7 +3,7 @@ package com.nowander.common.security.service.auth.user;
 import cn.hutool.extra.spring.SpringUtil;
 import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.utils.ServletUtil;
-import com.nowander.common.security.config.UserTokenConfig;
+import com.nowander.common.security.config.UserCredentialConfig;
 import com.nowander.common.security.exception.TokenException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public class UserSecurityContextHolder {
     private static final ThreadLocal<UserCredential> USER_CREDENTIALS = new InheritableThreadLocal<>();
-    private static final UserTokenConfig TOKEN_CONFIG = SpringUtil.getBean(UserTokenConfig.class);
+    private static final UserCredentialConfig TOKEN_CONFIG = SpringUtil.getBean(UserCredentialConfig.class);
 
     public static void set(UserCredential userCredential) {
         Objects.requireNonNull(userCredential.getUserId());

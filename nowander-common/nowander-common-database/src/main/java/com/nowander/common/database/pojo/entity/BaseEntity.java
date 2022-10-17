@@ -2,6 +2,8 @@ package com.nowander.common.database.pojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,10 +18,12 @@ public abstract class BaseEntity implements Serializable {
      * 创建时间
      */
     @JsonFormat(timezone = "GTM+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @CreatedDate
     protected Date createTime;
     /**
      * 修改时间
      */
     @JsonFormat(timezone = "GTM+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @LastModifiedDate
     protected Date updateTime;
 }

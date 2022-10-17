@@ -22,7 +22,9 @@ public class ServerCredential extends Credential {
     String serverName;
 
     /**
-     * 可访问的服务
+     * 允许访问 serverId 的服务id列表
+     * accessibleServerId ---√--> serverId
+     * accessibleServerId <--x--- serverId
      */
     Set<Integer> accessibleServiceIds;
 }

@@ -27,12 +27,11 @@ public class ServerAuthInfoService {
         if (serverInfoEntity == null) {
             throw new NotFoundException("服务：" + serverId + "不存在");
         }
-        if (passwordEncoder.matches(secret, serverInfoEntity.getSecret())) {
+        if (!passwordEncoder.matches(secret, serverInfoEntity.getSecret())) {
             throw new AuthenticationException(ApiInfo.PASSWORD_ERROR, "服务秘钥错误");
         }
         return serverInfoEntity;
     }
-
 
     @Transactional(rollbackFor = Exception.class)
     public Integer createAuthInfo(RegisterServerCredentialCommand command) {

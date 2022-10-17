@@ -1,6 +1,7 @@
 package com.nowander.auth.domain.auth.server;
 
 import com.nowander.auth.domain.auth.server.accessibility.ServerAccessibilityService;
+import com.nowander.auth.domain.auth.server.info.ServerAuthCommand;
 import com.nowander.auth.domain.auth.server.info.ServerAuthInfoEntity;
 import com.nowander.auth.domain.auth.server.info.ServerAuthInfoService;
 import com.nowander.auth.infrastructure.config.ServerCredentialCacheConfig;
@@ -26,12 +27,14 @@ public class ServerAuthService {
     private final ITokenHandler tokenHandler;
     private final ServerCredentialCacheConfig credentialCacheConfig;
 
-    public ServerCredential verifyAndGetServerCredential(Integer serverId, String secret) {
-        ServerAuthInfoEntity serverInfoEntity = authInfoService.verifyAndGet(serverId, secret);
-        return getServerCredential(serverId, serverInfoEntity);
+    public ServerCredential verifySecretAndGet(ServerAuthCommand command) {
+        ServerAuthInfoEntity serverInfoEntity = authInfoService.verifyAndGet(
+                command.getServerId(), command.getSecret()
+        );
+        return get(command.getServerId(), serverInfoEntity);
     }
 
-    private ServerCredential getServerCredential(Integer serverId, ServerAuthInfoEntity serverInfoEntity) {
+    private ServerCredential get(Integer serverId, ServerAuthInfoEntity serverInfoEntity) {
         Set<Integer> accessibleServerIds =
                 accessibilityService.selectAccessibleServerIds(serverId);
         ServerCredential serverCredential = new ServerCredential();
@@ -40,6 +43,10 @@ public class ServerAuthService {
         serverCredential.setAccessibleServiceIds(accessibleServerIds);
         tokenHandler.createToken(serverCredential, credentialCacheConfig);
         return serverCredential;
+    }
+
+    public ServerCredential verifyAndGet(String token) {
+        return tokenHandler.verifyToken(token, ServerCredential.class, credentialCacheConfig);
     }
 
 

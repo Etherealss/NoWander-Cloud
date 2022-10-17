@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 认证服务创建的 userToken 的缓存相关配置
  * @author wtk
  * @date 2022-08-30
  */
@@ -13,13 +14,13 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class UserCredentialCacheConfig implements ICredentialCacheConfig {
-    @Value("${app.user.token.expire-ms}")
+    @Value("${app.auth.user.token.expire-ms}")
     private Long tokenExpireMs;
-    @Value("${app.user.token.cache-key}")
+    @Value("${app.auth.user.token.cache-key}")
     private String tokenCacheKey;
 
-    @Value("${app.user.refresh-token.expire-ms}")
+    @Value("${app.auth.user.refresh-token.expire-ms}")
     private Long refreshTokenExpireMs;
-    @Value("${app.user.refresh-token.cache-key}")
+    @Value("${app.auth.user.refresh-token.cache-key}")
     private String refreshTokenCacheKey;
 }

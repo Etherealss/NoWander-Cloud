@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
  * @date 2022-10-08
  */
 @RequiredArgsConstructor
-public class RemoteTokenVerifier implements ITokenVerifier {
+public class RemoteCredentialVerify implements ICredentialVerify {
 
     private final CredentialCacheHandler credentialCacheHandler;
 
@@ -15,4 +15,6 @@ public class RemoteTokenVerifier implements ITokenVerifier {
     public <T extends Credential> T verifyToken(String token, Class<T> credentialType){
         return credentialCacheHandler.verifyAndGet(token, credentialType);
     }
+
+
 }
