@@ -2,7 +2,7 @@ package com.nowander.favor.controller;
 
 
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.annotation.AnonymousAccess;
+import com.nowander.common.security.annotation.InternalAuth;
 import com.nowander.favor.domain.favor.count.FavorCountService;
 import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import lombok.AllArgsConstructor;
@@ -35,8 +35,8 @@ public class FavorCountController {
      * @param targetId
      * @return
      */
-    @AnonymousAccess
     @GetMapping("/{targetType}/{targetId}")
+    @InternalAuth
     public Integer getLikeCount(@PathVariable FavorTargetType targetType,
                                 @PathVariable Integer targetId){
         return favorCountService.getTotalCount(targetType, targetId);

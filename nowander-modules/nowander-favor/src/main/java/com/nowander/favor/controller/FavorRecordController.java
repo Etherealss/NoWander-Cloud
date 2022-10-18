@@ -3,7 +3,6 @@ package com.nowander.favor.controller;
 
 import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.common.security.annotation.InternalAuth;
-import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.favor.application.FavorApplicationService;
 import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import lombok.AllArgsConstructor;
@@ -28,11 +27,12 @@ public class FavorRecordController {
      * 点赞
      * @return
      */
-    @PostMapping("/{targetType}/{targetId}")
+    @PostMapping("/{targetType}/{targetId}/{userId}")
     @InternalAuth
     public void addFavor(@PathVariable("targetType") FavorTargetType targetType,
-                       @PathVariable("targetId") Integer targetId) {
-        favorApplicationService.addFavor(targetType, targetId, UserSecurityContextHolder.require().getUserId());
+                         @PathVariable("targetId") Integer targetId,
+                         @PathVariable("userId") Integer userId) {
+        favorApplicationService.addFavor(targetType, targetId, userId);
     }
 
     /**
@@ -40,21 +40,25 @@ public class FavorRecordController {
      * @param targetType
      * @param targetId
      */
-    @DeleteMapping("/{targetType}/{targetId}")
+    @DeleteMapping("/{targetType}/{targetId}/{userId}")
+    @InternalAuth
     public void delFavor(@PathVariable("targetType") FavorTargetType targetType,
-                       @PathVariable("targetId") Integer targetId) {
-        favorApplicationService.addFavor(targetType, targetId, UserSecurityContextHolder.require().getUserId());
+                         @PathVariable("targetId") Integer targetId,
+                         @PathVariable("userId") Integer userId) {
+        favorApplicationService.addFavor(targetType, targetId, userId);
     }
 
     /**
      * 是否已点赞
      * @return
      */
-    @GetMapping("/{targetType}/{targetId}")
+    @GetMapping("/{targetType}/{targetId}/{userId}")
+    @InternalAuth
     public Boolean checkHasLike(@PathVariable("targetType") FavorTargetType targetType,
-                                @PathVariable("targetId") Integer targetId) {
+                                @PathVariable("targetId") Integer targetId,
+                                @PathVariable("userId") Integer userId) {
         return favorApplicationService.checkHasFavor(
-                targetType, targetId, UserSecurityContextHolder.require().getUserId()
+                targetType, targetId, userId
         );
     }
 }

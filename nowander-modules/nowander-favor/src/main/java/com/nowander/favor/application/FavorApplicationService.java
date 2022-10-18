@@ -27,8 +27,8 @@ public class FavorApplicationService {
 
     @Transactional(rollbackFor = Exception.class)
     public void delFavor(FavorTargetType targetType, Integer targetId, Integer userId) {
-        recordService.addFavor(targetType, targetId, userId);
-        countService.addFavor(targetType, targetId);
+        recordService.delFavor(targetType, targetId, userId);
+        countService.delFavor(targetType, targetId);
     }
 
     public boolean checkHasFavor(FavorTargetType targetType, Integer targetId, Integer userId) {

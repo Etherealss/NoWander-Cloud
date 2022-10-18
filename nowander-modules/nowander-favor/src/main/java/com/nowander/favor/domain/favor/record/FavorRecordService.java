@@ -29,7 +29,18 @@ public class FavorRecordService {
             // 重复点赞
             throw new ExistException(FavorRecordEntity.class);
         }
-        favorRecordCache.addBuffer(targetType, targetId, true);
+        favorRecordCache.setBuffer(targetType, targetId, true);
+    }
+
+    @CacheLock(key = "':' + #targetType.code + ':' + #targetId + ':' + #userId")
+    @Transactional(rollbackFor = Exception.class)
+    public void delFavor(FavorTargetType targetType, Integer targetId, Integer userId) {
+        boolean hasFavor = this.checkHasFavor(targetType, targetId, userId);
+        if (!hasFavor) {
+            // 重复取消点赞
+            throw new ExistException(FavorRecordEntity.class);
+        }
+        favorRecordCache.setBuffer(targetType, targetId, false);
     }
 
     public boolean checkHasFavor(FavorTargetType targetType, Integer targetId, Integer userId) {
@@ -52,7 +63,7 @@ public class FavorRecordService {
         // 从数据库查数据
         like = favorRecordMapper.countFavorRecord(targetType, targetId, userId) == 1;
         // 更新缓存
-        favorRecordCache.addCache(targetType, targetId, like);
+        favorRecordCache.setCache(targetType, targetId, like);
         return like;
     }
 

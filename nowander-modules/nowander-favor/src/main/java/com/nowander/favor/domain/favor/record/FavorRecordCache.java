@@ -26,7 +26,7 @@ public class FavorRecordCache {
     private final RedisTemplate<String, String> redis;
     private final FavorConfig favorConfig;
 
-    public void addBuffer(FavorTargetType targetType, Integer targetId, boolean isFavor) {
+    public void setBuffer(FavorTargetType targetType, Integer targetId, boolean isFavor) {
         redis.opsForHash().put(
                 favorConfig.getRecordBufferKey(),
                 FavorKeyBuilder.buildBufferKey(targetType, targetId),
@@ -34,7 +34,7 @@ public class FavorRecordCache {
         );
     }
 
-    public void addCache(FavorTargetType targetType, Integer targetId, Boolean isFavor) {
+    public void setCache(FavorTargetType targetType, Integer targetId, Boolean isFavor) {
         redis.opsForValue().set(
                 FavorKeyBuilder.buildCacheKey(favorConfig.getRecordCacheKey(), targetType, targetId),
                 isFavor ? "1" : "0",
@@ -62,13 +62,23 @@ public class FavorRecordCache {
         ));
     }
 
-    public void delCacheFavor(FavorTargetType targetType, Integer targetId) {
+    /**
+     * 缓存缓存项
+     * @param targetType
+     * @param targetId
+     */
+    public void delCache(FavorTargetType targetType, Integer targetId) {
         redis.opsForValue().getAndDelete(
                 FavorKeyBuilder.buildCacheKey(favorConfig.getRecordCacheKey(), targetType, targetId)
         );
     }
 
-    public void delBufferLike(FavorTargetType targetType, Integer targetId) {
+    /**
+     * 删除缓冲项
+     * @param targetType
+     * @param targetId
+     */
+    public void delBuffer(FavorTargetType targetType, Integer targetId) {
         redis.opsForHash().delete(
                 favorConfig.getRecordBufferKey(),
                 FavorKeyBuilder.buildBufferKey(targetType, targetId)

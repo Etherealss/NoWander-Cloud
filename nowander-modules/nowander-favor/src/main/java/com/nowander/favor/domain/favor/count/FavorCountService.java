@@ -20,6 +20,9 @@ public class FavorCountService {
     public void addFavor(FavorTargetType targetType, Integer targetId) {
         favorCountCache.increBufferFavor(targetType, targetId, true);
     }
+    public void delFavor(FavorTargetType targetType, Integer targetId) {
+        favorCountCache.increBufferFavor(targetType, targetId, false);
+    }
 
     public int getTotalCount(FavorTargetType type, Integer targetId) {
         // TODO 布隆过滤器
