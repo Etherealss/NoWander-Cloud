@@ -22,7 +22,7 @@ public class RemoteIServerCredentialProvider implements IServerCredentialProvide
         ServerCredential credential = redisTemplate.opsForValue().get(redisKey);
         if (credential == null) {
             ServerAuthCommand command = new ServerAuthCommand(config.getServerId(), config.getSecret());
-            credential = serverCredentialFeign.getCredential(command);
+            credential = serverCredentialFeign.createCredential(command);
             redisTemplate.opsForValue().set(redisKey, credential);
             redisTemplate.expireAt(redisKey, credential.getTokenExpireAt());
         }

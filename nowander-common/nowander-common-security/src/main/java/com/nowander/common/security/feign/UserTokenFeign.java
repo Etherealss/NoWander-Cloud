@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(
         value = "nowander-auth",
         contextId = "nowander-auth-users-tokens",
-        path = "/auth/users/tokens"
+        path = "/auth/users"
 )
 public interface UserTokenFeign {
 
-    @GetMapping("/{token}")
-    UserCredential verifyToken(@PathVariable String token);
+    @GetMapping("/credentials/{token}")
+    UserCredential verify(@PathVariable String token);
 }

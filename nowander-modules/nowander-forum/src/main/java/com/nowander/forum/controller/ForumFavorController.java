@@ -1,6 +1,7 @@
 package com.nowander.forum.controller;
 
 import com.nowander.common.core.web.ResponseAdvice;
+import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.forum.domain.favor.FavorService;
 import com.nowander.forum.infrastruceture.enums.FavorTargetType;
@@ -73,6 +74,7 @@ public class ForumFavorController {
                 UserSecurityContextHolder.require().getUserId());
     }
 
+    @AnonymousAccess
     @GetMapping("/counts/articles/{articleId}")
     public int getArticleFavorCount(@PathVariable Integer articleId) {
         return favorService.getFavorCount(
@@ -81,6 +83,7 @@ public class ForumFavorController {
         );
     }
 
+    @AnonymousAccess
     @GetMapping("/counts/posts/{postId}")
     public int getPostFavorCount(@PathVariable Integer postId) {
         return favorService.getFavorCount(

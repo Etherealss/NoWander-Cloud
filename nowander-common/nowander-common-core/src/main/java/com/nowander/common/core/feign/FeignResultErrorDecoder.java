@@ -1,9 +1,8 @@
 package com.nowander.common.core.feign;
 
-import cn.hutool.json.JSONNull;
-import cn.hutool.json.JSONUtil;
 import com.nowander.common.core.exception.service.ServiceFiegnException;
 import com.nowander.common.core.pojo.Msg;
+import com.nowander.common.core.utils.JsonUtil;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
@@ -26,10 +25,14 @@ public class FeignResultErrorDecoder implements ErrorDecoder {
         try {
             //对结果进行转换
             String bodyStr = Util.toString(response.body().asReader(Util.UTF_8));
-            Msg<?> result = JSONUtil.toBean(bodyStr, Msg.class);
             // hutool 会将空字段填充 JSONNull 对象，会与 Spring 默认的 jackson 冲突。导致异常
-            // 最好的办法是不用 Hutool，但暂时没找到合适的替换方式
-            if (result.getData() instanceof JSONNull) {
+            // 解决办法是不用 Hutool，改用 jackson
+            Msg<?> result = JsonUtil.toObject(bodyStr, Msg.class);
+            if (result.getCode() == 0) {
+                // bodyStr 读取出来的非 Msg 对象
+                return defaultDecoder.decode(methodKey, response);
+            }
+            if (result.getData() == null) {
                 result.setData(null);
             }
             return new ServiceFiegnException(result, response.status(), response.request());

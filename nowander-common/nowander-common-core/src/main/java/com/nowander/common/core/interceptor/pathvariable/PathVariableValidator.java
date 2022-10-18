@@ -1,6 +1,7 @@
 package com.nowander.common.core.interceptor.pathvariable;
 
 /**
+ * @see PathVariableVerifyInterceptor
  * @author wang tengkun
  * @date 2022/2/26
  */
@@ -27,5 +28,4 @@ public interface PathVariableValidator {
      * @return
      */
     String validateTarget();
-
 }

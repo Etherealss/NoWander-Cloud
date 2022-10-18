@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(
         value = "nowander-auth",
         contextId = "nowander-auth-servers-tokens",
-        path = "/auth/servers/tokens"
+        path = "/auth/servers"
 )
 public interface ServerCredentialFeign {
 
-    @GetMapping("/{credentials}")
-    ServerCredential verifyCredentials(@PathVariable String token);
+    @GetMapping("/credentials/{token}")
+    ServerCredential verify(@PathVariable String token);
 
     /**
      * 获取token
      */
     @PostMapping("/credentials")
-    ServerCredential getCredential(@Validated @RequestBody ServerAuthCommand command);
+    ServerCredential createCredential(@Validated @RequestBody ServerAuthCommand command);
 }

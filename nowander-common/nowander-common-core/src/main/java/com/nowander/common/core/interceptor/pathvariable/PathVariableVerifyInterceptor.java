@@ -4,11 +4,12 @@ import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.core.interceptor.ConfigHandlerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -36,8 +37,9 @@ public class PathVariableVerifyInterceptor implements ConfigHandlerInterceptor {
     @SuppressWarnings("unchecked")
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (HttpMethod.GET.matches(request.getMethod())) {
-            // 跳过GET查询请求
+        Method method = ((HandlerMethod) handler).getMethod();
+        if (!method.isAnnotationPresent(PathVariableValidated.class)) {
+            // 跳过
             return true;
         }
         // 获取路径参数
@@ -57,7 +59,9 @@ public class PathVariableVerifyInterceptor implements ConfigHandlerInterceptor {
             String[] args4Validate = null;
             String curParamValue = pathVariables.get(entry.getKey());
             if (paramNames != null && paramNames.length > 0) {
-                List<String> paramValues = Arrays.stream(paramNames).map(pathVariables::get).collect(Collectors.toList());
+                List<String> paramValues = Arrays.stream(paramNames)
+                        .map(pathVariables::get)
+                        .collect(Collectors.toList());
                 paramValues.add(curParamValue);
                 args4Validate = paramValues.toArray(new String[0]);
             }

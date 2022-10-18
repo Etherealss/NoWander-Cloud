@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author wtk
  * @date 2022-10-18
  */
-@FeignClient(value = "nowander-favor", path = "/favor/favors/records")
+@FeignClient(value = "nowander-favor", path = "/favor/favors/records", contextId = "nowander-favor-record")
 public interface FavorRecordFeign {
 
     /**

@@ -24,7 +24,16 @@ public class ServerTokenFeignRequestInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        ServerCredential serverCredential = serverCredentialProvider.get();
-        requestTemplate.header(config.getHeaderName(), serverCredential.getToken());
+        try {
+            // 如果是请求获取 serverToken 的请求，则不需要设置 serverToken
+//            if (requestTemplate.feignTarget().url().equals("/auth/servers/tokens/credentials")) {
+//                return;
+//            }
+            ServerCredential serverCredential = serverCredentialProvider.get();
+            requestTemplate.header(config.getHeaderName(), serverCredential.getToken());
+        } catch (Exception e) {
+            log.warn("远程调用设置serverToken时出现异常", e);
+            throw e;
+        }
     }
 }

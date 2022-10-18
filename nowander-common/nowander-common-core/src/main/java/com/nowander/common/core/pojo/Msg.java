@@ -4,6 +4,7 @@ import com.nowander.common.core.enums.ApiInfo;
 import com.nowander.common.core.exception.BaseException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Msg<T> implements Serializable {
 
     private boolean success;
@@ -39,14 +41,6 @@ public class Msg<T> implements Serializable {
     public static <T> Msg<T> ok(String message) {
         return new Msg<>(true, ApiInfo.OK, message);
     }
-
-    /**
-     * 默认访问成功 OK
-     */
-    public Msg() {
-        this(true, ApiInfo.OK);
-    }
-
 
     public Msg(boolean success, ApiInfo apiInfo) {
         this(success, apiInfo.getCode(), apiInfo.getMessage(), null);

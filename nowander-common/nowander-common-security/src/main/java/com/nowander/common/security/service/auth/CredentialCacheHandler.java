@@ -33,9 +33,9 @@ public class CredentialCacheHandler {
             return (T) credential;
         }
         if (credentialType == UserCredential.class) {
-            credential = userTokenFeign.verifyToken(token);
+            credential = userTokenFeign.verify(token);
         } else {
-            credential = serverCredentialFeign.verifyCredentials(token);
+            credential = serverCredentialFeign.verify(token);
         }
         cache(key, credential, credential.getTokenExpireAt());
         return (T) credential;
