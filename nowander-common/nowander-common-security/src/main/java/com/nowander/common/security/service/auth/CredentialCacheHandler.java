@@ -27,6 +27,7 @@ public class CredentialCacheHandler {
     private final UserCredentialConfig userCredentialConfig;
 
     public <T extends Credential> T verifyAndGet(String token, Class<T> credentialType) {
+        // TODO Cacheable
         String key = userCredentialConfig.getCacheKey() + ":" + token;
         Credential credential = (Credential) redisTemplate.opsForValue().get(key);
         if (credential != null && credential.getClass() == credentialType) {
