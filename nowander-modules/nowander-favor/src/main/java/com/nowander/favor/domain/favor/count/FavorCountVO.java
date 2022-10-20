@@ -1,7 +1,6 @@
 package com.nowander.favor.domain.favor.count;
 
 import com.nowander.common.core.enums.BaseEnum;
-import com.nowander.favor.domain.favor.record.FavorRecordCommand;
 import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import lombok.Data;
 
@@ -27,8 +26,4 @@ public class FavorCountVO {
         this.count = count;
     }
 
-    public FavorCountVO(FavorRecordCommand command) {
-        this.targetId = command.getTargetId();
-        this.targetType = command.getTargetType();
-    }
 }

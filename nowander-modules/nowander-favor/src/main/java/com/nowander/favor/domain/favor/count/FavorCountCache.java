@@ -54,9 +54,9 @@ public class FavorCountCache {
      * 获取某个目标的点赞数缓存
      */
     public Integer getFavorCount(FavorTargetType targetType, Integer targetId) {
-        return redis.opsForValue().get(
-                FavorKeyBuilder.buildCacheKey(favorConfig.getCountCacheKey(), targetType, targetId)
-        );
+        return redis.opsForValue().get(FavorKeyBuilder.buildCacheKey(
+                favorConfig.getCountCacheKey(), targetType, targetId
+        ));
     }
 
     /**
@@ -78,7 +78,7 @@ public class FavorCountCache {
      * @param key
      * @return 如果key获取不到count，则返回null
      */
-    public FavorCountVO getAndDelBufferFavorCount(String key) {
+    public FavorCountVO getAndDelBufferCount(String key) {
         Integer count = hash.get(favorConfig.getRecordBufferKey(), key);
         if (count != null) {
             // 拿了立马删，因为可能有数据丢失的风险

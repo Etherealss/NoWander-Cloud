@@ -6,7 +6,6 @@ import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 /**
  * @author wtk
@@ -27,20 +26,13 @@ public class FavorRecordVO {
     public static FavorRecordVO buildByBufferKey(String bufferKey, boolean state) {
         FavorRecordVO vo = new FavorRecordVO();
         String[] split = bufferKey.split(":");
-        if (split.length != 4) {
+        if (split.length != 3) {
             throw new BugException("FavorRecordVO 构造失败！传入的参数不对！");
         }
-        vo.targetType = BaseEnum.fromCode(FavorTargetType.class, Integer.parseInt(split[1]));
-        vo.targetId = Integer.valueOf(split[2]);
-        vo.userId = Integer.valueOf(split[3]);
+        vo.targetType = BaseEnum.fromCode(FavorTargetType.class, Integer.parseInt(split[0]));
+        vo.targetId = Integer.valueOf(split[1]);
+        vo.userId = Integer.valueOf(split[2]);
         vo.state = state;
-        return vo;
-    }
-
-    public static FavorRecordVO buildVO(FavorRecordCommand command, Integer userId) {
-        FavorRecordVO vo = new FavorRecordVO();
-        BeanUtils.copyProperties(command, vo);
-        vo.setUserId(userId);
         return vo;
     }
 }

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * @author wtk
@@ -20,6 +21,7 @@ import java.lang.reflect.Method;
 @RequiredArgsConstructor
 public class ServerPreAuthHandler implements IPreAuthHandler {
     private final ServerCredentialConfig serverCredentialConfig;
+    private final CurServerCredentialHolder curServerCredentialHolder;
     @Override
     public boolean checkNeedAuth(Method method) {
         InternalAuth internalAuth = method.getAnnotation(InternalAuth.class);
@@ -33,13 +35,13 @@ public class ServerPreAuthHandler implements IPreAuthHandler {
     @Override
     public void doAuth(Method method) {
         ServerCredential requestServer = ServerSecurityContextHolder.require();
-        Integer curServerId = serverCredentialConfig.getServerId();
-        boolean accessible = requestServer.getAccessibleServiceIds().contains(curServerId);
+        Set<Integer> accessibleServiceIds = curServerCredentialHolder.get().getAccessibleServiceIds();
+        boolean accessible = accessibleServiceIds.contains(requestServer.getServerId());
         if (!accessible) {
             String reason = String.format(
-                    "请求认证不通过：请求方没有访问当前服务的权限。请求方id：%s，当前服务id：%s",
-                    requestServer.getServerId().toString(),
-                    curServerId.toString()
+                    "请求认证不通过：请求方没有访问当前服务的权限。请求方id：%d，当前服务id：%d",
+                    requestServer.getServerId(),
+                    curServerCredentialHolder.get().getServerId()
             );
             log.debug(reason);
             throw new AuthenticationException(ApiInfo.NOT_PERMISSION, reason);

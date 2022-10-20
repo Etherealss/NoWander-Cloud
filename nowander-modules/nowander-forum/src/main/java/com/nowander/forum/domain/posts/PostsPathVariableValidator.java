@@ -1,4 +1,4 @@
-package com.nowander.forum.domain.article;
+package com.nowander.forum.domain.posts;
 
 import com.nowander.common.core.interceptor.pathvariable.PathVariableValidator;
 import lombok.AllArgsConstructor;
@@ -15,17 +15,17 @@ import java.util.Objects;
 @Component
 @Slf4j
 @AllArgsConstructor
-public class ArticlePathVariableValidator implements PathVariableValidator {
-    private final ArticleService articleService;
+public class PostsPathVariableValidator implements PathVariableValidator {
+    private final PostsService postsService;
     @Override
     public boolean validate(String... args) {
-        log.info("检查 article 是否存在");
+        log.info("检查 posts 是否存在");
         Objects.requireNonNull(args[0]);
-        return articleService.getById(Integer.valueOf(args[0])) != null;
+        return postsService.getById(Integer.valueOf(args[0])) != null;
     }
 
     @Override
     public String validateTarget() {
-        return "articleId";
+        return "postsId";
     }
 }

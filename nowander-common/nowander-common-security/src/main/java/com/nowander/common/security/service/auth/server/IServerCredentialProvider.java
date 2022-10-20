@@ -5,5 +5,5 @@ package com.nowander.common.security.service.auth.server;
  * @date 2022-10-17
  */
 public interface IServerCredentialProvider {
-    ServerCredential get();
+    ServerCredential create();
 }

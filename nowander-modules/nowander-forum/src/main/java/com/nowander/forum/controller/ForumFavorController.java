@@ -1,5 +1,6 @@
 package com.nowander.forum.controller;
 
+import com.nowander.common.core.interceptor.pathvariable.PathVariableValidated;
 import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class ForumFavorController {
     private final FavorService favorService;
 
+    @PathVariableValidated
     @PostMapping("/records/articles/{articleId}")
     public void addArticleFavor(@PathVariable Integer articleId) {
         favorService.addFavor(
@@ -30,6 +32,7 @@ public class ForumFavorController {
         );
     }
 
+    @PathVariableValidated
     @PostMapping("/records/posts/{postId}")
     public void addPostFavor(@PathVariable Integer postId) {
         favorService.addFavor(
@@ -39,6 +42,7 @@ public class ForumFavorController {
         );
     }
 
+    @PathVariableValidated
     @DeleteMapping("/records/articles/{articleId}")
     public void delArticleFavor(@PathVariable Integer articleId) {
         favorService.delFavor(
@@ -48,6 +52,7 @@ public class ForumFavorController {
         );
     }
 
+    @PathVariableValidated
     @DeleteMapping("/records/posts/{postId}")
     public void delPostFavor(@PathVariable Integer postId) {
         favorService.delFavor(
@@ -58,17 +63,19 @@ public class ForumFavorController {
     }
 
 
+    @PathVariableValidated
     @GetMapping("/records/articles/{articleId}")
-    public void checkArticleFavor(@PathVariable Integer articleId) {
-        favorService.checkHasFavor(
+    public boolean checkArticleFavor(@PathVariable Integer articleId) {
+       return favorService.checkHasFavor(
                 FavorTargetType.ARTICLE,
                 articleId,
                 UserSecurityContextHolder.require().getUserId());
     }
 
+    @PathVariableValidated
     @GetMapping("/records/posts/{postId}")
-    public void checkPostFavor(@PathVariable Integer postId) {
-        favorService.checkHasFavor(
+    public boolean checkPostFavor(@PathVariable Integer postId) {
+        return favorService.checkHasFavor(
                 FavorTargetType.POSTS,
                 postId,
                 UserSecurityContextHolder.require().getUserId());

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 /**
  * 路径变量参数验证
  * 例如对于 {articleId}，会验证这个id存不存在
+ * @see com.nowander.common.core.config.PathVariableVerifyConfiguration 是否注入本拦截器
  * @author wang tengkun
  * @date 2022/2/25
  */

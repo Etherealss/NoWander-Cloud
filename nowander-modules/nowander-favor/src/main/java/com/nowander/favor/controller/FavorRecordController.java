@@ -45,7 +45,7 @@ public class FavorRecordController {
     public void delFavor(@PathVariable("targetType") FavorTargetType targetType,
                          @PathVariable("targetId") Integer targetId,
                          @PathVariable("userId") Integer userId) {
-        favorApplicationService.addFavor(targetType, targetId, userId);
+        favorApplicationService.delFavor(targetType, targetId, userId);
     }
 
     /**

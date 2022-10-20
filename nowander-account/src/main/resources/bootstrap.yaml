@@ -1,6 +1,6 @@
 # 服务配置
 server:
-  port: 8087
+  port: 8082
 spring:
   profiles:
     active: dev
@@ -22,3 +22,4 @@ spring:
           - application-default-spring-web-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-default-log-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-default-cloud-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - application-default-app-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

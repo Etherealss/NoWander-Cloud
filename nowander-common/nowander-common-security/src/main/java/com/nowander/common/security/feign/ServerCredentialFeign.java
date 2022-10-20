@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(
         value = "nowander-auth",
         contextId = "nowander-auth-servers-tokens",
-        path = "/auth/servers"
+        path = "/auth/servers",
+        configuration = NoServerTokenFeignConfiguration.class
 )
 public interface ServerCredentialFeign {
 

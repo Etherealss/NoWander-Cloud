@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8083
 spring:
   profiles:
     active: dev
@@ -19,3 +19,4 @@ spring:
           - application-default-spring-web-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-default-log-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           - application-default-cloud-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - application-default-app-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

@@ -6,7 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -16,12 +15,12 @@ import java.util.Arrays;
 /**
  * AOP https://blog.csdn.net/lmb55/article/details/82470388
  * 打印Web请求
+ * @see com.nowander.common.core.config.WebLogAspectConfiguration
  * @author wtk
  * @date 2021-10-27
  */
 @Slf4j
 @Aspect
-@Component
 public class WebLogAspect {
     /**
      * 声明切点，我这里启动Controller层下的所有类下的方法就可以打印，

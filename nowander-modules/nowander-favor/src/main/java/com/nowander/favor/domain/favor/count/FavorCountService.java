@@ -3,7 +3,11 @@ package com.nowander.favor.domain.favor.count;
 import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author wtk
@@ -39,6 +43,20 @@ public class FavorCountService {
             count += incre;
         }
         return count;
+    }
 
+
+    /**
+     * 持久化到数据库
+     */
+    @Scheduled(cron = "${app.favor.count.persistent.cron}")
+    public void persistentFavorCounts() {
+        // TODO 事务
+        Set<String> bufferKeys = favorCountCache.getAllKeys();
+        bufferKeys.stream().parallel()
+                .map(favorCountCache::getAndDelBufferCount)
+                .filter(Objects::nonNull)
+                .map(FavorCountEntity::build)
+                .forEach(favorCountMapper::insert);
     }
 }

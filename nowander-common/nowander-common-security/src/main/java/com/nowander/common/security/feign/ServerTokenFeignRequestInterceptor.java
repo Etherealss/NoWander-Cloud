@@ -1,8 +1,7 @@
 package com.nowander.common.security.feign;
 
 import com.nowander.common.security.config.ServerCredentialConfig;
-import com.nowander.common.security.service.auth.server.IServerCredentialProvider;
-import com.nowander.common.security.service.auth.server.ServerCredential;
+import com.nowander.common.security.service.auth.server.CurServerCredentialHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +19,13 @@ import org.springframework.stereotype.Component;
 public class ServerTokenFeignRequestInterceptor implements RequestInterceptor {
 
     private final ServerCredentialConfig config;
-    private final IServerCredentialProvider serverCredentialProvider;
+    private final CurServerCredentialHolder curServerCredentialHolder;
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
         try {
-            // 如果是请求获取 serverToken 的请求，则不需要设置 serverToken
-//            if (requestTemplate.feignTarget().url().equals("/auth/servers/tokens/credentials")) {
-//                return;
-//            }
-            ServerCredential serverCredential = serverCredentialProvider.get();
-            requestTemplate.header(config.getHeaderName(), serverCredential.getToken());
+            String serverToken = curServerCredentialHolder.get().getToken();
+            requestTemplate.header(config.getHeaderName(), serverToken);
         } catch (Exception e) {
             log.warn("远程调用设置serverToken时出现异常", e);
             throw e;

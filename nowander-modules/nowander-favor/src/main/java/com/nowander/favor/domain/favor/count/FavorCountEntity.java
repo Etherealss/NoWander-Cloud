@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.lang.Nullable;
 
 /**
@@ -38,5 +39,11 @@ public class FavorCountEntity extends BaseEntity {
     public FavorCountEntity(FavorTargetType targetType, Integer targetId) {
         this.targetType = targetType;
         this.targetId = targetId;
+    }
+
+    public static FavorCountEntity build(FavorCountVO vo) {
+        FavorCountEntity entity = new FavorCountEntity();
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
     }
 }

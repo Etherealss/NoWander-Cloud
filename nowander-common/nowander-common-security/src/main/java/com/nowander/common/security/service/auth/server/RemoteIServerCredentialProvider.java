@@ -16,16 +16,8 @@ public class RemoteIServerCredentialProvider implements IServerCredentialProvide
     private final RedisTemplate<String, ServerCredential> redisTemplate;
 
     @Override
-    public ServerCredential get() {
-        // TODO Cacheable  openFeign 可以用 Cacheable
-        String redisKey = config.getCacheKey() + ":" + config.getServerId();
-        ServerCredential credential = redisTemplate.opsForValue().get(redisKey);
-        if (credential == null) {
-            ServerAuthCommand command = new ServerAuthCommand(config.getServerId(), config.getSecret());
-            credential = serverCredentialFeign.createCredential(command);
-            redisTemplate.opsForValue().set(redisKey, credential);
-            redisTemplate.expireAt(redisKey, credential.getTokenExpireAt());
-        }
-        return credential;
+    public ServerCredential create() {
+        ServerAuthCommand command = new ServerAuthCommand(config.getServerId(), config.getSecret());
+        return serverCredentialFeign.createCredential(command);
     }
 }

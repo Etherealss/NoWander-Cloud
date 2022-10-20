@@ -6,6 +6,7 @@ import com.nowander.favor.infrastructure.enums.FavorTargetType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @author wtk
@@ -26,8 +27,15 @@ public class FavorRecordEntity extends BaseEntity {
      * 点赞的目标id
      */
     private Integer targetId;
+
     /**
      * 点赞用户id
      */
     private Integer userId;
+
+    public static FavorRecordEntity build(FavorRecordVO vo) {
+        FavorRecordEntity entity = new FavorRecordEntity();
+        BeanUtils.copyProperties(vo, entity);
+        return entity;
+    }
 }
