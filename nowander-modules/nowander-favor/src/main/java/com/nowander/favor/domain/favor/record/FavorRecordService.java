@@ -76,6 +76,7 @@ public class FavorRecordService {
      */
     @Scheduled(cron = "${app.favor.record.persistent.cron}")
     public void persistentFavorRecords() {
+        log.info("持久化点赞关系");
         // TODO 事务
         Set<String> bufferKeys = favorRecordCache.getAllKeys();
         bufferKeys.stream().parallel()

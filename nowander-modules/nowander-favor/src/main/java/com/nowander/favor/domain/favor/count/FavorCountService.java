@@ -30,6 +30,7 @@ public class FavorCountService {
 
     public int getTotalCount(FavorTargetType type, Integer targetId) {
         // TODO 布隆过滤器
+        int ret = 0;
         Integer count = favorCountCache.getFavorCount(type, targetId);
         if (count == null) {
             FavorCountEntity entity = new FavorCountEntity(type, targetId);
@@ -37,12 +38,13 @@ public class FavorCountService {
             count = count == null ? 0 : count;
             favorCountCache.setCacheCount(type, targetId, count);
         }
+        ret = count;
         // 获取最近新增点赞数
         Integer incre = favorCountCache.getBufferFavorCount(type, targetId);
         if (incre != null) {
-            count += incre;
+            ret += incre;
         }
-        return count;
+        return ret;
     }
 
 
@@ -51,6 +53,7 @@ public class FavorCountService {
      */
     @Scheduled(cron = "${app.favor.count.persistent.cron}")
     public void persistentFavorCounts() {
+        log.info("持久化点赞数");
         // TODO 事务
         Set<String> bufferKeys = favorCountCache.getAllKeys();
         bufferKeys.stream().parallel()
