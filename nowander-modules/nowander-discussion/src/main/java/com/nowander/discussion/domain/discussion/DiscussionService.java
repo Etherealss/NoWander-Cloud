@@ -15,6 +15,7 @@ import com.nowander.discussion.domain.discussion.strategy.QueryCommentByLike;
 import com.nowander.discussion.domain.discussion.strategy.QueryCommentByTime;
 import com.nowander.discussion.domain.discussion.strategy.QueryCommentStrategy;
 import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
+import com.nowander.discussion.infrastructure.enums.DiscussionType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -69,21 +70,16 @@ public class DiscussionService extends ServiceImpl<DiscussionMapper, DiscussionE
         return map;
     }
 
-    public Integer create(DiscussionCommand command, Integer userId) {
-        DiscussionEntity entity = DiscussionEntity.build4Create(command, userId);
+    public Integer createComment(CreateCommentCommand command, Integer userId) {
+        DiscussionEntity entity = DiscussionEntity.build4Create(command, DiscussionType.COMMENT, userId);
         discussionMapper.insert(entity);
         return entity.getId();
     }
 
-    public void update(DiscussionCommand command, Integer discussionId, Integer userId) {
-        DiscussionEntity entity = DiscussionEntity.build4Update(command, userId);
-        int res = discussionMapper.update(entity, new QueryWrapper<DiscussionEntity>()
-                .eq("id", discussionId)
-                .eq("author_id", userId)
-        );
-        if (res == 0) {
-            ensureEntityExist(discussionId, userId);
-        }
+    public Integer createReply(CreateReplyCommand command, Integer userId) {
+        DiscussionEntity entity = DiscussionEntity.build4Create(command, userId);
+        discussionMapper.insert(entity);
+        return entity.getId();
     }
 
     public void deleteDiscussion(Integer id, Integer authorId) {

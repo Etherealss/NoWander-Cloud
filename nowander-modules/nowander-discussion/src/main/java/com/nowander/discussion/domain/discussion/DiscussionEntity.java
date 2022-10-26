@@ -59,17 +59,21 @@ public class DiscussionEntity extends IdentifiedEntity {
      */
     private Integer state;
 
-    public static DiscussionEntity build4Create(DiscussionCommand command, Integer userId) {
+    public static DiscussionEntity build4Create(CreateCommentCommand command, DiscussionType discussionType, Integer userId) {
         DiscussionEntity entity = new DiscussionEntity();
         BeanUtils.copyProperties(command, entity);
         entity.setAuthorId(userId);
         entity.setState(1);
+        entity.setDiscussionType(discussionType);
         return entity;
     }
 
-    public static DiscussionEntity build4Update(DiscussionCommand command, Integer userId) {
+    public static DiscussionEntity build4Create(CreateReplyCommand command, Integer userId) {
         DiscussionEntity entity = new DiscussionEntity();
         BeanUtils.copyProperties(command, entity);
+        entity.setAuthorId(userId);
+        entity.setState(1);
+        entity.setParentType(DiscussionParentType.COMMENT);
         return entity;
     }
 }

@@ -1,6 +1,5 @@
 package com.nowander.discussion.domain.discussion;
 
-import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import com.nowander.discussion.infrastructure.enums.DiscussionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiscussionCommand {
+public class CreateReplyCommand {
 
     /**
      * 表示该记录在哪个文章（帖子）或评论之下，可用于表示评论和回复
@@ -37,13 +36,7 @@ public class DiscussionCommand {
     private String content;
 
     /**
-     * 文章为0，问贴为1
-     */
-    @NotNull
-    private DiscussionParentType parentType;
-
-    /**
-     * 评论为0，回复为1，子回复为2
+     * 回复为1，子回复为2
      */
     @NotNull
     private DiscussionType discussionType;
