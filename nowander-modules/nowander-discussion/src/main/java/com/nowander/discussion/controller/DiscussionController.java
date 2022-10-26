@@ -2,6 +2,7 @@ package com.nowander.discussion.controller;
 
 import com.nowander.common.core.enums.OrderType;
 import com.nowander.common.core.web.ResponseAdvice;
+import com.nowander.common.security.annotation.InternalAuth;
 import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.discussion.domain.discussion.DiscussionCommand;
@@ -28,6 +29,7 @@ public class DiscussionController {
 
     private DiscussionService discussionService;
 
+    @InternalAuth
     @PostMapping
     public Integer publish(@RequestBody @Validated DiscussionCommand commentEntity) {
         return discussionService.create(commentEntity, UserSecurityContextHolder.require().getUserId());

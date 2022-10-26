@@ -1,9 +1,7 @@
 package com.nowander.common.security.service.auth.user;
 
 import com.nowander.common.security.service.auth.Credential;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
@@ -13,7 +11,9 @@ import java.util.Set;
  * @author wtk
  * @date 2022-08-30
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
+@ToString(callSuper = true)
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCredential extends Credential {

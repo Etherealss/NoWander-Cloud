@@ -14,9 +14,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Module implements BaseEnum {
-    COLLEGE(3, "college"),
-    LEARNING(1, "learning"),
-    MAJOR(2, "major"),
+    LEARNING(0, "learning"),
+    MAJOR(1, "major"),
+    COLLEGE(2, "college"),
     ;
 
     private final int code;

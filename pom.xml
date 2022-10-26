@@ -32,6 +32,7 @@
         <hutool.version>5.7.21</hutool.version>
         <aliyun-oss.version>3.14.0</aliyun-oss.version>
         <fileupload.version>1.4</fileupload.version>
+        <rocketmq.version>2.2.1</rocketmq.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -200,6 +201,13 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${fileupload.version}</version>
+            </dependency>
+
+            <!-- RocketMQ-->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

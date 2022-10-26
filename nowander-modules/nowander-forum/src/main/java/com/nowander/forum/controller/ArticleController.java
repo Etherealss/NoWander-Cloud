@@ -27,12 +27,12 @@ public class ArticleController {
 
     public static final int ARTICLE_PAGE_SIZE = 10;
 
-    @GetMapping("/{articleId}/details")
+    @GetMapping("/{articleId}")
     public ArticleDetailDTO getArticleDetail(@PathVariable Integer articleId) {
         return articleService.getDetailById(articleId);
     }
 
-    @PostMapping("/publish")
+    @PostMapping
     public Integer publishArticle(@RequestBody @Validated ArticleDetailCommand command) {
         return articleService.save(command, UserSecurityContextHolder.require().getUserId());
     }

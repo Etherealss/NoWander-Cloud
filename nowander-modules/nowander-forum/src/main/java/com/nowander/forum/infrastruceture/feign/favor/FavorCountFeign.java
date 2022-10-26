@@ -1,4 +1,4 @@
-package com.nowander.forum.infrastruceture.feign;
+package com.nowander.forum.infrastruceture.feign.favor;
 
 import com.nowander.forum.infrastruceture.enums.FavorTargetType;
 import org.springframework.cloud.openfeign.FeignClient;

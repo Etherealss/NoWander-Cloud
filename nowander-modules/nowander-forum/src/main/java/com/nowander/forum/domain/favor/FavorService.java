@@ -1,8 +1,8 @@
 package com.nowander.forum.domain.favor;
 
 import com.nowander.forum.infrastruceture.enums.FavorTargetType;
-import com.nowander.forum.infrastruceture.feign.FavorCountFeign;
-import com.nowander.forum.infrastruceture.feign.FavorRecordFeign;
+import com.nowander.forum.infrastruceture.feign.favor.FavorCountFeign;
+import com.nowander.forum.infrastruceture.feign.favor.FavorRecordFeign;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
