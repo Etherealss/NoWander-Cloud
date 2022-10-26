@@ -17,7 +17,7 @@ public class RemoteIServerCredentialProvider implements IServerCredentialProvide
 
     @Override
     public ServerCredential create() {
-        ServerAuthCommand command = new ServerAuthCommand(config.getServerId(), config.getSecret());
-        return serverCredentialFeign.createCredential(command);
+        ServerAuthCommand command = new ServerAuthCommand(config.getSecret());
+        return serverCredentialFeign.createCredential(config.getServerId(), command);
     }
 }

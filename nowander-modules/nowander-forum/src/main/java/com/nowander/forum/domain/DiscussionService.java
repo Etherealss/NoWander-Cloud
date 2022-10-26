@@ -1,4 +1,4 @@
-package com.nowander.forum.domain.article.discussion;
+package com.nowander.forum.domain;
 
 import com.nowander.common.core.enums.OrderType;
 import com.nowander.forum.infrastruceture.feign.discussion.CreateCommentCommand;
@@ -17,14 +17,15 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ArticleDiscussionService {
+public class DiscussionService {
     private final DiscussionFeign discussionFeign;
 
     public Integer publishComment(Integer articleId,
+                                  DiscussionParentType discussionParentType,
                                   CreateArticleCommentCommand command,
                                   Integer userId) {
         CreateCommentCommand createCommentCommand = new CreateCommentCommand();
-        createCommentCommand.setParentType(DiscussionParentType.ARTICLE);
+        createCommentCommand.setParentType(discussionParentType);
         createCommentCommand.setParentId(articleId);
         createCommentCommand.setContent(command.getContent());
         createCommentCommand.setAuthorId(userId);
@@ -43,12 +44,13 @@ public class ArticleDiscussionService {
      */
     public Map<String, Object> pageComment(
             Integer articleId,
+            DiscussionParentType discussionParentType,
             Integer curPage,
             OrderType orderBy,
             Integer commentSize,
             Integer replySize) {
         return discussionFeign.pageComment(
-                DiscussionParentType.ARTICLE,
+                discussionParentType,
                 articleId, curPage, orderBy, commentSize, replySize
         );
     }

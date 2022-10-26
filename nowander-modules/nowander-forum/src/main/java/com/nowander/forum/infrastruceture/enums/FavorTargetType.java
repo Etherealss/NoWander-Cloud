@@ -10,8 +10,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FavorTargetType implements BaseEnum {
-    ARTICLE(1, "article"),
-    POSTS(2, "posts"),
+    ARTICLE(0, "article"),
+    POSTS(1, "posts"),
     ;
     private final int code;
     private final String name;

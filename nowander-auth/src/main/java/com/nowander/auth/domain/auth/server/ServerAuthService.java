@@ -6,6 +6,7 @@ import com.nowander.auth.domain.auth.server.info.ServerAuthInfoEntity;
 import com.nowander.auth.domain.auth.server.info.ServerAuthInfoService;
 import com.nowander.auth.infrastructure.config.ServerCredentialCacheConfig;
 import com.nowander.auth.infrastructure.token.ITokenHandler;
+import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.security.service.auth.server.ServerCredential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +28,11 @@ public class ServerAuthService {
     private final ITokenHandler tokenHandler;
     private final ServerCredentialCacheConfig credentialCacheConfig;
 
-    public ServerCredential verifySecretAndGet(ServerAuthCommand command) {
+    public ServerCredential verifySecretAndGet(Integer serverId, ServerAuthCommand command) {
         ServerAuthInfoEntity serverInfoEntity = authInfoService.verifyAndGet(
-                command.getServerId(), command.getSecret()
+                serverId, command.getSecret()
         );
-        return get(command.getServerId(), serverInfoEntity);
+        return get(serverId, serverInfoEntity);
     }
 
     private ServerCredential get(Integer serverId, ServerAuthInfoEntity serverInfoEntity) {
@@ -45,8 +46,12 @@ public class ServerAuthService {
         return serverCredential;
     }
 
-    public ServerCredential verifyAndGet(String token) {
-        return tokenHandler.verifyToken(token, ServerCredential.class, credentialCacheConfig);
+    public ServerCredential verifyAndGet(Integer serverId, String token) {
+        ServerCredential serverCredential = tokenHandler.verifyToken(token, ServerCredential.class, credentialCacheConfig);
+        if (!serverId.equals(serverCredential.getServerId())) {
+            throw new ParamErrorException("serverId 不匹配");
+        }
+        return serverCredential;
     }
 
 

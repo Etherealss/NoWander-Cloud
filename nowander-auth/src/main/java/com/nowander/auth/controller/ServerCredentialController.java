@@ -37,14 +37,16 @@ public class ServerCredentialController {
      * 创建 token
      */
     @AnonymousAccess
-    @PostMapping("/credentials")
-    public ServerCredential createCredential(@Validated @RequestBody ServerAuthCommand command) {
-        return serverAuthService.verifySecretAndGet(command);
+    @PostMapping("/{serverId}/credentials")
+    public ServerCredential createCredential(@PathVariable Integer serverId,
+                                             @Validated @RequestBody ServerAuthCommand command) {
+        return serverAuthService.verifySecretAndGet(serverId, command);
     }
 
     @AnonymousAccess
-    @GetMapping("/credentials/{token}")
-    public ServerCredential verify(@PathVariable String token) {
-        return serverAuthService.verifyAndGet(token);
+    @GetMapping("/{serverId}/credentials/{token}")
+    public ServerCredential verify(@PathVariable Integer serverId,
+                                   @PathVariable String token) {
+        return serverAuthService.verifyAndGet(serverId, token);
     }
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author wtk
@@ -18,8 +17,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServerAuthCommand {
-    @NotNull
-    Integer serverId;
     @NotEmpty
     String secret;
 }

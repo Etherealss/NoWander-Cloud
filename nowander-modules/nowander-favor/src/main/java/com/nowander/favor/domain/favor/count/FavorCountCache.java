@@ -54,6 +54,7 @@ public class FavorCountCache {
      * 获取某个目标的点赞数缓存
      */
     public Integer getFavorCount(FavorTargetType targetType, Integer targetId) {
+        // TODO redis 异常 ould not read JSON: Illegal character ((CTRL-CHAR, code 0)): only regular white space (\r, \n, \t) is allowed between tokens at [Source: (byte[])"\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\
         return redis.opsForValue().get(FavorKeyBuilder.buildCacheKey(
                 favorConfig.getCountCacheKey(), targetType, targetId
         ));

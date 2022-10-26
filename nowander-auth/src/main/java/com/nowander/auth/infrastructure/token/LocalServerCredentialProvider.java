@@ -23,9 +23,8 @@ public class LocalServerCredentialProvider implements IServerCredentialProvider 
     @Override
     public ServerCredential create() {
         ServerAuthCommand command = new ServerAuthCommand(
-                serverCredentialConfig.getServerId(),
                 serverCredentialConfig.getSecret()
         );
-        return serverAuthService.verifySecretAndGet(command);
+        return serverAuthService.verifySecretAndGet(serverCredentialConfig.getServerId(), command);
     }
 }

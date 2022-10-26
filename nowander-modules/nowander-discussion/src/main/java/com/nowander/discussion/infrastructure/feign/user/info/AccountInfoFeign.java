@@ -12,7 +12,7 @@ import java.util.List;
  * @author wtk
  * @date 2022-09-06
  */
-@FeignClient(value = "nowander-account", path = "/account/users/info")
+@FeignClient(value = "nowander-account", path = "/account/users")
 public interface AccountInfoFeign {
 
     @GetMapping("/{userId}")

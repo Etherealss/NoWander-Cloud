@@ -1,4 +1,4 @@
-package com.nowander.forum.domain.article.discussion;
+package com.nowander.forum.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

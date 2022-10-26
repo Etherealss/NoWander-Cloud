@@ -17,12 +17,13 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/users/info")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @ResponseAdvice
 public class UserInfoController {
     private final UserService userService;
 
+    @AnonymousAccess
     @GetMapping("/{userId}")
     public UserBriefDTO getUserBrief(@PathVariable Integer userId) {
         return userService.getBriefById(userId);

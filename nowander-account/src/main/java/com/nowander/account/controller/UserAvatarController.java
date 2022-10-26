@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Slf4j
 @RestController
-@RequestMapping("/users/avatars")
+@RequestMapping("/users/{userId}/avatars")
 @RequiredArgsConstructor
 @ResponseAdvice
 @RefreshScope
@@ -32,7 +32,7 @@ public class UserAvatarController {
     }
 
     @PostMapping
-    public FileUploadDTO upload(@RequestParam("avatarFile") MultipartFile avatarFile) {
+    public FileUploadDTO uploadAvatar(@RequestParam("avatarFile") MultipartFile avatarFile) {
         Integer userId = UserSecurityContextHolder.require().getUserId();
         return avatarService.uploadAvatar(avatarFile, userId);
     }

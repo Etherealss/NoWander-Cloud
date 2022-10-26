@@ -1,7 +1,7 @@
 package com.nowander.oss.controller;
 
 import com.nowander.common.core.web.ResponseAdvice;
-import com.nowander.common.security.annotation.AnonymousAccess;
+import com.nowander.common.security.annotation.InternalAuth;
 import com.nowander.oss.domain.file.FileService;
 import com.nowander.oss.domain.file.FileUploadDTO;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,10 @@ public class FileController {
 
     /**
      * 上传文件
-     * TODO 内部权限
      * @return 文件访问路径
      * @throws Exception
      */
-    @AnonymousAccess
+    @InternalAuth
     @PostMapping
     public FileUploadDTO upload(@RequestParam("file") MultipartFile file,
                                 @RequestParam(value = "filePath", defaultValue = "") String filePath,
@@ -36,11 +35,10 @@ public class FileController {
     }
 
     /**
-     * TODO 内部权限
      * @param fileKey
      * @return
      */
-    @AnonymousAccess
+    @InternalAuth
     @GetMapping
     public String getUrl(@RequestParam("fileKey") String fileKey) {
         log.debug("fileKey: {}", fileKey);

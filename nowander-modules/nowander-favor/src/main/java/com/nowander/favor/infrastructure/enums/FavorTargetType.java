@@ -12,9 +12,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FavorTargetType implements BaseEnum {
-    ARTICLE(1, "article"),
-    POSTS(2, "posts"),
-    COMMENT(3, "comment")
+    ARTICLE(0, "article"),
+    POSTS(1, "posts"),
+    COMMENT(2, "comment")
     ;
     private final int code;
     private final String name;

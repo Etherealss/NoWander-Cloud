@@ -21,12 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface ServerCredentialFeign {
 
-    @GetMapping("/credentials/{token}")
-    ServerCredential verify(@PathVariable String token);
+    @GetMapping("/{serverId}/credentials/{token}")
+    ServerCredential verify(@PathVariable Integer serverId, @PathVariable String token);
 
     /**
      * 获取token
      */
-    @PostMapping("/credentials")
-    ServerCredential createCredential(@Validated @RequestBody ServerAuthCommand command);
+    @PostMapping("/{serverId}/credentials")
+    ServerCredential createCredential(@PathVariable Integer serverId,
+                                      @Validated @RequestBody ServerAuthCommand command);
 }

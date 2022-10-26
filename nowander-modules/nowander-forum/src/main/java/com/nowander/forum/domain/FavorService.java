@@ -1,4 +1,4 @@
-package com.nowander.forum.domain.favor;
+package com.nowander.forum.domain;
 
 import com.nowander.forum.infrastruceture.enums.FavorTargetType;
 import com.nowander.forum.infrastruceture.feign.favor.FavorCountFeign;

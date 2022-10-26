@@ -1,5 +1,6 @@
 package com.nowander.common.security.service.auth;
 
+import com.nowander.common.security.config.ServerCredentialConfig;
 import com.nowander.common.security.config.UserCredentialConfig;
 import com.nowander.common.security.feign.ServerCredentialFeign;
 import com.nowander.common.security.feign.UserTokenFeign;
@@ -25,6 +26,7 @@ public class CredentialCacheHandler {
     private final UserTokenFeign userTokenFeign;
     private final ServerCredentialFeign serverCredentialFeign;
     private final UserCredentialConfig userCredentialConfig;
+    private final ServerCredentialConfig serverCredentialConfig;
 
     public <T extends Credential> T verifyAndGet(String token, Class<T> credentialType) {
         // TODO Cacheable
@@ -36,7 +38,9 @@ public class CredentialCacheHandler {
         if (credentialType == UserCredential.class) {
             credential = userTokenFeign.verify(token);
         } else {
-            credential = serverCredentialFeign.verify(token);
+            credential = serverCredentialFeign.verify(
+                    serverCredentialConfig.getServerId(), token
+            );
         }
         cache(key, credential, credential.getTokenExpireAt());
         return (T) credential;

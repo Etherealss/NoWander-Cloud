@@ -7,7 +7,7 @@ import com.nowander.common.core.interceptor.pathvariable.PathVariableValidated;
 import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.forum.domain.NoWanderBlog;
-import com.nowander.forum.domain.favor.FavorService;
+import com.nowander.forum.domain.FavorService;
 import com.nowander.forum.domain.posts.PostsEntity;
 import com.nowander.forum.domain.posts.PostsService;
 import com.nowander.forum.infrastruceture.enums.FavorTargetType;
