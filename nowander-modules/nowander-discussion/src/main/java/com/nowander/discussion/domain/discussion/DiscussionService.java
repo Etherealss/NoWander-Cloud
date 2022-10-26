@@ -70,8 +70,10 @@ public class DiscussionService extends ServiceImpl<DiscussionMapper, DiscussionE
         return map;
     }
 
-    public Integer createComment(CreateCommentCommand command, Integer userId) {
-        DiscussionEntity entity = DiscussionEntity.build4Create(command, DiscussionType.COMMENT, userId);
+    public Integer createComment(CreateCommentCommand command) {
+        DiscussionEntity entity = DiscussionEntity.build4Create(
+                command, DiscussionType.COMMENT, command.getAuthorId()
+        );
         discussionMapper.insert(entity);
         return entity.getId();
     }

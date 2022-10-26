@@ -1,5 +1,6 @@
 package com.nowander.discussion.domain.discussion;
 
+import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import com.nowander.discussion.infrastructure.enums.DiscussionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -17,13 +17,13 @@ public abstract class BaseEntity implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GTM+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GTM+8", shape = JsonFormat.Shape.NUMBER)
     @CreatedDate
     protected Date createTime;
     /**
      * 修改时间
      */
-    @JsonFormat(timezone = "GTM+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GTM+8", shape = JsonFormat.Shape.NUMBER)
     @LastModifiedDate
     protected Date updateTime;
 }

@@ -14,14 +14,14 @@
         DELETE FROM like_record
         WHERE user_id = #{userId}
           AND target_id = #{targetId}
-          AND `target_type` = #{targetType};
+          AND `target_type` = #{targetType.code};
     </delete>
     <select id="countFavorRecord" resultType="java.lang.Integer">
         SELECT COUNT(1)
         FROM like_record
         WHERE user_id = #{userId}
-          AND target_id = #{ftargetId}
-          AND `target_type` = #{targetType};
+          AND target_id = #{targetId}
+          AND `target_type` = #{targetType.code};
     </select>
 
 </mapper>

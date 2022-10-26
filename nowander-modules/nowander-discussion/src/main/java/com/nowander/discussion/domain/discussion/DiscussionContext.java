@@ -61,7 +61,7 @@ public class DiscussionContext {
     public Map<String, Object> query(int parentId, DiscussionParentType parentIdType) {
         IPage<DiscussionDTO> page = commentStrategy.queryComments(parentId, parentIdType);
         // 完善作者信息并返回
-        return complete(page);
+        return complete(page, commentStrategy.getAuthorsData());
     }
 
     /**
@@ -72,16 +72,9 @@ public class DiscussionContext {
     public Map<String, Object> query(int commentId) {
         IPage<ReplyDTO> page = replyStrategy.queryReply(commentId);
         // 完善作者信息并返回
-        return complete(page);
+        return complete(page, replyStrategy.getAuthorsData());
     }
-
-    /**
-     * 完善作者信息并返回
-     * @param page
-     * @return
-     */
-    private Map<String, Object> complete(IPage<?> page) {
-        Map<Integer, UserBriefDTO> authors = commentStrategy.getAuthorsData();
+    private Map<String, Object> complete(IPage<?> page, Map<Integer, UserBriefDTO> authors) {
         // 初始化为2的话，在第二次put的时候会扩容，初始化为3的话会转化为4
         Map<String, Object> map = new HashMap<>(4);
         map.put("page", new SimplePage<>(page));

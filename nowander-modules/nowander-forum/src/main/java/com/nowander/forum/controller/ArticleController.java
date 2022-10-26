@@ -25,8 +25,6 @@ public class ArticleController {
 
     private ArticleService articleService;
 
-    public static final int ARTICLE_PAGE_SIZE = 10;
-
     @GetMapping("/{articleId}")
     public ArticleDetailDTO getArticleDetail(@PathVariable Integer articleId) {
         return articleService.getDetailById(articleId);
@@ -57,9 +55,10 @@ public class ArticleController {
     @GetMapping
     public SimplePage<ArticleDetailDTO> getPageCompetition(
             @RequestParam(value = "curPage", defaultValue = "1") int curPage,
+            @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "orderBy", defaultValue = "time") OrderType orderBy) {
         log.debug("获取分页数据：当前页curPage = {}, orderBy = {}", curPage, orderBy);
-        return articleService.pageDetails(curPage, ARTICLE_PAGE_SIZE, orderBy);
+        return articleService.pageDetails(curPage, size, orderBy);
     }
 }
 

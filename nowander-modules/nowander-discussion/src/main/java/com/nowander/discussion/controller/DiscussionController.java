@@ -44,10 +44,9 @@ public class DiscussionController {
 
     @InternalAuth
     @PostMapping("/comments")
-    public Integer publishComment(@RequestBody @Validated CreateCommentCommand commentEntity) {
+    public Integer publishComment(@RequestBody @Validated CreateCommentCommand commentCommand) {
         return discussionService.createComment(
-                commentEntity,
-                UserSecurityContextHolder.require().getUserId()
+                commentCommand
         );
     }
 
@@ -89,7 +88,7 @@ public class DiscussionController {
      */
     @AnonymousAccess
     @GetMapping("/comments/{commentId}/replys")
-    public Map<String, Object> pageRepky(
+    public Map<String, Object> pageReply(
             @PathVariable(value = "commentId") Integer commentId,
             @RequestParam(value = "curPage", defaultValue = "1") Integer curPage,
             @RequestParam(value = "orderBy", defaultValue = "1") OrderType orderBy,

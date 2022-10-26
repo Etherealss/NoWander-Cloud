@@ -62,6 +62,8 @@ public class DiscussionEntity extends IdentifiedEntity {
     public static DiscussionEntity build4Create(CreateCommentCommand command, DiscussionType discussionType, Integer userId) {
         DiscussionEntity entity = new DiscussionEntity();
         BeanUtils.copyProperties(command, entity);
+        // 评论的 pid 和 tid 相同
+        entity.setTargetId(command.getParentId());
         entity.setAuthorId(userId);
         entity.setState(1);
         entity.setDiscussionType(discussionType);

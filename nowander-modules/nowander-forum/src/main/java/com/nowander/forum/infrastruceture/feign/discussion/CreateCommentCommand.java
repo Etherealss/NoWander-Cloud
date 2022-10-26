@@ -1,6 +1,5 @@
-package com.nowander.discussion.domain.discussion;
+package com.nowander.forum.infrastruceture.feign.discussion;
 
-import com.nowander.discussion.infrastructure.enums.DiscussionParentType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +23,7 @@ public class CreateCommentCommand {
     private DiscussionParentType parentType;
 
     /**
-     * 表示该记录在哪个文章（帖子）或评论之下，可用于表示评论和回复
+     * 表示该记录在哪个文章（帖子）或评论之下
      */
     @NotNull
     private Integer parentId;

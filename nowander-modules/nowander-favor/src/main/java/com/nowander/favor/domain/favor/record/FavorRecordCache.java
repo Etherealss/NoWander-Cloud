@@ -27,14 +27,14 @@ public class FavorRecordCache {
     public void setBuffer(FavorTargetType targetType, Integer targetId, Integer userId, boolean isFavor) {
         redis.opsForHash().put(
                 favorConfig.getRecordBufferKey(),
-                FavorKeyBuilder.buildBufferKey(targetType, targetId),
+                FavorKeyBuilder.buildBufferKey(targetType, targetId, userId),
                 isFavor ? "1" : "0"
         );
     }
 
     public void setCache(FavorTargetType targetType, Integer targetId, Integer userId, Boolean isFavor) {
         redis.opsForValue().set(
-                FavorKeyBuilder.buildCacheKey(favorConfig.getRecordCacheKey(), targetType, targetId),
+                FavorKeyBuilder.buildCacheKey(favorConfig.getRecordCacheKey(), targetType, targetId, userId),
                 isFavor ? "1" : "0",
                 Duration.ofMillis(favorConfig.getRecordCacheExpireMs())
         );
@@ -47,17 +47,18 @@ public class FavorRecordCache {
         String res = redis.opsForValue().get(FavorKeyBuilder.buildCacheKey(
                 favorConfig.getRecordCacheKey(), targetType, targetId, userId
         ));
-        return "1".equals(res);
+        return res == null ? null : "1".equals(res);
     }
 
     /**
      * 是否有点赞记录（该记录尚未持久化到数据库）
      */
     public Boolean getBufferFavor(FavorTargetType targetType, Integer targetId, Integer userId) {
-        return "1".equals(redis.opsForHash().get(
+        Object res = redis.opsForHash().get(
                 favorConfig.getRecordBufferKey(),
                 FavorKeyBuilder.buildBufferKey(targetType, targetId, userId)
-        ));
+        );
+        return res == null ? null : "1".equals(res);
     }
 
     /**

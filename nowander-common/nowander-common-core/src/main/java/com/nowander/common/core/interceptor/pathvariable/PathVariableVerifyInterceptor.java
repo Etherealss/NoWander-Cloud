@@ -38,6 +38,9 @@ public class PathVariableVerifyInterceptor implements ConfigHandlerInterceptor {
     @SuppressWarnings("unchecked")
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
         Method method = ((HandlerMethod) handler).getMethod();
         if (!method.isAnnotationPresent(PathVariableValidated.class)) {
             // 跳过
