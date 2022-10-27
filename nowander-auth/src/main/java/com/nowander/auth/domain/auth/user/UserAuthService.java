@@ -1,7 +1,9 @@
 package com.nowander.auth.domain.auth.user;
 
 import com.nowander.auth.infrastructure.config.UserCredentialCacheConfig;
+import com.nowander.auth.infrastructure.config.UserCredentialMqConfig;
 import com.nowander.auth.infrastructure.token.ITokenHandler;
+import com.nowander.common.core.mq.RocketMQProvider;
 import com.nowander.common.security.service.auth.user.UserCredential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +27,16 @@ public class UserAuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserAuthInfoMapper userAuthInfoMapper;
     private final LoginAuthenticatorContext loginAuthenticatorContext;
-    private final UserCredentialCacheConfig credentialCacheConfig;
+    private final UserCredentialCacheConfig cacheConfig;
+    private final UserCredentialMqConfig mqConfig;
+    private final RocketMQProvider rocketMQProvider;
 
     /**
-     * 登录 创建 token
+     * 登录，创建 token
      * @param userLoginCommand
      * @return
      */
-    public UserCredential create(UserLoginCommand userLoginCommand) {
+    public UserCredential loginAndCreateCredential(UserLoginCommand userLoginCommand) {
         String username = userLoginCommand.getUsername();
         UserAuthInfoEntity user = loginAuthenticatorContext.doLogin(userLoginCommand);
         // TODO 用户权限
@@ -45,7 +49,7 @@ public class UserAuthService {
                 roles
         );
         userCredential.setLoginTime(new Date());
-        tokenHandler.createToken(userCredential, credentialCacheConfig);
+        tokenHandler.createToken(userCredential, cacheConfig);
         return userCredential;
     }
 
@@ -55,6 +59,15 @@ public class UserAuthService {
      * @return
      */
     public UserCredential verifyAndGet(String token) {
-        return tokenHandler.verifyToken(token, UserCredential.class, credentialCacheConfig);
+        return tokenHandler.verifyToken(token, UserCredential.class, cacheConfig);
+    }
+
+    public void logoutAndDeleteCredential(String token) {
+        tokenHandler.invalidateToken(token, UserCredential.class, cacheConfig);
+        rocketMQProvider.convertAndSend(
+                mqConfig.getTokenTopic(),
+                mqConfig.getTokenInvalidTag(),
+                token
+        );
     }
 }

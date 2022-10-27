@@ -18,4 +18,13 @@ public interface ITokenHandler {
     <T extends Credential> T verifyRefreshToken(String refreshToken, Class<T> credentialType, ICredentialCacheConfig config);
 
     <T extends Credential> T refreshToken(String refreshToken, Class<T> credentialType, ICredentialCacheConfig config);
+
+    /**
+     * 使 token 失效
+     * @param token
+     * @param credentialType
+     * @param config
+     * @param <T>
+     */
+    <T> void invalidateToken(String token, Class<T> credentialType, ICredentialCacheConfig config);
 }

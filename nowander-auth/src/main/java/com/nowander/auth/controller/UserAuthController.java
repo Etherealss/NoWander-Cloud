@@ -23,14 +23,19 @@ public class UserAuthController {
     private final UserAuthService userAuthService;
 
     @AnonymousAccess
-    @PostMapping(value = {"/login", "/credentials"})
+    @PostMapping(value = {"/login"})
     public UserCredential login(@RequestBody @Validated UserLoginCommand userLoginCommand) {
-        return userAuthService.create(userLoginCommand);
+        return userAuthService.loginAndCreateCredential(userLoginCommand);
     }
 
     @AnonymousAccess
     @GetMapping("/credentials/{token}")
     public UserCredential verify(@PathVariable String token) {
         return userAuthService.verifyAndGet(token);
+    }
+
+    @DeleteMapping(value = {"logout"})
+    public void logout(@RequestHeader("${app.token.user.header-name}") String headerToken) {
+
     }
 }

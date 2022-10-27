@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.UUID;
@@ -73,6 +74,17 @@ public class RedisTokenHandlerImpl implements ITokenHandler {
         redisTemplate.delete(refreshTokenKey(credential.getRefreshToken(), config));
         createToken(credential, config);
         return (T) credential;
+    }
+
+    @Override
+    public <T> void invalidateToken(String token, Class<T> credentialType, ICredentialCacheConfig config) {
+        // 来到这里，可以认为 token 有效
+        String tokenKey = tokenKey(token, config);
+        Credential credential = redisTemplate.opsForValue().getAndDelete(tokenKey);
+        if (credential != null && StringUtils.hasText(credential.getRefreshToken())) {
+            String refreshTokenKey = refreshTokenKey(credential.getRefreshToken(), config);
+            redisTemplate.opsForValue().getAndDelete(refreshTokenKey);
+        }
     }
 
     private String tokenKey(String token, ICredentialCacheConfig config) {
