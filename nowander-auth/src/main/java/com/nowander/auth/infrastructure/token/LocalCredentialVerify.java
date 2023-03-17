@@ -1,10 +1,8 @@
 package com.nowander.auth.infrastructure.token;
 
-import com.nowander.auth.domain.auth.server.ServerAuthService;
 import com.nowander.auth.infrastructure.config.ICredentialCacheConfig;
 import com.nowander.auth.infrastructure.config.ServerCredentialCacheConfig;
 import com.nowander.auth.infrastructure.config.UserCredentialCacheConfig;
-import com.nowander.common.security.config.ServerCredentialConfig;
 import com.nowander.common.security.service.auth.Credential;
 import com.nowander.common.security.service.auth.ICredentialVerify;
 import com.nowander.common.security.service.auth.RemoteCredentialVerify;
@@ -24,8 +22,6 @@ public class LocalCredentialVerify implements ICredentialVerify {
     private final com.nowander.auth.infrastructure.token.ITokenHandler tokenHandler;
     private final ServerCredentialCacheConfig serverCredentialCacheConfig;
     private final UserCredentialCacheConfig userCredentialCacheConfig;
-    private final ServerCredentialConfig serverCredentialConfig;
-    private final ServerAuthService serverAuthService;
 
     @Override
     public <T extends Credential> T verifyToken(String token, Class<T> credentialType) {

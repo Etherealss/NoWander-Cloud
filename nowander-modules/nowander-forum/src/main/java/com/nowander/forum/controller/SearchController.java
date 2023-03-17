@@ -3,6 +3,7 @@ package com.nowander.forum.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.common.core.exception.rest.ParamErrorException;
 import com.nowander.common.core.web.ResponseAdvice;
+import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.forum.domain.NoWanderBlogEsEntity;
 import com.nowander.forum.domain.NoWanderBlogEsService;
 import lombok.AllArgsConstructor;
@@ -29,11 +30,13 @@ public class SearchController {
     private final int HIGHLIGHT_SIZE = 10;
 
     @GetMapping("/tips/{prefixWord}")
+    @AnonymousAccess
     public List<String> searchTip(@PathVariable String prefixWord) {
         return noWanderBlogEsService.searchTips(prefixWord, TIPS_SIZE);
     }
 
     @GetMapping("/highlight/pages/{curPage}")
+    @AnonymousAccess
     public IPage<NoWanderBlogEsEntity> searchHighlight(@PathVariable Integer curPage, @RequestParam String word) {
         String decode;
         try {

@@ -39,13 +39,13 @@ public class ServerCredentialConfiguration {
 
     /**
      * WebMvcConfigurer -> Interceptor -> Feign 会导致循环依赖，需要使用 @Lazy 延迟加载
-     * @param userTokenFeign
+     * @param credentialCacheHandler
      * @return
      */
     @Bean
     @ConditionalOnMissingBean
-    public ICredentialVerify remoteTokenVerifier(@Lazy CredentialCacheHandler userTokenFeign) {
+    public ICredentialVerify remoteTokenVerifier(@Lazy CredentialCacheHandler credentialCacheHandler) {
         log.info("非 auth 服务，使用 RemoteTokenVerifier 验证 Token");
-        return new RemoteCredentialVerify(userTokenFeign);
+        return new RemoteCredentialVerify(credentialCacheHandler);
     }
 }

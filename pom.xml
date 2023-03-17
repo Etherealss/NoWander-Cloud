@@ -32,6 +32,7 @@
         <hutool.version>5.7.21</hutool.version>
         <aliyun-oss.version>3.14.0</aliyun-oss.version>
         <fileupload.version>1.4</fileupload.version>
+        <!-- 对应 RocketMQ 4.9.1 -->
         <rocketmq.version>2.2.1</rocketmq.version>
     </properties>
     <dependencyManagement>

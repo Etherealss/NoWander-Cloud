@@ -23,6 +23,7 @@ public class ServerSecurityContextHolder {
     public static void set(ServerCredential credential) {
         Objects.requireNonNull(credential.getServerId());
         Objects.requireNonNull(credential.getServerName());
+        // TODO
 //        Objects.requireNonNull(credential.getToken());
 //        Objects.requireNonNull(credential.getRefreshToken());
         Objects.requireNonNull(credential.getAccessibleServiceIds());

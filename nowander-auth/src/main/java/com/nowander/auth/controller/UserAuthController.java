@@ -35,7 +35,7 @@ public class UserAuthController {
     }
 
     @DeleteMapping(value = {"logout"})
-    public void logout(@RequestHeader("${app.token.user.header-name}") String headerToken) {
-
+    public void logout(@RequestHeader("${app.token.user.header-name}") String token) {
+        userAuthService.logoutAndDeleteCredential(token);
     }
 }

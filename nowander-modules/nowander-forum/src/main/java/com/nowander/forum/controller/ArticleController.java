@@ -3,6 +3,7 @@ package com.nowander.forum.controller;
 import com.nowander.common.core.enums.OrderType;
 import com.nowander.common.core.web.ResponseAdvice;
 import com.nowander.common.database.pojo.SimplePage;
+import com.nowander.common.security.annotation.AnonymousAccess;
 import com.nowander.common.security.service.auth.user.UserSecurityContextHolder;
 import com.nowander.forum.domain.article.ArticleDetailCommand;
 import com.nowander.forum.domain.article.ArticleDetailDTO;
@@ -26,6 +27,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/{articleId}")
+    @AnonymousAccess
     public ArticleDetailDTO getArticleDetail(@PathVariable Integer articleId) {
         return articleService.getDetailById(articleId);
     }
@@ -53,6 +55,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping
+    @AnonymousAccess
     public SimplePage<ArticleDetailDTO> getPageCompetition(
             @RequestParam(value = "curPage", defaultValue = "1") int curPage,
             @RequestParam(value = "size", defaultValue = "10") int size,

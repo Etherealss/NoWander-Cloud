@@ -4,6 +4,7 @@ import com.nowander.auth.infrastructure.config.UserCredentialCacheConfig;
 import com.nowander.auth.infrastructure.config.UserCredentialMqConfig;
 import com.nowander.auth.infrastructure.token.ITokenHandler;
 import com.nowander.common.core.mq.RocketMQProvider;
+import com.nowander.common.security.service.auth.TokenInvalidMQData;
 import com.nowander.common.security.service.auth.user.UserCredential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,10 +65,11 @@ public class UserAuthService {
 
     public void logoutAndDeleteCredential(String token) {
         tokenHandler.invalidateToken(token, UserCredential.class, cacheConfig);
+        TokenInvalidMQData tokenInvalidMQData = new TokenInvalidMQData(token);
         rocketMQProvider.convertAndSend(
                 mqConfig.getTokenTopic(),
                 mqConfig.getTokenInvalidTag(),
-                token
+                tokenInvalidMQData
         );
     }
 }

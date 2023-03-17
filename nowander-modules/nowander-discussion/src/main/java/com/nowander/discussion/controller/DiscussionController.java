@@ -45,9 +45,7 @@ public class DiscussionController {
     @InternalAuth
     @PostMapping("/comments")
     public Integer publishComment(@RequestBody @Validated CreateCommentCommand commentCommand) {
-        return discussionService.createComment(
-                commentCommand
-        );
+        return discussionService.createComment(commentCommand);
     }
 
     /**

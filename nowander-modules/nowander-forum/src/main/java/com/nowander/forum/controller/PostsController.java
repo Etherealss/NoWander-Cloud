@@ -30,6 +30,7 @@ public class PostsController {
 
 
     @GetMapping("/{postsId}")
+    @AnonymousAccess
     public NoWanderBlog getById(@PathVariable Integer postsId) {
         return postsService.getById(postsId);
     }
@@ -41,6 +42,7 @@ public class PostsController {
      * @return
      */
     @GetMapping
+    @AnonymousAccess
     public IPage<PostsEntity> getPageCompetition(
             @RequestParam(value = "curPage", defaultValue = "1") int curPage,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -69,7 +71,6 @@ public class PostsController {
                 UserSecurityContextHolder.require().getUserId()
         );
     }
-
 
     @PathVariableValidated
     @GetMapping("/{postId}/favors/records")

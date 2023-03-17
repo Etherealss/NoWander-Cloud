@@ -3,9 +3,7 @@ package com.nowander.common.core.mq;
 import com.nowander.common.core.config.SystemConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RequiredArgsConstructor
 public class RocketMQProvider {
-    private final RocketMQTemplate rocketMQTemplate;
+//    private final RocketMQTemplate rocketMQTemplate;
 
     private final String IP = SystemConfig.IP;
 
@@ -33,10 +31,10 @@ public class RocketMQProvider {
     @NotNull
     private Integer curServerId;
 
-    public <T> void convertAndSend(String topic, String tag, T data) throws MessagingException {
+    public <T> void convertAndSend(String topic, String tag, T data) {
         String desc = buildDesc(topic, tag);
         MQMessage<T> mqMessage = buildMQMessage(topic, tag, data);
-        rocketMQTemplate.convertAndSend(desc, mqMessage);
+//        rocketMQTemplate.convertAndSend(desc, mqMessage);
     }
 
     private <T> MQMessage<T> buildMQMessage(String topic, String tag, T data) {
